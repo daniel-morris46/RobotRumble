@@ -1,0 +1,43 @@
+CMPT 370 Meeting
+Sept 19th, 2016
+__________________________________________
+Group Roles
+
+Secretary - Kevin Noonan
+Moderator - Brandon Jamieson
+Caller - Ixabat Lahiji
+
+__________________________________________
+Ground Rules
+
+-CCoC
+-UofSCCNAM
+-Attendance
+-Being prepared before hand
+-Be Respectful
+-Same amount of effort
+-Any should be able to talk whenever they want don't expect and answer but also be timely (i.e. Discord Chat)
+-Everyone should be at the meeting and have a valid reason if you can't be there
+-Message and have a conversation about the Agenda so it can be set up at least a day before hand
+-Keep in track with deadlines
+-If you miss a meeting make an effort to get caught up with the group
+-Stand up meetings
+
+__________________________________________
+Decisions
+
+-Discuss something whether it's a bad idea or a good idea make sure the group has a equal decision on the idea and discuss pros can cons. No project leader everyone has an input on the final decision.
+
+__________________________________________
+Meeting Time
+
+-Mondays at 1:30pm
+
+__________________________________________
+Agenda
+
+-What each of us want to do for the project
+-Figure out what needs to be there for requirements?
+-Figure out how we are going to explain to someone who would want the game?
+-Figure out what you will and will not do, what you could have, should have?
+-Doing up work for the requirements document
