@@ -1,0 +1,39 @@
+CMPT 370 - Sept 20th
+
+Bare minimum requirements first.
+Change the board between sizes
+Decide if we should use mouse or keyboard
+Indicate whose player it is
+Make sure it's working fluently.
+Fog of War
+When it's your turn you should see what your stats are and the health of your player
+Tutorial?
+
+Individual Ideas:
+Blocks of vision, walls
+AI design
+Mouse implementation rather then keyboard implementation
+Display box of all the stuff that is going on - A display log
+Art Design - Sound Effects
+Drag and Drop?
+
+Commits are even and steady
+
+Requirements:
+
+Diagram of what the game screen would look like
+-Show a health bar and log off to the side?
+-log is limited to what is in view (what you character can see? damage done to you, damage done to other people, master log for debugging)
+-Divide into requirements (what it needs to look like, how it needs to function (what behaviouirs), user interaction)
+
+Dividing up the Requirements
+
+3 Categories:
+
+1. One person for visual requirements, 2 people for behaviours, 2 for user interaction
+
+Jack, Brendan - user interaction
+Ix, Daniel - behaviours 
+Kevin - visual requirments
+
+Peer review ideas
