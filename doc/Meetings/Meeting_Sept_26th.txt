@@ -1,0 +1,82 @@
+Sept 26th Meeting Notes
+
+Actors:
+
+Player
+System
+Robot
+Robot Librarian
+Spectator
+
+Player should be able to:
+
+-Create a game
+	 • # of players
+	 • how many robots
+	 • board
+
+(Done by Robots){
+-Move and Attack         
+-End turn
+}
+
+(Done by Players Only)
+-Forfeit
+-Spectate if there are no players
+-exit application
+-import robots
+
+
+-Options 
+	goes to robot librarian where you can choose what robots you want to put into the game
+-Play
+	decides how many players and what cpus from the librarian
+
+****Local Only****
+
+
+System:
+-Create Game
+-Choose a Player Turn
+-Turn Counter
+-Keep track of robot position
+-Action Log
+-Page navigation
+-Update Vision
+-Update Stats
+
+Scenarios:
+
+• Create Game
+• Move
+• Attack
+• Winning Game
+• Losing Game
+• Adding Robots
+• Spectating (Replay system?)
+• Quitting Game
+
+Agenda:
+Figure out how to lay out the requirements document.
+Ask about turning system. How it works?
+Establish what UI might look like.
+
+
+       				System
+
+          Create
+Player -- Game            	Enumerate---|   Robot
+	   |								|  -Librarian
+AI-----|				    Download----|  |	
+ |	   |  Move &						|--|
+  \	   |---Attack			Register----|
+   \   |								|
+    \  |					Revise------|
+     \_|--End turn                      |
+ 							Retire------|
+
+-board size (Create Game)
+-Player # (Create Game)
+
+Robot named Santa Clause  ****IMPORTANT****
+
