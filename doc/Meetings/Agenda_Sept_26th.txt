@@ -1,0 +1,6 @@
+Agenda for Sept 26th, 2016
+
+-Identify the actors on the system
+-Identify activities actors have
+-Establish what we think the UI might look like
+-Layout of requirements document
