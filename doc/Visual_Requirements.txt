@@ -1,0 +1,68 @@
+Visual Requirements
+---------------
+
+**************THESE ARE NOT FINAL**********************
+
+Screens:
+
+There will be two main screens that will be viewed in when the game launches. The first one will be the Main Menu and the second one will be the in-game screen. 
+
+Menu:
+
+	 • Play
+
+The main menu will be a simple screen that will have a couple selection boxes for the player to choose from. The first box that says "Play" will bring the user to the in-game screen with their pre-decided number of players and size of the board. Those options can be change in the "Options" selection box right below the "Play" selection box.
+
+	 • Options
+
+When the "Options" selection box is pressed it asks the user: "How many players are in the game" in which the user will have the option to select from two, four and six. If the user selects four or six the game automatically knows that all the players are CPUs. If the user selects two then we are taken to another selction box where the user decides if the players are two humans, two CPUs, or one CPU and one human. Once the number of players is selected a board size is automatically given based on the selection of players. Once these options are changed the user can press the "Back" button and then press "Play" to start the game. 
+
+	 • Exit
+
+The final selection box is the "Exit" box which closes the game and resets all options back to default.
+
+Example:
+----------------
+
+			Game Title Name					Number of Players                 How Many CPUs
+
+			Play  	 								2   -------------->            •  Two CPUs
+
+			Options  --------------->               3
+
+			                                        4                              •  Two Users
+
+			Exit									6                              •  One User, One CPU
+
+     • How Many CPU's
+
+This screen has three boxes that the user can check or uncheck determing the amount of CPU's that are playing in the two player game. If one box is checked and then another box is checked the previous box is unchecked and the box that was picked is now checked. There can not be two boxes checked at the same time. 
+
+Gameplay:
+-----------------
+
+After the "Play" selection box has been pressed the user is brought to the In-Game screen. This screen has the hexagonal playing field in the center of the screen. There are a two other main UI additions to the In-Game screen. The Display log and the Individual Log and the Round Display.
+
+Round Display:
+
+At the top of the screen there will be a horizontal box that will display who's turn it is using the colour of the team and which piece they can use.
+
+Hexagonal Field:
+
+If the user decided on a CPU only game the entire field is visible to the user and they are able to see the decisions made by the CPU. If the user is playing in the game though they can only see the part of the field that their pieces allow them to see. If a player dies then they go to spectator mode and can see the rest of the field.
+The rest of the field is covered in a Fog of War. 
+
+Display Log:
+
+The Display Log shows the Health bar, the damage done and the damage given off the players pieces that are shown on the board. If the user is playing then the display box will only show the information of the pieces that are outside of the Fog of War. If the user is not playing and the only players are CPUs then the Display box will show the information of all the players pieces on the board seperated amongst the teams. This box will be a vertical rectangular shaped box that will be able to be drag and dropped by the user so they can place it where they like.
+
+Individual Log:
+
+This log is a smaller display box that shows an the stats of hexagonal piece on the board. If there are no pieces on that spot it will show nothing for the stats, but will say what piece can move there. If there is a piece on that spot and the user highlights it with the mouse it will give the Health bar, damage done and damage given of that individual piece. This works for enemy pieces as well if the enemy has moved out of the Fog of War. This box is also able to be drag and dropped just like the Display box so that the user can place it where they like. 
+
+Mouse Interaction:
+
+The mouse is used to select the hexagonal box that will either have a piece on it or is pressing the box for the piece to be moved to. When the mouse is scrolled over a box it is highlighted whether it has a piece on it or not. This only works for the boxes that the player can move their pieces to. When a player clicks on a piece the box will highlight a different colour then the normal highlighted colour. This also works for when the player is pressing on an empty box with a piece already selected.
+
+
+
