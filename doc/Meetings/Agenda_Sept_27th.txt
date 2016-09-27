@@ -1,0 +1,5 @@
+Agenda for Sept 27th, 2016
+
+Figure out how to lay out the requirements document.
+Ask about turning system. How it works?
+Establish what UI might look like.
