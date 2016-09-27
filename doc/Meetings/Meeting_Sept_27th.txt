@@ -1,0 +1,37 @@
+CMPT 370 - Meeting 27th
+
+Turning is a free action
+Doesn't matter which way the piece is facing to shoot.
+
+Drag and Drop:
+
+Drag and Drop and then click to change the direction
+
+Use the Scroller to move around with the scroller
+
+Requirements Document:
+Description of the general game.
+
+1. Table of Contents
+2. Executive Summary
+	-Rules
+3. Overview of UI (Pictures)
+4. List of Actors + Description
+5. Sytem Diagram
+6. Descriptions of Actions(+ their actors)
+7. Describe Scenarios (with charts)
+8. Describe Secondary Scenarios
+9. talk about why we are awesome
+10. Conclusion
+
+
+Find tools on line for storyboards 
+
+4, 5, or 6 Actors.
+
+Kevin - Overview of UI
+Brendan - Executive summary
+Jack- actors | secondary scenarios
+Ix - Actors and descriptionsl
+Daniel - primary scenarios | and wrap up
+
