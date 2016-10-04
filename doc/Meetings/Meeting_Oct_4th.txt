@@ -1,0 +1,29 @@
+CMPT 370 - Meeting Sept 04
+
+Overall feelings about the requirement document are that we did well and it was organized.
+
+Come up with entities for the system.
+
+Menu Entities:
+
+Menu
+Play Selection Screen
+Options Selection Screen
+Robot Librarian
+
+Game entities:
+Robot Teams *
+Player
+AI *
+Board
+Spectator
+
+* Possibly the same
+
+functions are not entities
+buttons are probably not entities
+but where the button lives would be an entity
+
+
+
+
