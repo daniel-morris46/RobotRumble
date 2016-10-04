@@ -1,0 +1,5 @@
+Agenda for October 4, 2016
+
+ - discuss group feelings on the Requirements doc
+ - identify entities in system
+ - identify relationships
