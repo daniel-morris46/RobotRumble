@@ -1,0 +1,37 @@
+CMPT 370 Meeting Oct 11th
+-------------------------
+
+Model-view controller from Virtual Machine
+
+	
+	Reasons for doing model-view:
+
+use sub-architectures for entities.
+
+Here is the architecture we based this off of and here are the two changes
+
+Keep outer architecture clean
+
+Allowed to use other architectures
+
+	
+
+	Sub-Architectures:
+
+I/O - event driven
+
+Library - Blackboard architecture
+
+AI - Call and Return
+
+Board - Blackboard
+
+Robot Teams - Call and Return
+
+
+
+
+
+
+
+
