@@ -1,0 +1,34 @@
+bmj920
+
+Some ideas I considered for our architecture choice and the reasoning behind it.
+
+
+Architecture: Model-View-Controller (MVC)
+
+Reasons:
+	- Our team is most familiar with it
+	- We feel it plays to our strengths
+	- Allows the GUI and actual gameplay components to be developed seperately
+	- Provides a straightforward, bounded interface between the user and system
+	- Cleanly Seperates two of three main components, the model and the view
+	- Ensures that any robot interpretations and interactions are handled all in the same place
+
+
+
+Notable Component Architecture:
+	
+	View: 
+		- Event-driven. Handles user input.
+
+	Controller:
+		- Event-driven. Actions to perform will depend on chosen user input.
+
+	Model:
+		The Board:
+			- Blackboard-style. Controller will add/remove/change the state of it.
+
+		The Robot Interpreter:
+			- Event-driven. It will interpret messages when sent or received by robots. (?)
+
+		The Robot Librarian:
+			- Database style. It will handle all functionality for adding/modifying robots in the system. (?)
