@@ -1,0 +1,11 @@
+
+
+	We made several tentative specifications in our requirements document that we modified in our design document. Things we had previous classified as "should have" or "nice-to-have" included: operations such as clicking hexagons to move or attack, as well as having tanks visually stack on the same hex.
+
+	After much discussion, we decided that clicking hexagons to move and attack was not a feasible option for our design. Due to the nature of the robots and their individual orientations and relative coordinates, make click-based movement would be hard to implement. It would require some form of translation to an "absolute" board coordinate independent of the robot's relative coordinates, and then moving the robot based on this. We would also have to include functionality for if the user clicked multiple hexes away from the current robot, involving some sort of path-finding. 
+
+	To avoid all these issues, we decided that movement and attacking could be performed via buttons. When moving, the user will rotate their tank using left and right buttons and move in the current direction by pressing "Move". When attacking, the user will use the left and right buttons to cycle through potential hexes to shoot at, and will fire on the currently selected hex by pressing "Fire". 
+
+	The notion of having tanks visually stack on the same hex was also modified in our design. Originally, tanks would stack and health bars would be displayed above them. We realized this may be unclear visually for the user, as health bars would end up stacked as well. Implementing some way of aligning health bars to avoid overlap while still providing clarity as to which robot they belong to would be a tough task to fulfill. 
+
+	To combat this issue, our team decided to implement a "Hex Info" display panel. This panel will display the list of robots occupying the selected hex, as well as their health. This way, we can clearly notify the user of the tanks on any given hex without anything visually interfering with the game board itself. On top of this, we can simply update the info of one panel as opposed to updating the alignment of individual tanks. This also removes our need for a health bar for each robot.
