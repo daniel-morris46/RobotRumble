@@ -1,0 +1,4 @@
+Agenda for November 1st, 2016
+
+ - Discuss Coding style to use
+ - Determine test plan elements
