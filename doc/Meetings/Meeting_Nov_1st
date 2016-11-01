@@ -1,0 +1,33 @@
+CMPT 370 Nov 1st 
+
+Document that has a link in it if there are any changes put below in git.
+
+Which components of the system will need testing the most:
+
+Interpreter.
+Board.
+Controller.
+
+Where code could possibly go wrong
+
+Why are each of these spots important. Descriptions.
+
+Don't spend a bunc of time testing easy stuff.
+
+Intro
+Interface #1				// Interpreter
+	Description
+	Specifications
+	Testing Plan
+Interface #2				// Board
+	Description
+	Specifications
+	Testing Plan
+Interface #3				// Controller
+	Description
+	Specifications
+	Testing Plan
+Changes
+Summary
+
+Don't go over 10 pages
