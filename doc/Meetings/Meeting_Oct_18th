@@ -1,0 +1,59 @@
+Meeting Minutes: 
+
+Transition Sentences
+Professionality
+User Friendly
+
+Player:
+
+Move(Directon)
+Attack(direction, radius)]
+EndRound()
+Turn(Direction)
+Forfeit()
+
+AI:
+
+Move()
+Shoot()
+
+Has an interpret
+RobotTeam talks to the board
+Has it's own AI within the team
+
+Possible way to go about it:
+Robot Teams <---- AI
+		Interpreter
+			Tank(Robot)
+
+			Scout(Robot) 
+
+			Sniper(Robot)
+
+Control directly interacts with Robot Teams.
+
+Got rid of player
+
+View:
+
+Event Listener
+
+
+Design Document:
+
+Architecture and Argument for it
+(Model view controller)
+
+--transitions---
+
+UML diagrams each entity and their explanantions
+
+--transitions---
+
+Summary(talk about what was changed)
+
+
+
+
+
+

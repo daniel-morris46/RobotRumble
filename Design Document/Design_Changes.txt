@@ -1,0 +1,15 @@
+Should-haves and nice-to-haves from requirements doc:
+	- Spectator mode
+	- In-Game status indicator (Playing, waiting, spectating)
+	- Clicking hexagons to move/attack
+
+
+Changes to our requirements document:
+
+	- Clicking hexagons to move/attack has been cut.
+		- Movement will now be done via buttons for rotate and move forwards
+		- Attacking will now be done via buttons for cycling through targets
+
+	- Added a hexagon information display
+		- Shows hexagon occupants and their health/team
+		- Appears when user selects a hex
