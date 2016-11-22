@@ -1,0 +1,3 @@
+See how everyone is doing with the constuction of their parts.
+Schedule pair programming sessions.
+Scedule code review session.
