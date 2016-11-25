@@ -1,0 +1,4 @@
+Agenda November 14th
+
+- Assign sections for people to work on
+- Talk about changes that need to be made for implementation
