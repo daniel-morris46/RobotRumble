@@ -2,11 +2,16 @@ package View;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class InGameMenu extends JFrame{
 
+	public DrawingPanel gamePanel;
 	
 	public JButton leftButton;
 	public JButton rightButton;
@@ -16,6 +21,8 @@ public class InGameMenu extends JFrame{
 	public JButton actionButton;
 	public JButton endPlayButton;
 	
+	public boolean actionToggle = true;
+	
     public InGameMenu(int size) {
         super("Super Robot Rumble 370");
         
@@ -24,8 +31,19 @@ public class InGameMenu extends JFrame{
         setSize(1000, 1000);
         setVisible(true);
         
-        JPanel gamePanel = new JPanel();
-        gamePanel.setSize(getWidth(), getHeight());
+        remakeBoard(size);
+    }
+    
+    public static void main(String[] args){
+    	InGameMenu menu = new InGameMenu(5);
+    }
+    
+    public void remakeBoard(int size){
+		if(gamePanel != null)
+			remove(gamePanel);
+		
+		gamePanel = new DrawingPanel(size);
+        gamePanel.setSize(500, 500);
         
         actionToggleButton = new JButton("*");	//Creating action toggle button and adding it to panel
         actionToggleButton.addActionListener(new ActionToggleButtonListener());
@@ -64,12 +82,8 @@ public class InGameMenu extends JFrame{
         
         this.add(gamePanel);					//Add the game panel to the JFrame
         gamePanel.setVisible(true);				//Set the game panel as visible
-    }
-    
-    public static void main(String[] args){
-    	InGameMenu menu = new InGameMenu(5);
-    }
-
+        gamePanel.repaint();					//Repaint the panel
+	}
 
 	private class ActionToggleButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
@@ -112,4 +126,94 @@ public class InGameMenu extends JFrame{
     		
     	}
     }
+	
+	 public class DrawingPanel extends JPanel{
+		 public DrawingPanel(int size){
+				
+		}
+	 }
+	 
+	 
+	 private class Robot{
+	    	
+	    	/** @public The robot's x position */
+	    	public int currentX;
+	    	
+	    	/** @public The robot's y position */
+	    	public int currentY;
+	    	
+	    	/** @public The robot's direction */
+	    	public int direction = 0;
+	    	
+	    	/** @public The robot's image */
+	    	public BufferedImage image;
+	    	
+	    	/** Constructs a robot at the given x and y position */
+	    	public Robot(int xPos, int yPos){
+	        	
+	    		currentX = xPos;
+	    		currentY = yPos;
+	    		
+	    		System.out.println("Current Robot Position: x = " + currentX + " y = " + currentY);
+	    	}
+	    	
+	    	/** Moves the robot one space forward based on the current direction */
+	    	public void Move() {
+	    		int x = currentX;
+	    		int y = currentY;
+	    		
+	    		switch(direction){
+	    		case 0:
+	    			y+= 1;
+	    			break;
+	    		case 1:
+	    			x += 1;
+	    			break;
+	    		case 2:
+	    			x += 1;
+	    			y -= 1;
+	    			break;
+	    		case 3:
+	    			y -= 1;
+	    			break;
+	    		case 4:
+	    			x -= 1;
+	    			break;
+	    		case 5:
+	    			x -= 1;
+	    			y += 1;
+	    			break;
+	    		default:
+	    			;
+	    		}
+	    		try{
+//	    			if (gamePanel.walkable[x][y] == true){		//If the target coordinate is walkable
+	        			currentX = x;							//Move the robot
+	        			currentY = y;
+	        			repaint();								//Repaint the scene
+//	    			}
+	    		} catch (NullPointerException e){				//If any exceptions are thrown, output "Invalid move"
+	    			System.out.println("Invalid move");
+	    		} catch (ArrayIndexOutOfBoundsException e){
+	    			System.out.println("Invalid move");
+	    		}
+	    	}
+	    		
+	    	/** Rotates the robot one increment counter-clockwise. */
+	    	public void TurnLeft(){
+	    		if(direction > 0){
+	    			direction -= 1;
+	    		} else {
+	    			direction = 5;
+	    		}
+	    	}
+	    	/** Rotates the robot one increment clockwise. */
+	    	public void TurnRight(){
+	    		if(direction < 5){
+	    			direction += 1;
+	    		} else {
+	    			direction = 0;
+	    		}
+	    	}
+	    }
 }
