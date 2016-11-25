@@ -9,6 +9,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import View.InGameMenu.Robot;
+
 public class InGameMenu extends JFrame{
 
 	public DrawingPanel gamePanel;
@@ -128,8 +130,32 @@ public class InGameMenu extends JFrame{
     }
 	
 	 public class DrawingPanel extends JPanel{
-		 public DrawingPanel(int size){
-				
+		 
+		 /** @public 2D array of booleans representing walkable hexagons */
+		public Boolean[][] walkable;
+			
+		/** @public Array of robots to be used in the game */
+		public Robot[] robot;
+		
+		/** @public Size of the board in side length */
+		public int boardSize;
+		
+		/** @public Integer reference to the current robot to be moved */
+		public int currentRobotIndex;
+			
+		public DrawingPanel(int size){
+			boardSize = size;
+			walkable = new Boolean[size * 2][size * 2];
+			
+			for(int i = 0; i < size; i++)
+				for(int j = 0; j < size; j++)
+					walkable[i][j] = false;
+			
+			robot = new Robot[18];			//Create array of robots with the given number of robots
+			
+			
+			for(int i = 0; i < 18; i++){	//Initialize each robot in the array
+				robot[i] = new Robot(boardSize - 1, boardSize - 1);
 		}
 	 }
 	 
