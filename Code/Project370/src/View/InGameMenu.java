@@ -70,7 +70,7 @@ public class InGameMenu extends JFrame{
 	 * @param size The size of the board
 	 */
 	private InGameMenu(int size) {
-        super("The Legend of Dutchyn 370");
+        super("C4 Super Robot Rumble 370");
         
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
@@ -141,6 +141,11 @@ public class InGameMenu extends JFrame{
 	/**
 	 * BUTTON LISTENERS
 	 */
+	
+	/**
+	 * Toggles between moving and shooting
+	 *
+	 */
 	private class ActionToggleButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		
@@ -155,24 +160,40 @@ public class InGameMenu extends JFrame{
     	}
     }
 	
+	/**
+	 * Rotates the current robot left
+	 *
+	 */
 	private class LeftButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		gamePanel.robot[gamePanel.currentRobotIndex].TurnLeft();
     	}
     }
 	
+	/**
+	 * Rotates the current robot right
+	 *
+	 */
 	private class RightButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		gamePanel.robot[gamePanel.currentRobotIndex].TurnRight();
     	}
     }
 	
+	/**
+	 * Forfeits the game
+	 *
+	 */
 	private class ForfeitButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		//TELL CONTROLLER TO FORFEIT
     	}
     }
 	
+	/**
+	 * Exits the game
+	 *
+	 */
 	private class ExitButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		GameMenu menu = new GameMenu();
@@ -180,6 +201,10 @@ public class InGameMenu extends JFrame{
     	}
     }
 	
+	/**
+	 * Either moves or attacks with the current robot
+	 *
+	 */
 	private class ActionButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		if(InGameMenu.Instance().actionToggle == true){				//MOVING
@@ -190,6 +215,11 @@ public class InGameMenu extends JFrame{
     	}
     }
 	
+	/**
+	 * The listener for the end play button, which will
+	 * cycle to the next current robot to play.
+	 *
+	 */
 	private class EndPlayButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		if(gamePanel.currentRobotIndex < numberOfRobots - 1){
