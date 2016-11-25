@@ -10,25 +10,26 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import Model.*;
+import Controller.*;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class InGameMenu extends JFrame{
 	
 	/**@private Singleton instance for the class, constructed with a size of 5 by default */
-	private static InGameMenu INSTANCE = new InGameMenu(5);
+	private static InGameMenu INSTANCE;
 	
 	/**@private Gap between board and top of frame in pixels*/
 	private int PIXELBORDER = 100;
 	
-	/**@public The size of the board in hex's per edge*/
-	public int boardSize;
-	
 	/**@public The number of robots in the game*/
 	public int numberOfRobots = 3;
 	
-	/**@public The current robot */
-	public Robot currentRobot;
+	
+	private Board gameBoard;
+	
 	
 	/**@public The panel where all images will be drawn*/
 	public DrawingPanel gamePanel;
@@ -63,22 +64,22 @@ public class InGameMenu extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 
+	
 	/**
 	 * Private constructor to make use of the singleton pattern.
 	 * Constructs the frame and board using the given hexes per edge.
 	 * 
 	 * @param size The size of the board
 	 */
-	private InGameMenu(int size) {
-        super("C4 Super Robot Rumble 370");
-        
+	private InGameMenu(Board b) {
+        super("The Legend of Dutchyn 370");
+		INSTANCE = new InGameMenu(b);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
-        boardSize = size;
+        gameBoard = b;
         setVisible(true);
         setSize(1400,  1000);
         setBySide(30);
-        remakeBoard(size);
+        remakeBoard(b.getSize());
     }
 
 	/**
@@ -141,11 +142,6 @@ public class InGameMenu extends JFrame{
 	/**
 	 * BUTTON LISTENERS
 	 */
-	
-	/**
-	 * Toggles between moving and shooting
-	 *
-	 */
 	private class ActionToggleButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		
@@ -160,40 +156,26 @@ public class InGameMenu extends JFrame{
     	}
     }
 	
-	/**
-	 * Rotates the current robot left
-	 *
-	 */
 	private class LeftButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
+    		
     		gamePanel.robot[gamePanel.currentRobotIndex].TurnLeft();
     	}
     }
 	
-	/**
-	 * Rotates the current robot right
-	 *
-	 */
 	private class RightButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		gamePanel.robot[gamePanel.currentRobotIndex].TurnRight();
     	}
     }
 	
-	/**
-	 * Forfeits the game
-	 *
-	 */
 	private class ForfeitButtonListener implements ActionListener{
-    	public void actionPerformed(ActionEvent e){
+    	public void actionPerfon = new JButton("<");			//Creating left button and adding it to panel
+        leftButton.addActirmed(ActionEvent e){
     		//TELL CONTROLLER TO FORFEIT
     	}
     }
 	
-	/**
-	 * Exits the game
-	 *
-	 */
 	private class ExitButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		GameMenu menu = new GameMenu();
@@ -201,10 +183,6 @@ public class InGameMenu extends JFrame{
     	}
     }
 	
-	/**
-	 * Either moves or attacks with the current robot
-	 *
-	 */
 	private class ActionButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		if(InGameMenu.Instance().actionToggle == true){				//MOVING
@@ -215,11 +193,6 @@ public class InGameMenu extends JFrame{
     	}
     }
 	
-	/**
-	 * The listener for the end play button, which will
-	 * cycle to the next current robot to play.
-	 *
-	 */
 	private class EndPlayButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		if(gamePanel.currentRobotIndex < numberOfRobots - 1){
@@ -233,10 +206,7 @@ public class InGameMenu extends JFrame{
     	}
     }
     
-	public static void main(String[] args){
-    	InGameMenu swag = InGameMenu.Instance();		//Instantiate InGameMenu
-    }
-    
+
     
     /**
      * BOARD CONSTRUCTION FUNCTIONS
@@ -274,89 +244,90 @@ public class InGameMenu extends JFrame{
      * @author Brandon
      *
      */
-    private class Robot{
-    	
-    	/** @public The robot's x position */
-    	public int currentX;
-    	
-    	/** @public The robot's y position */
-    	public int currentY;
-    	
-    	/** @public The robot's direction */
-    	public int direction = 0;
-    	
-    	/** @public The robot's image */
-    	public BufferedImage image;
-    	
-    	/** Constructs a robot at the given x and y position */
-    	public Robot(int xPos, int yPos){
-        	
-    		currentX = xPos;
-    		currentY = yPos;
-    		
-    		System.out.println("Current Robot Position: x = " + currentX + " y = " + currentY);
-    	}
-    	
-    	/** Moves the robot one space forward based on the current direction */
-    	public void Move() {
-    		int x = currentX;
-    		int y = currentY;
-    		
-    		switch(direction){
-    		case 0:
-    			y+= 1;
-    			break;
-    		case 1:
-    			x += 1;
-    			break;
-    		case 2:
-    			x += 1;
-    			y -= 1;
-    			break;
-    		case 3:
-    			y -= 1;
-    			break;
-    		case 4:
-    			x -= 1;
-    			break;
-    		case 5:
-    			x -= 1;
-    			y += 1;
-    			break;
-    		default:
-    			;
-    		}
-    		try{
-    			if (gamePanel.walkable[x][y] == true){		//If the target coordinate is walkable
-        			currentX = x;							//Move the robot
-        			currentY = y;
-        			repaint();								//Repaint the scene
-    			}
-    		} catch (NullPointerException e){				//If any exceptions are thrown, output "Invalid move"
-    			System.out.println("Invalid move");
-    		} catch (ArrayIndexOutOfBoundsException e){
-    			System.out.println("Invalid move");
-    		}
-    	}
-    		
-    	/** Rotates the robot one increment counter-clockwise. */
-    	public void TurnLeft(){
-    		if(direction > 0){
-    			direction -= 1;
-    		} else {
-    			direction = 5;
-    		}
-    	}
-    	/** Rotates the robot one increment clockwise. */
-    	public void TurnRight(){
-    		if(direction < 5){
-    			direction += 1;
-    		} else {
-    			direction = 0;
-    		}
-    	}
-    }
-   
+//    
+//    private class Robot{
+//    	
+//    	/** @public The robot's x position */
+//    	public int currentX;
+//    	
+//    	/** @public The robot's y position */
+//    	public int currentY;
+//    	
+//    	/** @public The robot's direction */
+//    	public int direction = 0;
+//    	
+//    	/** @public The robot's image */
+//    	public BufferedImage image;
+//    	
+//    	/** Constructs a robot at the given x and y position */
+//    	public Robot(int xPos, int yPos){
+//        	
+//    		currentX = xPos;
+//    		currentY = yPos;
+//    		
+//    		System.out.println("Current Robot Position: x = " + currentX + " y = " + currentY);
+//    	}
+//    	
+//    	/** Moves the robot one space forward based on the current direction */
+//    	public void Move() {
+//    		int x = currentX;
+//    		int y = currentY;
+//    		
+//    		switch(direction){
+//    		case 0:
+//    			y+= 1;
+//    			break;
+//    		case 1:
+//    			x += 1;
+//    			break;
+//    		case 2:
+//    			x += 1;
+//    			y -= 1;
+//    			break;
+//    		case 3:
+//    			y -= 1;
+//    			break;
+//    		case 4:
+//    			x -= 1;
+//    			break;
+//    		case 5:
+//    			x -= 1;
+//    			y += 1;
+//    			break;
+//    		default:
+//    			;
+//    		}
+//    		try{
+//    			if (gamePanel.walkable[x][y] == true){		//If the target coordinate is walkable
+//        			currentX = x;							//Move the robot
+//        			currentY = y;
+//        			repaint();								//Repaint the scene
+//    			}
+//    		} catch (NullPointerException e){				//If any exceptions are thrown, output "Invalid move"
+//    			System.out.println("Invalid move");
+//    		} catch (ArrayIndexOutOfBoundsException e){
+//    			System.out.println("Invalid move");
+//    		}
+//    	}
+//    		
+//    	/** Rotates the robot one increment counter-clockwise. */
+//    	public void TurnLeft(){
+//    		if(direction > 0){
+//    			direction -= 1;
+//    		} else {
+//    			direction = 5;
+//    		}
+//    	}
+//    	/** Rotates the robot one increment clockwise. */
+//    	public void TurnRight(){
+//    		if(direction < 5){
+//    			direction += 1;
+//    		} else {
+//    			direction = 0;
+//    		}
+//    	}
+//    }
+
     /**
      * Specialized JPanel that contains a list of walkable hexagons, a list of robots,
      * and a reference to the current robot. This can be repainted to update the board.
@@ -371,11 +342,11 @@ public class InGameMenu extends JFrame{
 	    /** @public 2D array of booleans representing walkable hexagons */
 		public Boolean[][] walkable;
 		
-		/** @public Array of robots to be used in the game */
-		public Robot[] robot;
+//		/** @public Array of robots to be used in the game */
+//		public Robot[] robot;
 		
-		/** @public Integer reference to the current robot to be moved */
-		public int currentRobotIndex;
+//		/** @public Integer reference to the current robot to be moved */
+//		public int currentRobotIndex;
 		
 		/** @public Constructs a game board with the given size */
 		public DrawingPanel(int size){
@@ -386,17 +357,18 @@ public class InGameMenu extends JFrame{
 				for(int j = 0; j < size; j++)
 					walkable[i][j] = false;
 			
-			robot = new Robot[numberOfRobots];			//Create array of robots with the given number of robots
+			robot = new Robot[numberOfRobots];				//Create array of robots with the given number of robots
 			
 										
-			for(int i = 0; i < numberOfRobots; i++){	//Initialize each robot in the array
+			for(int i = 0; i < numberOfRobots; i++){		//Initialize each robot in the array
 				robot[i] = new Robot(boardSize - 1, boardSize - 1);
 			}
 			
-			try{										//Try to load image files for robots into the game
-				robot[0].image = ImageIO.read(new File("C:/Users/Brandon/Desktop/370Project/src/View/game_pieces/red_scout.png"));
-				robot[1].image = ImageIO.read(new File("C:/Users/Brandon/Desktop/370Project/src/View/game_pieces/red_sniper.png"));
-				robot[2].image = ImageIO.read(new File("C:/Users/Brandon/Desktop/370Project/src/View/game_pieces/red_tank.png"));
+			try{											//Try to load image files for robots into the game
+				String address = "/student/ddm855/Downloads/370PeerProgramming/src/View/game_pieces";
+				robot[0].image = ImageIO.read(new File(address + "/red_scout.png"));
+				robot[1].image = ImageIO.read(new File(address + "/red_sniper.png"));
+				robot[2].image = ImageIO.read(new File(address + "/red_tank.png"));
 			} catch (IOException e){
 				System.out.println(e.toString());
 			}
@@ -498,6 +470,27 @@ public class InGameMenu extends JFrame{
 	    	y += PIXELBORDER;											//Current y equals the yPos + the border size
 	    	g.drawImage(toDraw.image, x + r / 2, y + s / 2, gamePanel);
     	}
-
+    	
+    	private final int[][] sevenRadius = { {99, 99, 99, 3, 3, 3, 3},
+    							{99, 99, 3, 2, 2, 2, 3},
+    							{99, 3, 2, 1, 1, 2, 3},
+    							{3, 2, 1, 0, 1, 2, 3},
+    							{3, 2, 1, 1, 2, 3, 99},
+    							{3, 2, 2, 2, 3, 99, 99},
+    							{3, 3, 3, 3, 99, 99, 99} };
+    	
+    	private final int[][] sevenPosition = { {99, 99, 99, 12, 13, 14, 15},
+								{99, 99, 11, 8, 9, 10, 16},
+								{99, 10, 7, 4, 5, 11, 17},
+								{9, 6, 3, 0, 0, 0, 0},
+								{8, 5, 2, 1, 1, 1, 99},
+								{7, 4, 3, 2, 2, 99, 99},
+								{6, 5, 4, 3, 99, 99, 99} };
     }	
+	public static void main(String[] args){
+    	InGameMenu swag = InGameMenu.Instance();		//Instantiate InGameMenu
+    }
+    
+    
+    
 }
