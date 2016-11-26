@@ -102,9 +102,9 @@ public class InGameMenuPanel extends JPanel {
 		
 		drawHex(5,5, g2);
 		
-//		for(int i = 0; i < numberOfRobots; i++){		//Draw each robot on the board
-//			drawRobot(robot[i]);
-//		}
+		for(int i = 0; i < robots.length; i++){		//Draw each robot on the board
+			drawRobot(robots[i], g2);
+		}
 	}
 	
 	/** Private reference to the current hex list for painting the component */
@@ -115,42 +115,9 @@ public class InGameMenuPanel extends JPanel {
 		
 		currentHexes = listOfHexes;
 		drawHex(5,5, swag);
-		//for(int i = 0; i < listOfHexes.length; i++){
-			
-			//for(int j = 0; j < listOfHexes[i].length; j++){
-				//drawHex(listOfHexes[i][j].getPositionX() + boardSize, listOfHexes[i][j].getPositionY() + boardSize);
-				//drawHex(5,5);
-			//}
-			
-		//}
 		
-//		for(int i = 0; i < boardSize * 2 - 1; i++){		// i = 0, 1, ... boardSize * 2 - 1    			
-//														//Hexagons to initialize will depend on which sections are being made
-//			if(i < boardSize){							//If we are before the halfway mark
-//														//j = boardSize - 1 ... boardSize * 2
-//				for(int j = boardSize - (i + 1); j < (boardSize * 2) - 1 ; j++){
-//					drawHex(i,j);
-//				}
-//    		} else {
-//    				
-//				for(int j = (i / boardSize) - 1; j < (boardSize * 2) - (i % boardSize) - 2; j++){
-//        			drawHex(i,j);
-//    			}
-//			}
-//		}
-		
-		//repaint();
-    }
-    		
-    		
-//    		try{											//Try to load image files for robots into the game
-//				String address = "/student/ddm855/Downloads/370PeerProgramming/src/View/game_pieces";
-//				robot[0].image = ImageIO.read(new File(address + "/red_scout.png"));
-//				robot[1].image = ImageIO.read(new File(address + "/red_sniper.png"));
-//				robot[2].image = ImageIO.read(new File(address + "/red_tank.png"));
-//			} catch (IOException e){
-//				System.out.println(e.toString());
-//			}
+		repaint();
+	}
 	
 	/**
 	 * Gets the current hex color to draw based on the board size
@@ -206,12 +173,12 @@ public class InGameMenuPanel extends JPanel {
 	 */
 	private void drawRobot(Robot toDraw, Graphics2D g){
 		Hex robotHex = toDraw.getPosition();
-    	int y = robotHex.getPositionX() * (s + t);
-    	int x = robotHex.getPositionY() * h + robotHex.getPositionX() * (h / 2);
+    	int y = robotHex.getPositionX() * (s + t) + boardSize;
+    	int x = robotHex.getPositionY() * h + robotHex.getPositionX() * (h / 2) + boardSize;
     	
     	x += PIXELBORDER;											//Current x equals the xPos + the border size
     	y += PIXELBORDER;											//Current y equals the yPos + the border size
-    	//g.drawImage(toDraw.image, x + r / 2, y + s / 2, gamePanel);
+    	g.drawImage(getRobotImage(toDraw), x + r / 2, y + s / 2, this);
 	}	
     
     private Polygon createHex(int xPos, int yPos){
@@ -232,7 +199,7 @@ public class InGameMenuPanel extends JPanel {
     	
     	RobotTeam team = robotTeams[robot.getTeam()];
 		
-		imagePath = team.getColour() + "_";
+		imagePath += team.getColour() + "_";
 		
 		for(int i = 0; i < 3; i++){
 			if(team.getTeamOfRobot()[i] == robot){
@@ -251,7 +218,7 @@ public class InGameMenuPanel extends JPanel {
 		}
 		
 		try{
-			BufferedImage robotImage = ImageIO.read(new File(imagePath));
+			BufferedImage robotImage = ImageIO.read(getClass().getResourceAsStream("RED_SCOUT") );
 			return robotImage;
 		} catch (IOException e){
 			System.err.println(e);
