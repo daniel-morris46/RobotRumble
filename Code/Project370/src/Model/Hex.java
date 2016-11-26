@@ -35,9 +35,6 @@ public class Hex {
     public int getPositionY() {
         return positionY;
     }
-    public String toString(){
-        return "(" + positionX + "," + positionY + ")";
-    }
 
 }
 

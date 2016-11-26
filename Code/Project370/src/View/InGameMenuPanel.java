@@ -4,11 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -16,6 +18,7 @@ import Model.Board;
 import Model.Hex;
 import Model.Robot;
 import Model.RobotTeam;
+import Controller.Controller;
 
 /**
  * Specialized JPanel that contains a list of walkable hexagons, a list of robots,
@@ -38,6 +41,8 @@ public class InGameMenuPanel extends JPanel {
     
     private Robot[] robots;
     
+    private int currentRobotIndex;
+    
 	/** @category Hex Variables */
 	
 	/** @private the side length of each hexagon in pixels */ 
@@ -52,9 +57,19 @@ public class InGameMenuPanel extends JPanel {
 	/** @private h = Two times the vertical gap */
 	private int h = 0;
 	
-    
-    /** @public 2D array of booleans representing walkable hexagons */
-//		private Boolean[][] walkable;
+	
+	/** @category Buttons */
+	
+	public JButton leftButton;
+	public JButton rightButton;
+	public JButton forfeitButton;
+	public JButton exitButton;
+	public JButton actionToggleButton;
+	public JButton actionButton;
+	public JButton endPlayButton;
+	
+	public boolean actionToggle = true;
+	
 	
 	/** @public Constructs a game board with the given size */
 	public InGameMenuPanel(int size, RobotTeam[] teams){
@@ -75,12 +90,6 @@ public class InGameMenuPanel extends JPanel {
     	t = (int) (s / 2);						//t = s * sin(30)
     	r = (int) (s * Math.cos(Math.PI / 6));	//r = s * cos(30)
     	h = 2 * r;								//
-//			walkable = new Boolean[size * 2][size * 2];
-//			
-//			for(int i = 0; i < size; i++)
-//				for(int j = 0; j < size; j++)
-//					walkable[i][j] = false;
-		
 	}
 	
 	@Override
@@ -90,17 +99,19 @@ public class InGameMenuPanel extends JPanel {
 		super.paintComponent(g2);
 		
 		if(currentHexes != null){
+			
 			for(int i = 0; i < currentHexes.length; i++){
 			
 				for(int j = 0; j < currentHexes[i].length; j++){
+					
 					if(currentHexes[i][j] != null)
+						
 						drawHex(currentHexes[i][j].getPositionX() + boardSize, currentHexes[i][j].getPositionY() + boardSize, g2);
 					//drawHex(5,5, g2);
 				}
 			}
+			
 		}
-		
-		drawHex(5,5, g2);
 		
 		for(int i = 0; i < robots.length; i++){		//Draw each robot on the board
 			drawRobot(robots[i], g2);
@@ -111,10 +122,8 @@ public class InGameMenuPanel extends JPanel {
 	private Hex[][] currentHexes;
 	
 	public void reDraw(Hex[][] listOfHexes, int currentRobot, Hex selectedHex){
-		Graphics2D swag = (Graphics2D) getGraphics();
 		
 		currentHexes = listOfHexes;
-		drawHex(5,5, swag);
 		
 		repaint();
 	}
@@ -158,9 +167,13 @@ public class InGameMenuPanel extends JPanel {
 	    	int x = i * (s + t);
 	    	int y = j * h + i * (h / 2);
 	    	Polygon poly = createHex(y, x);
+	    	
 	    	g.setColor(hexColor(i, j));
+	    	
 	    	g.fillPolygon(poly);
+	    	
 	    	g.setColor(Color.BLACK);
+	    	
 	    	g.drawPolygon(poly);
 
 	}
@@ -195,42 +208,149 @@ public class InGameMenuPanel extends JPanel {
     }
     
     private BufferedImage getRobotImage(Robot robot){
-    	String imagePath = "";
+    	String imagePath = "/View/resources/";
     	
     	RobotTeam team = robotTeams[robot.getTeam()];
 		
-		imagePath += team.getColour() + "_";
+		imagePath += team.getColour().toLowerCase() + "_";
 		
 		for(int i = 0; i < 3; i++){
 			if(team.getTeamOfRobot()[i] == robot){
 				switch(i){
 				case 0:
-					imagePath += "SCOUT.png";
+					imagePath += "scout.png";
 					break;
 				case 1:
-					imagePath += "SNIPER.png";
+					imagePath += "sniper.png";
 					break;
 				case 2:
-					imagePath += "TANK.png";
+					imagePath += "tank.png";
 					break;
 				}
 			}
 		}
-		
+
 		try{
-			BufferedImage robotImage = ImageIO.read(getClass().getResourceAsStream("RED_SCOUT") );
+			BufferedImage robotImage = ImageIO.read(getClass().getResourceAsStream(imagePath) );
 			return robotImage;
 		} catch (IOException e){
+			System.err.println(e);
+		} catch (IllegalArgumentException e){
 			System.err.println(e);
 		}
 			
 		return null;
     }
     
-    
-    
-    
-    
+    /**
+	 * Creates the game board with the given size, as well as all required buttons
+	 * and their action listeners.
+	 * 
+	 * @param size The size of the board
+	 */
+	public void remakeBoard(Board board){
+		
+        setSize(500, 500);
+        
+        actionToggleButton = new JButton("*");	//Creating action toggle button and adding it to panel
+        actionToggleButton.addActionListener(new ActionToggleButtonListener());
+        add(actionToggleButton);
+        actionToggleButton.setVisible(true);
+        
+        leftButton = new JButton("<");			//Creating left button and adding it to panel
+        leftButton.addActionListener(new LeftButtonListener());
+        add(leftButton);
+        leftButton.setVisible(true);
+        
+        rightButton = new JButton(">");			//Creating right button and adding it to panel
+        rightButton.addActionListener(new RightButtonListener());
+        add(rightButton);
+        rightButton.setVisible(true);
+
+        actionButton = new JButton("Move");		//Creating action button and adding it to panel
+        actionButton.addActionListener(new ActionButtonListener());
+        add(actionButton);
+        actionButton.setVisible(true);
+        
+        endPlayButton = new JButton("End Play");//Creating end play button and adding it to panel
+        endPlayButton.addActionListener(new EndPlayButtonListener());
+        add(endPlayButton);
+        endPlayButton.setVisible(true);
+        
+        forfeitButton = new JButton("Forfeit");	//Creating forfeit button and adding it to panel
+        forfeitButton.addActionListener(new ForfeitButtonListener());
+        add(forfeitButton);
+        forfeitButton.setVisible(true);
+        
+        exitButton = new JButton("Exit");		//Creating exit button and adding it to panel
+        exitButton.addActionListener(new ExitButtonListener());
+        exitButton.setVisible(true);
+        add(exitButton);
+        
+        setVisible(true);						//Set the game panel as visible
+        reDraw(board.hexBoard, board.getCurrentRobot(), board.getCurrentHex());								//Repaint the panel
+	}
+	
+	
+	/**
+	 * BUTTON LISTENERS
+	 */
+	private class ActionToggleButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		
+    		
+    		if(actionToggle == true){
+    			actionToggle = false;
+    			actionButton.setText("Shoot");
+    		} else {
+    			actionToggle = true;
+    			actionButton.setText("Move");
+    		}
+    	}
+    }
+	
+	private class LeftButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		Controller.getInstance().G_turnLeft();
+
+    		//TELL CONTROLLER TO ROTATE CURRENT ROBOT LEFT OR CYCLE THROUGH TARGET TO LEFT
+    	}
+    }
+	
+	private class RightButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		Controller.getInstance().G_turnLeft();
+    		//TELL CONTROLLER TO ROTATE CURRENT ROBOT RIGHT OR CYCLE THROUGH TARGET TO RIGHT
+    	}
+    }
+	
+	private class ForfeitButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+    		//TELL BOARD TO FORFEIT
+    	}
+    }
+	
+	private class ExitButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		new GameMenu();
+    	}
+    }
+	
+	private class ActionButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		if(actionToggle == true){				//MOVING
+    			//TELL CONTROLLER TO MOVE CURRENT ROBOT
+    		} else {													//ATTACKING
+    			//TELL CONTROLLER TO ATTACK THE CURRENT TARGET HEX
+    		}
+    	}
+    }
+	
+	private class EndPlayButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		//TELL CONTROLLER TO END THE CURRENT PLAY AND CHANGE THE CURRENT ROBOT
+    	}
+	}
     
     public static void main(String args[]){
     	JFrame testFrame = new JFrame("IN-GAME-MENU-PANEL-TEST");
@@ -238,8 +358,8 @@ public class InGameMenuPanel extends JPanel {
     	testFrame.setVisible(true);
     	testFrame.setSize(1000, 1000);
     	
-    	Board swag = new Board(5, 1);
-    	InGameMenuPanel testPanel = new InGameMenuPanel(5,swag.Teams);
+    	Board swag = new Board(360, 1);
+    	InGameMenuPanel testPanel = new InGameMenuPanel(swag.getSize(), swag.Teams);
     	testPanel.setSize(1000, 1000);
     	testFrame.add(testPanel);
     	testPanel.setVisible(true);

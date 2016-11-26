@@ -1,35 +1,40 @@
 package Controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFrame;
-
-
 import Model.*;
 import View.*;
 
-public class Controller implements ActionListener{
+public class Controller {
 
-    Board gameBoard;
+	private static Controller instance = null;
+	
+    public Board gameBoard;
     
     int boardSize;
     
     int numberOfPlayers;
         
-    PlayMenu playMenu;
+    public PlayMenu playMenu;
     
-    GameMenu gameMenu;
+    public GameMenu gameMenu;
     
+    public InGameMenu inGameMenu;
     
-    public Controller() {
+    private Controller() {
         gameBoard = new Board(5, 2);
-        playMenu = new PlayMenu("Prepare board", this, this.gameBoard);
+        playMenu = new PlayMenu("Prepare board");
         playMenu.setVisible(false);
-        gameMenu = new GameMenu(this);
+        gameMenu = new GameMenu();
         gameMenu.setTitle("Choose your board options");
-        
+        inGameMenu = new InGameMenu(gameBoard);
+        inGameMenu.setVisible(false);
+    }
+    
+    public static Controller getInstance(){
+    	if(instance == null){
+    		instance = new Controller();
+    	}
+    	
+    	return instance;
     }
     
     public void M_quitGame(){
@@ -55,6 +60,8 @@ public class Controller implements ActionListener{
         }else{
             gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentTeam()].setAbsDirection(currentRotation - 1);
         }
+        
+        inGameMenu.gamePanel.reDraw(gameBoard.hexBoard, gameBoard.getCurrentRobot(), gameBoard.getCurrentHex());
     }
     
     public void G_turnRight(){
@@ -65,6 +72,7 @@ public class Controller implements ActionListener{
             gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentTeam()].setAbsDirection(currentRotation + 1);
         }
     }
+    
     public void G_Move(){
         Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()];
         int curX = curRobot.getPosition().getPositionX();
@@ -130,6 +138,7 @@ public class Controller implements ActionListener{
         System.out.println("Robot " + gameBoard.getCurrentRobot() + " from team " + gameBoard.getCurrentTeam() + "tried to move off of the board.");
         
     }
+    
     public static void main(String[] args) {
         Controller game = new Controller();
         game.boardSize = 5;
@@ -137,88 +146,6 @@ public class Controller implements ActionListener{
         game.gameBoard = new Board(5, 2);
 
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String actionToggle = e.getActionCommand();
-        
-        if(actionToggle == "play"){
-            playMenu = new PlayMenu("Prepare board", this, this.gameBoard);
-            playMenu.setVisible(true);
-            gameMenu.setVisible(false);
-        }
-        
-        if(actionToggle == "options"){
-            System.exit(0);
-        }
-        
-        if(actionToggle == "exit"){
-            System.exit(0);
-        }
-        
-        if(actionToggle == "begin"){
-            InGameMenu.Instance().setVisible(true);
-            InGameMenu.Instance().remakeBoard(this.gameBoard.getSize());
-        }
-        
-        if(actionToggle == "back"){
-            gameMenu.setVisible(true);
-            playMenu.setVisible(false);
-        }
-        
-        if(actionToggle == "numOfPlayersChange"){
-            if(this.playMenu.numberOfPlayers.getSelectedItem() == "2"){
-                numberOfPlayers = 2;
-                playMenu.numPlayers = 2;
-            }else if(this.playMenu.numberOfPlayers.getSelectedItem() == "3"){
-                numberOfPlayers = 3;
-                playMenu.numPlayers = 3;
-            }else if(this.playMenu.numberOfPlayers.getSelectedItem() == "6"){
-                numberOfPlayers = 6;
-                playMenu.numPlayers = 6;
-            }
-            this.gameBoard = new Board(boardSize, this.numberOfPlayers);
-            playMenu.updatePlayerNumbers();
-        }
-        
-        if(actionToggle == "sizeFive"){
-            boardSize = 5;
-            playMenu.boardSize = 5;
-            playMenu.numPlayers = 3;        
-
-            String[] numPossiblePlayers = {"2", "3"};
-            DefaultComboBoxModel model = new DefaultComboBoxModel(numPossiblePlayers);
-            playMenu.numberOfPlayers.setModel(model);
-            playMenu.updatePlayerNumbers();
-
-            this.gameBoard = new Board(boardSize, this.numberOfPlayers);
-            
-        }
-        
-        if(actionToggle == "sizeSeven"){
-            boardSize = 7;
-            playMenu.boardSize = 7;
-            playMenu.numPlayers = 3;
-
-            String[] numPossiblePlayers = {"3", "6"};
-            DefaultComboBoxModel model = new DefaultComboBoxModel(numPossiblePlayers);
-            playMenu.numberOfPlayers.setModel(model);
-            playMenu.updatePlayerNumbers();
-
-            this.gameBoard = new Board(boardSize, this.numberOfPlayers);
-            
-        }
-        
-        
-            
-//          String[] numPossiblePlayers = {"2", "3"};
-//          DefaultComboBoxModel model = new DefaultComboBoxModel(numPossiblePlayers);
-//          numberOfPlayers.setModel(model);
-            
-//          updatePlayerNumbers();
-
-    }
         
 }
-
 

@@ -19,7 +19,7 @@ public class Board {
     
     LinkedList<Hex> targetList;
 
-    int currentHex;
+    Hex currentHex;
 
     public Board(int s, int t) {
         colourList = new String[6];
@@ -47,6 +47,7 @@ public class Board {
                 }
             }
         }
+        currentHex = getHex(0, 0);
     }
     
     public RobotTeam[] getTeams() {
@@ -109,7 +110,7 @@ public class Board {
         this.targetList = targetList;
     }
 
-    public void setCurrentHex(int currentHex) {
+    public void setCurrentHex(Hex currentHex) {
         this.currentHex = currentHex;
     }
 
@@ -125,7 +126,7 @@ public class Board {
 
     public void search(Hex h, int range) {
         
-        targetList.clear();
+        
         for (int y = size-1; y >= -(size-1); y--) {
             for (int x = -(size-1); x <= size-1; x++) {
                 if (x < h.getPositionX() + (range + 1) && x > h.getPositionX() - (range + 1) && y < h.getPositionY() + (range + 1) && y > h.getPositionY() - (range + 1)) {
@@ -166,10 +167,7 @@ public class Board {
     }
     
     public Hex getCurrentHex() {
-        if (targetList.isEmpty()) {
-            System.out.println("Error: ");
-        }
-        return targetList.get(currentHex);
+        return currentHex;
     }
 
     public void addHexOcc(Hex h, Robot r) {
@@ -187,15 +185,19 @@ public class Board {
     }
     
     private void firstRobot() {
-        currentHex = 0;
+        currentHex = targetList.getFirst();
     }
 
     private void nextRobot() {
-        currentHex++;
+    	if(targetList.indexOf(currentHex) != targetList.indexOf(targetList.getLast())){
+            currentHex = targetList.get(targetList.indexOf(currentHex) + 1);
+    	}
     }
 
     private void prevRobot() {
-        currentHex--;
+    	if(targetList.indexOf(currentHex) != 0){
+            currentHex = targetList.get(targetList.indexOf(currentHex) - 1);
+    	}
     }
 
     private LinkedList<RobotTeam> getTargetList() {
@@ -213,60 +215,37 @@ public class Board {
 
 
     public static void main(String[] args) {
-        System.out.println("Initial setup of the board:");
-
+        
+//      for (int y = 4; y >= -4; y--) {
+//          for (int x = -4; x <= 4; x++) {
+//              System.out.print("("+x+","+y+")");
+//          }
+//          System.out.print("\n");
+//      }
+//      System.out.print("\n");
+        
         Board myBoard = new Board(5, 2);
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
                 if(myBoard.hexBoard[i][j] != null){
-                    System.out.print("\t" + "("+myBoard.hexBoard[i][j].positionX + "," + myBoard.hexBoard[i][j].positionY+")");
+                    System.out.print("("+myBoard.hexBoard[i][j].positionX + "," + myBoard.hexBoard[i][j].positionY+")");
                 }
             }
             System.out.print("\n");
         }
         
-        Robot robot1 = new Robot(2, 2);
-        Robot robot2 = new Robot(2, 3);
-        System.out.println("Placing robot 1 at position 1, 3");
-        myBoard.getHex(1, 3).addOcc(robot1);
-        
-        System.out.println("Placing robot 2 at position -1, -1");
-        myBoard.getHex(-1, -1).addOcc(robot2);
+        Robot myRobot = new Robot(2, 2);
         
         
-        System.out.println("Searching from hex (0, 0) with radius 0");
-        myBoard.search(myBoard.getHex(0, 0), 0);
-        System.out.println(myBoard.targetList.toString());
-        
-        System.out.println("Searching from hex (0, 0) with radius 1");
-        myBoard.search(myBoard.getHex(0, 0), 1);
-        System.out.println(myBoard.targetList.toString());
-        
-        System.out.println("Searching from hex (0, 0) with radius 2");
-        myBoard.search(myBoard.getHex(0, 0), 2);
-        System.out.println(myBoard.targetList.toString());
-        
-        System.out.println("Searching from hex (0, 0) with radius 3");
-        myBoard.search(myBoard.getHex(0, 0), 3);
-        System.out.println(myBoard.targetList.toString());
-        
-        System.out.println("Searching from hex (0, 0) with radius 4");
-        myBoard.search(myBoard.getHex(0, 0), 4);
-        System.out.println(myBoard.targetList.toString());
-        
-        System.out.println("Searching from hex (0, 0) with radius 9000");
-        myBoard.search(myBoard.getHex(0, 0), 9000);
-        System.out.println(myBoard.targetList.toString());
-        
-        System.out.println("Searching from hex (0, 0) with radius -7");
-        myBoard.search(myBoard.getHex(0, 0), -7);
-        System.out.println(myBoard.targetList.toString());
-        
-        System.out.println("Initial health of robot 1:");
-        System.out.println(myBoard.getHex(1, 3).listOfOccupants.getFirst().getHealth());
-        System.out.println("Damaging robot 1 by 1:");
-        myBoard.damageHex(myBoard.getHex(1, 3), 1);
-        System.out.println(myBoard.getHex(1, 3).listOfOccupants.getFirst().getHealth());
+        myBoard.hexBoard[5][5].addOcc(myRobot);
+        myBoard.hexBoard[4][5].addOcc(myRobot);
+        myBoard.search(myBoard.hexBoard[4][4], 2);
+        myBoard.firstRobot();
+        System.out.println(myBoard.getCurrentHex().positionX + "," + myBoard.getCurrentHex().positionY );
+        myBoard.nextRobot();
+        System.out.println(myBoard.getCurrentHex().positionX + "," + myBoard.getCurrentHex().positionY );
+        myBoard.damageHex(myBoard.getHex(1, 1), 1);
+        System.out.println(myBoard.getHex(1, 1).listOfOccupants.getFirst().getHealth());
         
         // 4, 4 is 0, 0
         

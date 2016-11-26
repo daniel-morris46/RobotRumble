@@ -38,13 +38,16 @@ public class GameMenu extends JFrame{
 	       // handle exception
 	    }
 		
+		JFrame menu = new GameMenu();
+		menu.getContentPane().setBackground(Color.CYAN);
 		
 	}
 	
-	/** Constructs the gmenu = new GameMenu();ame menu, the system's entry point */
-    public GameMenu(ActionListener actionListener) {
+	/** Constructs the game menu, the system's entry point */
+    public GameMenu() {
     	
-    	super("The Legend of Dutchyn 370: A Program is Born");
+    	super("NO");
+    	this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     	
     	this.setSize(400, 400);
     	this.setVisible(true);
@@ -62,8 +65,7 @@ public class GameMenu extends JFrame{
     	playButton = new JButton("Play");
     	playButton.setSize(50, 50);
     	playButton.setVisible(true);
-    	playButton.setActionCommand("play");
-    	playButton.addActionListener(actionListener);
+    	playButton.addActionListener(new PlayListener());
     	
     	menuPanel.add(playButton);
     	
@@ -72,8 +74,7 @@ public class GameMenu extends JFrame{
     	optionButton = new JButton("Options");
     	optionButton.setSize(50, 50);
     	optionButton.setVisible(true);
-    	optionButton.setActionCommand("options");
-    	optionButton.addActionListener(actionListener);
+    	optionButton.addActionListener(new OptionListener());
     	
     	menuPanel.add(optionButton);
     	
@@ -82,13 +83,39 @@ public class GameMenu extends JFrame{
     	exitButton = new JButton("Exit");
     	exitButton.setSize(50, 50);
     	exitButton.setVisible(true);
-    	exitButton.setActionCommand("exit");
-    	exitButton.addActionListener(actionListener);
+    	exitButton.addActionListener(new ExitListener());
     	
     	menuPanel.add(exitButton);
     }
     
+    /** The action listener for the play button
+     * 
+     *  This takes the player to the PlayMenu to create a game
+     */
+    private class PlayListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		PlayMenu menu = new PlayMenu("Prepare board");
+    		setVisible(false);
+    	}
+    }
     
-
+    /** The action listener for the options button
+     * 
+     *  This takes the player to the OptionsMenu to select options
+     */
+    private class OptionListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		System.exit(0);
+    	}
+    }
     
+    /** The action listener for the exit button
+     * 
+     *  This exits the application when clicked
+     */
+    private class ExitListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		System.exit(0);
+    	}
+    }
 }

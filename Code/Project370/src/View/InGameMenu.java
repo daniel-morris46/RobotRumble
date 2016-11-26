@@ -1,210 +1,38 @@
 package View;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Polygon;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
 import Model.*;
-import Controller.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class InGameMenu extends JFrame{
 	
-	/**@private Singleton instance for the class, constructed with a size of 5 by default */
-	private static InGameMenu INSTANCE;
-	
-	/**@private Gap between board and top of frame in pixels*/
-	private int PIXELBORDER = 100;
-	
-	/**@public The number of robots in the game*/
-	public int numberOfRobots = 3;
-	
-	
-	private Board gameBoard;
-	
-	
 	/**@public The panel where all images will be drawn*/
-	public DrawingPanel gamePanel;
-	
-	/** @category Buttons */
-	
-	public JButton leftButton;
-	public JButton rightButton;
-	public JButton forfeitButton;
-	public JButton exitButton;
-	public JButton actionToggleButton;
-	public JButton actionButton;
-	public JButton endPlayButton;
-	
-	public boolean actionToggle = true;
-	
-	
-	/** @category Hex Variables */
-	
-	/** @private the side length of each hexagon in pixels */ 
-	private int s = 0;
-	
-	/** @private t = The vertical gap between corner points */
-	private int t = 0;
-	
-	/** @private r = The horizontal gap between corner points */
-	private int r = 0;
-	
-	/** @private h = Two times the vertical gap */
-	private int h = 0;
-	
+	public InGameMenuPanel gamePanel;
 	
 	private static final long serialVersionUID = 1L;
 
 	
 	/**
-	 * Private constructor to make use of the singleton pattern.
+	 * Public constructor.
 	 * Constructs the frame and board using the given hexes per edge.
 	 * 
 	 * @param size The size of the board
 	 */
-	private InGameMenu(Board b) {
-        super("The Legend of Dutchyn 370");
-		INSTANCE = new InGameMenu(b);
+	public InGameMenu(Board b) {
+        super("370 ROBOT RUMBLE");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        gameBoard = b;
         setVisible(true);
         setSize(1400,  1000);
-        setBySide(30);
-        remakeBoard(b.getSize());
+        gamePanel = new InGameMenuPanel(b.getSize(), b.Teams);
+        add(gamePanel);
+        gamePanel.setVisible(true);
+        gamePanel.remakeBoard(b);
     }
+	
+	public void closeBoard(){
+		dispose();
+	}
 
-	/**
-	 * Creates the game board with the given size, as well as all required buttons
-	 * and their action listeners.
-	 * 
-	 * @param size The size of the board
-	 */
-	public void remakeBoard(int size){
-		if(gamePanel != null)
-			remove(gamePanel);
-		
-		gamePanel = new DrawingPanel(size);
-        gamePanel.setSize(500, 500);
-        
-        actionToggleButton = new JButton("*");	//Creating action toggle button and adding it to panel
-        actionToggleButton.addActionListener(new ActionToggleButtonListener());
-        gamePanel.add(actionToggleButton);
-        actionToggleButton.setVisible(true);
-        
-        leftButton = new JButton("<");			//Creating left button and adding it to panel
-        leftButton.addActionListener(new LeftButtonListener());
-        gamePanel.add(leftButton);
-        leftButton.setVisible(true);
-        
-        rightButton = new JButton(">");			//Creating right button and adding it to panel
-        rightButton.addActionListener(new RightButtonListener());
-        gamePanel.add(rightButton);
-        rightButton.setVisible(true);
-
-        actionButton = new JButton("Move");		//Creating action button and adding it to panel
-        actionButton.addActionListener(new ActionButtonListener());
-        gamePanel.add(actionButton);
-        actionButton.setVisible(true);
-        
-        endPlayButton = new JButton("End Play");//Creating end play button and adding it to panel
-        endPlayButton.addActionListener(new EndPlayButtonListener());
-        gamePanel.add(endPlayButton);
-        endPlayButton.setVisible(true);
-        
-        forfeitButton = new JButton("Forfeit");	//Creating forfeit button and adding it to panel
-        forfeitButton.addActionListener(new ForfeitButtonListener());
-        gamePanel.add(forfeitButton);
-        forfeitButton.setVisible(true);
-        
-        exitButton = new JButton("Exit");		//Creating exit button and adding it to panel
-        exitButton.addActionListener(new ExitButtonListener());
-        exitButton.setVisible(true);
-        gamePanel.add(exitButton);
-        
-        this.add(gamePanel);					//Add the game panel to the JFrame
-        gamePanel.setVisible(true);				//Set the game panel as visible
-        gamePanel.repaint();					//Repaint the panel
-	}
-	
-	public static InGameMenu Instance(){
-		return INSTANCE;
-	}
-	
-	/**
-	 * BUTTON LISTENERS
-	 */
-	private class ActionToggleButtonListener implements ActionListener{
-    	public void actionPerformed(ActionEvent e){
-    		
-    		InGameMenu menu = InGameMenu.Instance();
-    		if(menu.actionToggle == true){
-    			menu.actionToggle = false;
-    			menu.actionButton.setText("Shoot");
-    		} else {
-    			menu.actionToggle = true;
-    			menu.actionButton.setText("Move");
-    		}
-    	}
-    }
-	
-	private class LeftButtonListener implements ActionListener{
-    	public void actionPerformed(ActionEvent e){
-    		
-    		gamePanel.robot[gamePanel.currentRobotIndex].TurnLeft();
-    	}
-    }
-	
-	private class RightButtonListener implements ActionListener{
-    	public void actionPerformed(ActionEvent e){
-    		gamePanel.robot[gamePanel.currentRobotIndex].TurnRight();
-    	}
-    }
-	
-	private class ForfeitButtonListener implements ActionListener{
-    	public void actionPerfon = new JButton("<");			//Creating left button and adding it to panel
-        leftButton.addActirmed(ActionEvent e){
-    		//TELL CONTROLLER TO FORFEIT
-    	}
-    }
-	
-	private class ExitButtonListener implements ActionListener{
-    	public void actionPerformed(ActionEvent e){
-    		GameMenu menu = new GameMenu();
-    		setVisible(false);
-    	}
-    }
-	
-	private class ActionButtonListener implements ActionListener{
-    	public void actionPerformed(ActionEvent e){
-    		if(InGameMenu.Instance().actionToggle == true){				//MOVING
-    			gamePanel.robot[gamePanel.currentRobotIndex].Move();
-    		} else {													//ATTACKING
-    			//TELL CONTROLLER TO ATTACK THE CURRENT TARGET HEX
-    		}
-    	}
-    }
-	
-	private class EndPlayButtonListener implements ActionListener{
-    	public void actionPerformed(ActionEvent e){
-    		if(gamePanel.currentRobotIndex < numberOfRobots - 1){
-    			gamePanel.currentRobotIndex += 1;
-    		} else {
-    			gamePanel.currentRobotIndex = 0;
-    		}
-    		
-    		currentRobot = gamePanel.robot[gamePanel.currentRobotIndex];
-    		//TELL CONTROLLER TO END THE CURRENT PLAY AND CHANGE THE CURRENT ROBOT
-    	}
-	}
     
     /**
      * This private class represents a robot to be used for testing, containing an image, coordinates, and a direction.
@@ -298,7 +126,18 @@ public class InGameMenu extends JFrame{
 //    }
 
 	public static void main(String[] args){
-    	InGameMenu swag = InGameMenu.Instance();		//Instantiate InGameMenu
+		JFrame testFrame = new JFrame("IN-GAME-MENU-PANEL-TEST");
+    	testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	testFrame.setVisible(true);
+    	testFrame.setSize(1200, 1000);
+    	testFrame.setResizable(false);
+    	
+    	Board swag = new Board(7, 6);
+    	InGameMenuPanel testPanel = new InGameMenuPanel(swag.getSize(), swag.Teams);
+    	testPanel.setSize(1000, 1000);
+    	testFrame.add(testPanel);
+    	testPanel.setVisible(true);
+    	testPanel.reDraw(swag.getHexBoard(), swag.getCurrentRobot(), swag.getHexBoard()[0][0]);
     }
     
     
