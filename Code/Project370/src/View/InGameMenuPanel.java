@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import Model.Board;
 import Model.Hex;
 import Model.Robot;
+import Model.RobotTeam;
 
 /**
  * Specialized JPanel that contains a list of walkable hexagons, a list of robots,
@@ -31,6 +32,8 @@ public class InGameMenuPanel extends JPanel {
     private static final int SIDELENGTH = 30;
     
     private int boardSize;
+    
+    private Robot[] robots;
     
 	/** @category Hex Variables */
 	
@@ -51,10 +54,19 @@ public class InGameMenuPanel extends JPanel {
 //		private Boolean[][] walkable;
 	
 	/** @public Constructs a game board with the given size */
-	public InGameMenuPanel(int size){
+	public InGameMenuPanel(int size, RobotTeam[] teams){
 		super();
 		boardSize = size;
-
+		robots = new Robot[teams.length * 3];
+		
+		for(int i = 0; i < teams.length; i++){
+			Robot curRobots[] = teams[i].getTeamOfRobot();
+			
+			for(int j = 0; j < 3; j++){
+				robots[i * 3 + j] = curRobots[j];
+			}
+		}
+		
 		s = SIDELENGTH;							//s = the side length of each hex in pixels
     	t = (int) (s / 2);						//t = s * sin(30)
     	r = (int) (s * Math.cos(Math.PI / 6));	//r = s * cos(30)
@@ -83,28 +95,15 @@ public class InGameMenuPanel extends JPanel {
 				}
 			}
 		}
-//		for(int i = 0; i < boardSize * 2 - 1; i++){		// i = 0, 1, ... boardSize * 2 - 1    			
-//														//Hexagons to initialize will depend on which sections are being made
-//			if(i < boardSize){							//If we are before the halfway mark
-//														//j = boardSize - 1 ... boardSize * 2
-//				for(int j = boardSize - (i + 1); j < (boardSize * 2) - 1 ; j++){
-//        			drawHex(i,j);
-//        			//System.out.println("I: " + i + "  J: " + j);
-//    			}
-//			} else {									//Otherwise, we are halfway or past
-//														//j = i / boardSize ... (boardSize * 2) - (i % boardSize - 1)
-//				for(int j = (i / boardSize) - 1; j < (boardSize * 2) - (i % boardSize) - 2; j++){
-//        			drawHex(i,j);
-//    			}
-//			}
-//		}
 		
 		drawHex(5,5, g2);
+		
 //		for(int i = 0; i < numberOfRobots; i++){		//Draw each robot on the board
 //			drawRobot(robot[i]);
 //		}
 	}
 	
+	/** Private reference to the current hex list for painting the component */
 	private Hex[][] currentHexes;
 	
 	public void reDraw(Hex[][] listOfHexes, int currentRobot, Hex selectedHex){
@@ -201,12 +200,13 @@ public class InGameMenuPanel extends JPanel {
 	 * @param toDraw The robot to draw
 	 * @param g	The Graphics2D object to draw on
 	 */
-	private void drawRobot(Robot toDraw){
-    	//int y = toDraw.currentX * (s + t);
-    	//int x = toDraw.currentY * h + toDraw.currentX * (h / 2);
+	private void drawRobot(Robot toDraw, Graphics2D g){
+		Hex robotHex = toDraw.getPosition();
+    	int y = robotHex.getPositionX() * (s + t);
+    	int x = robotHex.getPositionY() * h + robotHex.getPositionX() * (h / 2);
     	
-    	//x += PIXELBORDER;											//Current x equals the xPos + the border size
-    	//y += PIXELBORDER;											//Current y equals the yPos + the border size
+    	x += PIXELBORDER;											//Current x equals the xPos + the border size
+    	y += PIXELBORDER;											//Current y equals the yPos + the border size
     	Graphics2D g = (Graphics2D) getGraphics();
     	//g.drawImage(toDraw.image, x + r / 2, y + s / 2, gamePanel);
 	}	
@@ -236,12 +236,12 @@ public class InGameMenuPanel extends JPanel {
     	testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     	testFrame.setVisible(true);
     	testFrame.setSize(1000, 1000);
-    	InGameMenuPanel testPanel = new InGameMenuPanel(5);
+    	
+    	Board swag = new Board(5, 1);
+    	InGameMenuPanel testPanel = new InGameMenuPanel(5,swag.Teams);
     	testPanel.setSize(1000, 1000);
     	testFrame.add(testPanel);
     	testPanel.setVisible(true);
-    	Board swag = new Board(5, 1);
-    	
     	testPanel.reDraw(swag.getHexBoard(), swag.getCurrentRobot(), swag.getHexBoard()[0][0]);
     }
 }
