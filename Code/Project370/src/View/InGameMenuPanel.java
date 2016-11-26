@@ -160,17 +160,17 @@ public class InGameMenuPanel extends JPanel {
 	private Color hexColor(int x, int y){
 		Color color = Color.white;				//Default hex is white
 		
-		if(x == boardSize - 1 && y == 0)		//West side is red
+		if(x == boardSize && y == 1)		//West side is red
 			color = Color.red;
-		else if(x == 0 && y == boardSize - 1)		//North-West side is orange
+		else if(x == 1 && y == boardSize)		//North-West side is orange
 			color = Color.orange;
-		else if (x == 0 && y == boardSize * 2 - 2)
+		else if (x == 1 && y == boardSize * 2 - 1)
 			color = Color.yellow;
-		else if (x == boardSize - 1 && y == boardSize * 2 - 2)
+		else if (x == boardSize && y == boardSize * 2 - 1)
 			color = Color.green;
-		else if (x == boardSize * 2 - 2 && y == 0)
+		else if (x == boardSize * 2 - 1 && y == 1)
 			color = Color.pink;
-		else if (x == boardSize * 2 - 2 && y == boardSize - 1)
+		else if (x == boardSize * 2 - 1 && y == boardSize)
 			color = Color.blue;
 		
 		return color;
