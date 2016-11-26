@@ -107,7 +107,6 @@ public class InGameMenuPanel extends JPanel {
 					if(currentHexes[i][j] != null)
 						
 						drawHex(currentHexes[i][j].getPositionX() + boardSize, currentHexes[i][j].getPositionY() + boardSize, g2);
-					//drawHex(5,5, g2);
 				}
 			}
 			
@@ -138,7 +137,7 @@ public class InGameMenuPanel extends JPanel {
 	 */
 	private Color hexColor(int x, int y){
 		Color color = Color.white;				//Default hex is white
-		
+		                                //CHECK FOR WEIRD OFFSET
 		if(x == boardSize && y == 1)		//West side is red
 			color = Color.red;
 		else if(x == 1 && y == boardSize)		//North-West side is orange
@@ -164,9 +163,9 @@ public class InGameMenuPanel extends JPanel {
 	private void drawHex(int i, int j, Graphics2D g){
 			//Graphics2D g = (Graphics2D) getGraphics();
 			
-	    	int x = i * (s + t);
+	    	int x = i * (s + t);                    
 	    	int y = j * h + i * (h / 2);
-	    	Polygon poly = createHex(y, x);
+	    	Polygon poly = createHex(y, x);         //CHANGE THIS
 	    	
 	    	g.setColor(hexColor(i, j));
 	    	
@@ -214,7 +213,7 @@ public class InGameMenuPanel extends JPanel {
 		
 		imagePath += team.getColour().toLowerCase() + "_";
 		
-		for(int i = 0; i < 3; i++){
+		for(int i = 0; i < 3; i++){     //USE ROBOT TYPE REFERENCE HERE
 			if(team.getTeamOfRobot()[i] == robot){
 				switch(i){
 				case 0:
@@ -319,7 +318,7 @@ public class InGameMenuPanel extends JPanel {
 	
 	private class RightButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
-    		Controller.getInstance().G_turnLeft();
+    		Controller.getInstance().G_turnRight();
     		//TELL CONTROLLER TO ROTATE CURRENT ROBOT RIGHT OR CYCLE THROUGH TARGET TO RIGHT
     	}
     }
