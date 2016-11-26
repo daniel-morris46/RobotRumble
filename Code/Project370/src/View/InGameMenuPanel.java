@@ -52,21 +52,19 @@ public class InGameMenuPanel extends JPanel {
 	
 	/** @public Constructs a game board with the given size */
 	public InGameMenuPanel(int size){
+		super();
 		boardSize = size;
 
 		s = SIDELENGTH;							//s = the side length of each hex in pixels
     	t = (int) (s / 2);						//t = s * sin(30)
     	r = (int) (s * Math.cos(Math.PI / 6));	//r = s * cos(30)
     	h = 2 * r;								//
-    	
 //			walkable = new Boolean[size * 2][size * 2];
 //			
 //			for(int i = 0; i < size; i++)
 //				for(int j = 0; j < size; j++)
 //					walkable[i][j] = false;
 		
-		
-		repaint();
 	}
 	
 	@Override
@@ -75,7 +73,16 @@ public class InGameMenuPanel extends JPanel {
 		
 		super.paintComponent(g2);
 		
-		
+		if(currentHexes != null){
+			for(int i = 0; i < currentHexes.length; i++){
+			
+				for(int j = 0; j < currentHexes[i].length; j++){
+					if(currentHexes[i][j] != null)
+						drawHex(currentHexes[i][j].getPositionX() + boardSize, currentHexes[i][j].getPositionY() + boardSize, g2);
+					//drawHex(5,5, g2);
+				}
+			}
+		}
 //		for(int i = 0; i < boardSize * 2 - 1; i++){		// i = 0, 1, ... boardSize * 2 - 1    			
 //														//Hexagons to initialize will depend on which sections are being made
 //			if(i < boardSize){							//If we are before the halfway mark
@@ -92,18 +99,27 @@ public class InGameMenuPanel extends JPanel {
 //			}
 //		}
 		
+		drawHex(5,5, g2);
 //		for(int i = 0; i < numberOfRobots; i++){		//Draw each robot on the board
 //			drawRobot(robot[i]);
 //		}
 	}
 	
+	private Hex[][] currentHexes;
+	
 	public void reDraw(Hex[][] listOfHexes, int currentRobot, Hex selectedHex){
+		Graphics2D swag = (Graphics2D) getGraphics();
 		
-		for(int i = 0; i < listOfHexes.length; i++){
-			for(int j = 0; j < listOfHexes[i].length; j++){
-				drawHex(listOfHexes[i][j].getPositionX() + boardSize, listOfHexes[i][j].getPositionY() + boardSize);
-			}
-		}
+		currentHexes = listOfHexes;
+		drawHex(5,5, swag);
+		//for(int i = 0; i < listOfHexes.length; i++){
+			
+			//for(int j = 0; j < listOfHexes[i].length; j++){
+				//drawHex(listOfHexes[i][j].getPositionX() + boardSize, listOfHexes[i][j].getPositionY() + boardSize);
+				//drawHex(5,5);
+			//}
+			
+		//}
 		
 //		for(int i = 0; i < boardSize * 2 - 1; i++){		// i = 0, 1, ... boardSize * 2 - 1    			
 //														//Hexagons to initialize will depend on which sections are being made
@@ -120,7 +136,7 @@ public class InGameMenuPanel extends JPanel {
 //			}
 //		}
 		
-		repaint();
+		//repaint();
     }
     		
     		
@@ -165,10 +181,9 @@ public class InGameMenuPanel extends JPanel {
 	 * 
 	 * @param i The array x-position of the hexagon
 	 * @param j The array y-position of the hexagon
-	 * @param g The Graphics2D object to draw the hex on 
 	 */
-	private void drawHex(int i, int j){
-			Graphics2D g = (Graphics2D) getGraphics();
+	private void drawHex(int i, int j, Graphics2D g){
+			//Graphics2D g = (Graphics2D) getGraphics();
 			
 	    	int x = i * (s + t);
 	    	int y = j * h + i * (h / 2);
@@ -177,6 +192,7 @@ public class InGameMenuPanel extends JPanel {
 	    	g.fillPolygon(poly);
 	    	g.setColor(Color.BLACK);
 	    	g.drawPolygon(poly);
+
 	}
 	
 	/**
@@ -217,6 +233,7 @@ public class InGameMenuPanel extends JPanel {
     
     public static void main(String args[]){
     	JFrame testFrame = new JFrame("IN-GAME-MENU-PANEL-TEST");
+    	testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     	testFrame.setVisible(true);
     	testFrame.setSize(1000, 1000);
     	InGameMenuPanel testPanel = new InGameMenuPanel(5);
@@ -225,6 +242,6 @@ public class InGameMenuPanel extends JPanel {
     	testPanel.setVisible(true);
     	Board swag = new Board(5, 1);
     	
-    	testPanel.reDraw(swag.hexBoard, swag.getCurrentRobot(), swag.hexBoard[0][0]);
+    	testPanel.reDraw(swag.getHexBoard(), swag.getCurrentRobot(), swag.getHexBoard()[0][0]);
     }
 }
