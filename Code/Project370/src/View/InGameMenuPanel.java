@@ -8,8 +8,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Model.Board;
 import Model.Hex;
 import Model.Robot;
 
@@ -64,7 +66,7 @@ public class InGameMenuPanel extends JPanel {
 //					walkable[i][j] = false;
 		
 		
-		
+		repaint();
 	}
 	
 	@Override
@@ -74,43 +76,49 @@ public class InGameMenuPanel extends JPanel {
 		super.paintComponent(g2);
 		
 		
-		for(int i = 0; i < boardSize * 2 - 1; i++){		// i = 0, 1, ... boardSize * 2 - 1    			
-														//Hexagons to initialize will depend on which sections are being made
-			if(i < boardSize){							//If we are before the halfway mark
-														//j = boardSize - 1 ... boardSize * 2
-				for(int j = boardSize - (i + 1); j < (boardSize * 2) - 1 ; j++){
-        			drawHex(i,j);
-        			//System.out.println("I: " + i + "  J: " + j);
-    			}
-			} else {									//Otherwise, we are halfway or past
-														//j = i / boardSize ... (boardSize * 2) - (i % boardSize - 1)
-				for(int j = (i / boardSize) - 1; j < (boardSize * 2) - (i % boardSize) - 2; j++){
-        			drawHex(i,j);
-    			}
-			}
-		}
+//		for(int i = 0; i < boardSize * 2 - 1; i++){		// i = 0, 1, ... boardSize * 2 - 1    			
+//														//Hexagons to initialize will depend on which sections are being made
+//			if(i < boardSize){							//If we are before the halfway mark
+//														//j = boardSize - 1 ... boardSize * 2
+//				for(int j = boardSize - (i + 1); j < (boardSize * 2) - 1 ; j++){
+//        			drawHex(i,j);
+//        			//System.out.println("I: " + i + "  J: " + j);
+//    			}
+//			} else {									//Otherwise, we are halfway or past
+//														//j = i / boardSize ... (boardSize * 2) - (i % boardSize - 1)
+//				for(int j = (i / boardSize) - 1; j < (boardSize * 2) - (i % boardSize) - 2; j++){
+//        			drawHex(i,j);
+//    			}
+//			}
+//		}
 		
-		for(int i = 0; i < numberOfRobots; i++){		//Draw each robot on the board
-			drawRobot(robot[i]);
-		}
+//		for(int i = 0; i < numberOfRobots; i++){		//Draw each robot on the board
+//			drawRobot(robot[i]);
+//		}
 	}
 	
-	public void reDraw(Hex[] listOfHexes, Robot currentRobot, Hex selectedHex){
+	public void reDraw(Hex[][] listOfHexes, int currentRobot, Hex selectedHex){
 		
-		for(int i = 0; i < boardSize * 2 - 1; i++){		// i = 0, 1, ... boardSize * 2 - 1    			
-														//Hexagons to initialize will depend on which sections are being made
-			if(i < boardSize){							//If we are before the halfway mark
-														//j = boardSize - 1 ... boardSize * 2
-				for(int j = boardSize - (i + 1); j < (boardSize * 2) - 1 ; j++){
-					drawHex(i,j);
-				}
-    		} else {
-    				
-				for(int j = (i / boardSize) - 1; j < (boardSize * 2) - (i % boardSize) - 2; j++){
-        			drawHex(i,j);
-    			}
+		for(int i = 0; i < listOfHexes.length; i++){
+			for(int j = 0; j < listOfHexes[i].length; j++){
+				drawHex(listOfHexes[i][j].getPositionX() + boardSize, listOfHexes[i][j].getPositionY() + boardSize);
 			}
 		}
+		
+//		for(int i = 0; i < boardSize * 2 - 1; i++){		// i = 0, 1, ... boardSize * 2 - 1    			
+//														//Hexagons to initialize will depend on which sections are being made
+//			if(i < boardSize){							//If we are before the halfway mark
+//														//j = boardSize - 1 ... boardSize * 2
+//				for(int j = boardSize - (i + 1); j < (boardSize * 2) - 1 ; j++){
+//					drawHex(i,j);
+//				}
+//    		} else {
+//    				
+//				for(int j = (i / boardSize) - 1; j < (boardSize * 2) - (i % boardSize) - 2; j++){
+//        			drawHex(i,j);
+//    			}
+//			}
+//		}
 		
 		repaint();
     }
@@ -198,5 +206,25 @@ public class InGameMenuPanel extends JPanel {
     	cy = new int[] {y+t, y+s+t, y+s+t+t, y+s+t, y+t, y};	//Begins with the bottom left point and generates clockwise
     	
     	return new Polygon(cx, cy, 6);	//Returns the created hexagon
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    public static void main(String args[]){
+    	JFrame testFrame = new JFrame("IN-GAME-MENU-PANEL-TEST");
+    	testFrame.setVisible(true);
+    	testFrame.setSize(1000, 1000);
+    	InGameMenuPanel testPanel = new InGameMenuPanel(5);
+    	testPanel.setSize(1000, 1000);
+    	testFrame.add(testPanel);
+    	testPanel.setVisible(true);
+    	Board swag = new Board(5, 1);
+    	
+    	testPanel.reDraw(swag.hexBoard, swag.getCurrentRobot(), swag.hexBoard[0][0]);
     }
 }
