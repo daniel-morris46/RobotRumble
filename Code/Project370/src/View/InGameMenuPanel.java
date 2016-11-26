@@ -232,18 +232,32 @@ public class InGameMenuPanel extends JPanel {
     	
     	RobotTeam team = robotTeams[robot.getTeam()];
 		
-		if(team.getColour())		//West side is red
-			imagePath = "red_";
-		else if(x == 1 && y == boardSize)		//North-West side is orange
-			imagePath = "orange_";
-		else if (x == 1 && y == boardSize * 2 - 1)
-			imagePath = "yellow_";
-		else if (x == boardSize && y == boardSize * 2 - 1)
-			imagePath = "green_";
-		else if (x == boardSize * 2 - 1 && y == 1)
-			imagePath = "pink_";
-		else if (x == boardSize * 2 - 1 && y == boardSize)
-			imagePath = "blue_";
+		imagePath = team.getColour() + "_";
+		
+		for(int i = 0; i < 3; i++){
+			if(team.getTeamOfRobot()[i] == robot){
+				switch(i){
+				case 0:
+					imagePath += "SCOUT.png";
+					break;
+				case 1:
+					imagePath += "SNIPER.png";
+					break;
+				case 2:
+					imagePath += "TANK.png";
+					break;
+				}
+			}
+		}
+		
+		try{
+			BufferedImage robotImage = ImageIO.read(new File(imagePath));
+			return robotImage;
+		} catch (IOException e){
+			System.err.println(e);
+		}
+			
+		return null;
     }
     
     
