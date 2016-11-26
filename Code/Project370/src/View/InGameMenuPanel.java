@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -33,6 +34,8 @@ public class InGameMenuPanel extends JPanel {
     
     private int boardSize;
     
+    private RobotTeam[] robotTeams;
+    
     private Robot[] robots;
     
 	/** @category Hex Variables */
@@ -57,6 +60,7 @@ public class InGameMenuPanel extends JPanel {
 	public InGameMenuPanel(int size, RobotTeam[] teams){
 		super();
 		boardSize = size;
+		robotTeams = teams;
 		robots = new Robot[teams.length * 3];
 		
 		for(int i = 0; i < teams.length; i++){
@@ -223,7 +227,24 @@ public class InGameMenuPanel extends JPanel {
     	return new Polygon(cx, cy, 6);	//Returns the created hexagon
     }
     
-    
+    private BufferedImage getRobotImage(Robot robot){
+    	String imagePath = "";
+    	
+    	RobotTeam team = robotTeams[robot.getTeam()];
+		
+		if(team.getColour())		//West side is red
+			imagePath = "red_";
+		else if(x == 1 && y == boardSize)		//North-West side is orange
+			imagePath = "orange_";
+		else if (x == 1 && y == boardSize * 2 - 1)
+			imagePath = "yellow_";
+		else if (x == boardSize && y == boardSize * 2 - 1)
+			imagePath = "green_";
+		else if (x == boardSize * 2 - 1 && y == 1)
+			imagePath = "pink_";
+		else if (x == boardSize * 2 - 1 && y == boardSize)
+			imagePath = "blue_";
+    }
     
     
     
