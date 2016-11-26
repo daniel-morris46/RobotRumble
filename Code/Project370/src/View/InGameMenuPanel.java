@@ -207,7 +207,6 @@ public class InGameMenuPanel extends JPanel {
     	
     	x += PIXELBORDER;											//Current x equals the xPos + the border size
     	y += PIXELBORDER;											//Current y equals the yPos + the border size
-    	Graphics2D g = (Graphics2D) getGraphics();
     	//g.drawImage(toDraw.image, x + r / 2, y + s / 2, gamePanel);
 	}	
     
