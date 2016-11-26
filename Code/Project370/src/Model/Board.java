@@ -21,8 +21,8 @@ public class Board {
 
     Hex currentHex;
 
-    public Board(int s, int t) {
-        colourList = new String[6];
+    public Board(int s, int t) {                // BETTER VARIABLE NAMES FOR s and t
+        colourList = new String[6];             // MAKE COLOURS BE ABLE TO BE CHANGED
         colourList[0] = "RED";
         colourList[1] = "BLUE";
         colourList[2] = "ORANGE";
@@ -40,7 +40,7 @@ public class Board {
             Teams[i] = new RobotTeam(true, colourList[i], i);
         }
         hexBoard = new Hex[s * 2 - 1][s * 2 - 1];
-        for (int y = s-1; y >= (-s+1); y--) {
+        for (int y = s-1; y >= (-s+1); y--) {               // CHANGE ORDER OF THIS TO MAKE EASIER TO READ
             for (int x = (-s+1); x <= s-1; x++) {
                 if ((x + y <= s-1) && (x + y >= (-s+1))) {
                     hexBoard[x + s - 1][y + s - 1] = new Hex(x, y);
@@ -124,46 +124,19 @@ public class Board {
   
     }
 
+                                                                  // CHANGE hexBoard[x + size - 1][y + size - 1] to hexBoard.getHex(x, y)
     public void search(Hex h, int range) {
-        
-        
         for (int y = size-1; y >= -(size-1); y--) {
             for (int x = -(size-1); x <= size-1; x++) {
                 if (x < h.getPositionX() + (range + 1) && x > h.getPositionX() - (range + 1) && y < h.getPositionY() + (range + 1) && y > h.getPositionY() - (range + 1)) {
                     if(x + y > -(range+1) && x + y < (range+1)){
-                        //System.out.print("("+x+","+y+")");
-                        
-                        if(hexBoard[x + size - 1][y + size - 1] != null && !(hexBoard[x + size - 1][y + size - 1].getOcc().isEmpty())){;
+                        if(hexBoard[x + size - 1][y + size - 1] != null && !(hexBoard[x + size - 1][y + size - 1].getOcc().isEmpty())){
                             targetList.add(getHex(x, y));
-                            
                         }
                     }
                 }
-            
             }
-            //System.out.print("\n");
         }
-        /*
-        
-        for (int y = -(size-1); y <= size-1; y++) {
-            for (int x = -(size-1); x <= size-1; x++) {
-                if (x < h.getPositionX() + (range + 1) && x > h.getPositionX() - (range + 1) && y < h.getPositionY() + (range + 1) && y > h.getPositionY() - (range + 1)) {
-                    if(x + y > -(range+1) && x + y < (range+1)){
-                        //System.out.print("("+x+","+y+")");
-                        
-                        if(hexBoard[x + size - 1][y + size - 1] != null && !(hexBoard[x + size - 1][y + size - 1].getOcc().isEmpty())){;
-                            targetList.add(getHex(x, y));
-                            
-                        }
-                    }
-                }
-            
-            }
-            //System.out.print("\n");
-        }
-        
-        */
-        
     }
     
     public Hex getCurrentHex() {
@@ -201,7 +174,6 @@ public class Board {
     }
 
     private LinkedList<RobotTeam> getTargetList() {
-        LinkedList<RobotTeam> targetList = null;
         return targetList;
     }
     
@@ -215,15 +187,8 @@ public class Board {
 
 
     public static void main(String[] args) {
-        
-//      for (int y = 4; y >= -4; y--) {
-//          for (int x = -4; x <= 4; x++) {
-//              System.out.print("("+x+","+y+")");
-//          }
-//          System.out.print("\n");
-//      }
-//      System.out.print("\n");
-        
+    
+        //TESTING
         Board myBoard = new Board(5, 2);
         for(int i = 0; i < 9; i++){
             for(int j = 0; j < 9; j++){
