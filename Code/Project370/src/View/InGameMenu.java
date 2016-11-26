@@ -204,38 +204,7 @@ public class InGameMenu extends JFrame{
     		currentRobot = gamePanel.robot[gamePanel.currentRobotIndex];
     		//TELL CONTROLLER TO END THE CURRENT PLAY AND CHANGE THE CURRENT ROBOT
     	}
-    }
-    
-
-    
-    /**
-     * BOARD CONSTRUCTION FUNCTIONS
-     */
-	
-	
-	/**
-	 * Sets the hexagon variables by 
-	 * @param sideLength
-	 */
-    private void setBySide(int sideLength){
-    	s = sideLength;							//s = the side length of each hex in pixels
-    	t = (int) (s / 2);						//t = s * sin(30)
-    	r = (int) (s * Math.cos(Math.PI / 6));	//r = s * cos(30)
-    	h = 2 * r;								//
-    }
-    
-    private Polygon createHex(int xPos, int yPos){
-
-    	int x = xPos + PIXELBORDER;		//Current x equals the xPos + the border size
-    	int y = yPos + PIXELBORDER;		//Current y equals the yPos + the border size
-    	
-    	int[] cx, cy;					//Arrays for x and y point coordinates
-    	
-    	cx = new int[] {x, x, x+r, x+r+r, x+r+r, x+r};			//Begins with the bottom left point and generates clockwise
-    	cy = new int[] {y+t, y+s+t, y+s+t+t, y+s+t, y+t, y};	//Begins with the bottom left point and generates clockwise
-    	
-    	return new Polygon(cx, cy, 6);	//Returns the created hexagon
-    }
+	}
     
     /**
      * This private class represents a robot to be used for testing, containing an image, coordinates, and a direction.
