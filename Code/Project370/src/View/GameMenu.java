@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import javax.swing.*;
 
+import Controller.Controller;
+
 /**
  * This GameMenu class contains the GUI for the main entry point
  * of the program. This menu moves the player between the options,
@@ -46,11 +48,10 @@ public class GameMenu extends JFrame{
 	/** Constructs the game menu, the system's entry point */
     public GameMenu() {
     	
-    	super("NO");
     	this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     	
     	this.setSize(400, 400);
-    	this.setVisible(true);
+    	
     	
     	//Initialize the menu panel
     	JPanel menuPanel;
@@ -86,6 +87,8 @@ public class GameMenu extends JFrame{
     	exitButton.addActionListener(new ExitListener());
     	
     	menuPanel.add(exitButton);
+    	
+    	this.setVisible(true);
     }
     
     /** The action listener for the play button
@@ -94,8 +97,8 @@ public class GameMenu extends JFrame{
      */
     private class PlayListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
-    		PlayMenu menu = new PlayMenu("Prepare board");
-    		setVisible(false);
+    		Controller.getInstance().playMenu.setVisible(true);
+    		Controller.getInstance().gameMenu.setVisible(false);
     	}
     }
     

@@ -2,7 +2,12 @@ package View;
 
 import Model.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
+
+import Controller.Controller;
 
 public class InGameMenu extends JFrame{
 	
@@ -11,6 +16,17 @@ public class InGameMenu extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 
+	/** @category Buttons */
+	
+	public JButton leftButton;
+	public JButton rightButton;
+	public JButton forfeitButton;
+	public JButton exitButton;
+	public JButton actionToggleButton;
+	public JButton actionButton;
+	public JButton endPlayButton;
+	
+	public boolean actionToggle = true;
 	
 	/**
 	 * Public constructor.
@@ -24,15 +40,113 @@ public class InGameMenu extends JFrame{
         setVisible(true);
         setSize(1400,  1000);
         gamePanel = new InGameMenuPanel(b.getSize(), b.Teams);
+        gamePanel.remakeBoard(b);
         add(gamePanel);
         gamePanel.setVisible(true);
-        gamePanel.remakeBoard(b);
+        
+        setSize(500, 500);
+        
+        actionToggleButton = new JButton("*");	//Creating action toggle button and adding it to panel
+        actionToggleButton.addActionListener(new ActionToggleButtonListener());
+        gamePanel.add(actionToggleButton);
+        actionToggleButton.setVisible(true);
+        
+        leftButton = new JButton("<");			//Creating left button and adding it to panel
+        leftButton.addActionListener(new LeftButtonListener());
+        gamePanel.add(leftButton);
+        leftButton.setVisible(true);
+        
+        rightButton = new JButton(">");			//Creating right button and adding it to panel
+        rightButton.addActionListener(new RightButtonListener());
+        gamePanel.add(rightButton);
+        rightButton.setVisible(true);
+
+        actionButton = new JButton("Move");		//Creating action button and adding it to panel
+        actionButton.addActionListener(new ActionButtonListener());
+        gamePanel.add(actionButton);
+        actionButton.setVisible(true);
+        
+        endPlayButton = new JButton("End Play");//Creating end play button and adding it to panel
+        endPlayButton.addActionListener(new EndPlayButtonListener());
+        gamePanel.add(endPlayButton);
+        endPlayButton.setVisible(true);
+        
+        forfeitButton = new JButton("Forfeit");	//Creating forfeit button and adding it to panel
+        forfeitButton.addActionListener(new ForfeitButtonListener());
+        gamePanel.add(forfeitButton);
+        forfeitButton.setVisible(true);
+        
+        exitButton = new JButton("Exit");		//Creating exit button and adding it to panel
+        exitButton.addActionListener(new ExitButtonListener());
+        exitButton.setVisible(true);
+        gamePanel.add(exitButton);
+        
+        setVisible(true);						//Set the game panel as visible
     }
 	
 	public void closeBoard(){
 		dispose();
 	}
+	/**
+	 * BUTTON LISTENERS
+	 */
+	private class ActionToggleButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		
+    		
+    		if(actionToggle == true){
+    			actionToggle = false;
+    			actionButton.setText("Shoot");
+    		} else {
+    			actionToggle = true;
+    			actionButton.setText("Move");
+    		}
+    	}
+    }
+	
+	private class LeftButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		Controller.getInstance().G_turnLeft();
 
+    		//TELL CONTROLLER TO ROTATE CURRENT ROBOT LEFT OR CYCLE THROUGH TARGET TO LEFT
+    	}
+    }
+	
+	private class RightButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		Controller.getInstance().G_turnRight();
+    		//TELL CONTROLLER TO ROTATE CURRENT ROBOT RIGHT OR CYCLE THROUGH TARGET TO RIGHT
+    	}
+    }
+	
+	private class ForfeitButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+    		//TELL BOARD TO FORFEIT
+    	}
+    }
+	
+	private class ExitButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		Controller.getInstance().gameMenu.setVisible(true);
+    		Controller.getInstance().inGameMenu.setVisible(false);
+    	}
+    }
+	
+	private class ActionButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		if(actionToggle == true){				//MOVING
+    			//TELL CONTROLLER TO MOVE CURRENT ROBOT
+    		} else {													//ATTACKING
+    			//TELL CONTROLLER TO ATTACK THE CURRENT TARGET HEX
+    		}
+    	}
+    }
+	
+	private class EndPlayButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+    		//TELL CONTROLLER TO END THE CURRENT PLAY AND CHANGE THE CURRENT ROBOT
+    	}
+	}
     
     /**
      * This private class represents a robot to be used for testing, containing an image, coordinates, and a direction.

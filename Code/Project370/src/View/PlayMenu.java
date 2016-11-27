@@ -1,14 +1,8 @@
 package View;
 
 import java.awt.GridLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
 import javax.swing.*;
 
 import Controller.Controller;
@@ -20,11 +14,11 @@ public class PlayMenu extends JFrame {
 	
 	private int numPlayers = 2;
 	
-	public JComboBox numberOfPlayers;
+	public JComboBox<Integer> numberOfPlayers;
 	
-	public JComboBox[] playerTypes;
+	public JComboBox<String>[] playerTypes;
 	
-	public JComboBox[] playerColors;
+	public JComboBox<String>[] playerColors;
 	
 	private static final long serialVersionUID = 1L;
 
@@ -87,9 +81,7 @@ public class PlayMenu extends JFrame {
     	JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 50, 25));
     	JLabel boardSizeTitle = new JLabel("Board Size");
     	buttonPanel.add(boardSizeTitle);
-    	
-    	
-    	
+  
     	//Initialize the five player board size
     	JRadioButton sizeFive = new JRadioButton("5");
     	sizeFive.setSize(50, 50);
@@ -97,14 +89,12 @@ public class PlayMenu extends JFrame {
     	sizeFive.addActionListener(new SizeFiveListener());
     	buttonPanel.add(sizeFive);
     	
-    	
     	//Initialize the seven player board size
     	JRadioButton sizeSeven = new JRadioButton("7");
     	sizeSeven.setSize(50, 50);
     	sizeSeven.setVisible(true);
     	sizeSeven.addActionListener(new SizeSevenListener());
     	buttonPanel.add(sizeSeven);
-    	
     	
     	//Create a button group and add the five and seven player buttons
     	ButtonGroup sizeButtons = new ButtonGroup();
@@ -172,11 +162,6 @@ public class PlayMenu extends JFrame {
     			playerColors[i].setVisible(false);
     		}
     	}
-    	
-    	
-    	
-    	
-    	
     }
 
 	/** The action listener for the play button

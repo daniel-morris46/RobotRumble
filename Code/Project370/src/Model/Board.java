@@ -47,6 +47,15 @@ public class Board {
                 }
             }
         }
+        
+        for(int i = 0; i < Teams.length; i++){
+			Robot curRobots[] = Teams[i].getTeamOfRobot();
+			
+			for(int j = 0; j < 3; j++){
+				curRobots[j].setPosition(getHex(0, 0));;
+			}
+		}
+        
         currentHex = getHex(0, 0);
     }
     
