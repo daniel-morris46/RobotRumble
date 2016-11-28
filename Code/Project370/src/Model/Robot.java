@@ -32,9 +32,6 @@ public class Robot {
     /** The direction of the robot. */
     int absDirection;
     
-    /** File path for locally saved robot information. */
-    String filePath;
-    
     /** Constructs a robot given a robot type and a team index. */
     public Robot(int robotType, int robotTeam) {
         health = robotType;
@@ -51,7 +48,7 @@ public class Robot {
         type = robotType;
         damage = robotType;
         team = robotTeam;
-        //robotInterpreter = new Interpreter(this);
+        robotInterpreter = new Interpreter();
         absDirection = 0;
     }
     
@@ -118,10 +115,6 @@ public class Robot {
 
     public void setAbsDirection(int absDirection) {
         this.absDirection = absDirection;
-    }
-    
-    public String getPath() {
-        return filePath;
     }
 
     public static void main(String[] args) {
