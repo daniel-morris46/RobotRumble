@@ -40,8 +40,7 @@ public class GameMenu extends JFrame{
 	       // handle exception
 	    }
 		
-		JFrame menu = new GameMenu();
-		menu.getContentPane().setBackground(Color.CYAN);
+		//JFrame menu = new GameMenu();
 		
 	}
 	
@@ -97,8 +96,9 @@ public class GameMenu extends JFrame{
      */
     private class PlayListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
-    		Controller.getInstance().playMenu.setVisible(true);
     		Controller.getInstance().gameMenu.setVisible(false);
+    		Controller.getInstance().playMenu.setVisible(true);
+    		
     	}
     }
     

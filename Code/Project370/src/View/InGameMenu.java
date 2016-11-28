@@ -9,24 +9,45 @@ import javax.swing.*;
 
 import Controller.Controller;
 
+/**
+ * @category View
+ * 
+ * This class handles all user interaction during
+ * actual game play. It displays visuals using an
+ * InGameMenuPanel and has buttons for various
+ * robot actions.
+ *
+ */
 public class InGameMenu extends JFrame{
 	
 	/**@public The panel where all images will be drawn*/
 	public InGameMenuPanel gamePanel;
 	
-	private static final long serialVersionUID = 1L;
-
-	/** @category Buttons */
+	/**@private JButton for rotating/cycling left */
+	private JButton leftButton;
 	
-	public JButton leftButton;
-	public JButton rightButton;
-	public JButton forfeitButton;
-	public JButton exitButton;
-	public JButton actionToggleButton;
-	public JButton actionButton;
-	public JButton endPlayButton;
+	/**@private JButton for rotating/cycling right */
+	private JButton rightButton;
 	
+	/**@private JButton for forfeiting the game */
+	private JButton forfeitButton;
+	
+	/**@private JButton for exiting the game */
+	private JButton exitButton;
+	
+	/**@private JButton for toggling between moving and shooting */
+	private JButton actionToggleButton;
+	
+	/**@private JButton for moving or shooting */
+	private JButton actionButton;
+	
+	/**@private JButton for ending the current play */
+	private JButton endPlayButton;
+	
+	/**@public True = moving, false = shooting */
 	public boolean actionToggle = true;
+	
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Public constructor.
@@ -37,14 +58,13 @@ public class InGameMenu extends JFrame{
 	public InGameMenu(Board b) {
         super("370 ROBOT RUMBLE");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setVisible(true);
-        setSize(1400,  1000);
+        
         gamePanel = new InGameMenuPanel(b.getSize(), b.Teams);
-        gamePanel.remakeBoard(b);
+        gamePanel.reDraw(b);
         add(gamePanel);
         gamePanel.setVisible(true);
         
-        setSize(500, 500);
+        setSize(800, 800);
         
         actionToggleButton = new JButton("*");	//Creating action toggle button and adding it to panel
         actionToggleButton.addActionListener(new ActionToggleButtonListener());
@@ -84,16 +104,9 @@ public class InGameMenu extends JFrame{
         setVisible(true);						//Set the game panel as visible
     }
 	
-	public void closeBoard(){
-		dispose();
-	}
-	/**
-	 * BUTTON LISTENERS
-	 */
+	/** Tells the controller to either shoot or move */
 	private class ActionToggleButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
-    		
-    		
     		if(actionToggle == true){
     			actionToggle = false;
     			actionButton.setText("Shoot");
@@ -104,27 +117,28 @@ public class InGameMenu extends JFrame{
     	}
     }
 	
+	/** Tells the controller to either rotate or cycle through targets left */
 	private class LeftButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
-    		Controller.getInstance().G_turnLeft();
-
-    		//TELL CONTROLLER TO ROTATE CURRENT ROBOT LEFT OR CYCLE THROUGH TARGET TO LEFT
+    		Controller.getInstance().G_turnRight();
     	}
     }
 	
+	/** Tells the controller to either rotate or cycle through targets right */
 	private class RightButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
-    		Controller.getInstance().G_turnRight();
-    		//TELL CONTROLLER TO ROTATE CURRENT ROBOT RIGHT OR CYCLE THROUGH TARGET TO RIGHT
+    		Controller.getInstance().G_turnLeft();
     	}
     }
 	
+	/** Tells the controller to forfeit the game for the current player */
 	private class ForfeitButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
     		//TELL BOARD TO FORFEIT
     	}
     }
 	
+	/** Tells the controller to exit the game completely */
 	private class ExitButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		Controller.getInstance().gameMenu.setVisible(true);
@@ -132,29 +146,53 @@ public class InGameMenu extends JFrame{
     	}
     }
 	
+	/** Tells the controller to attack the current target hex */
 	private class ActionButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		if(actionToggle == true){				//MOVING
-    			//TELL CONTROLLER TO MOVE CURRENT ROBOT
+    			Controller.getInstance().G_Move();
     		} else {													//ATTACKING
     			//TELL CONTROLLER TO ATTACK THE CURRENT TARGET HEX
     		}
+    		
+    		gamePanel.repaint();
     	}
     }
 	
+	/** Tells the controller to end the current play */
 	private class EndPlayButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
-    		//TELL CONTROLLER TO END THE CURRENT PLAY AND CHANGE THE CURRENT ROBOT
+    		Controller.getInstance().G_endPlay();
     	}
 	}
     
-    /**
-     * This private class represents a robot to be used for testing, containing an image, coordinates, and a direction.
-     * 
-     * The robot also has functionality for moving forwards one space, turning left and turning right.
-     * @author Brandon
-     *
-     */
+	public static void main(String[] args){
+		JFrame testFrame = new JFrame("IN-GAME-MENU-PANEL-TEST");
+    	testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	testFrame.setVisible(true);
+    	testFrame.setSize(1200, 1000);
+    	testFrame.setResizable(false);
+    	
+    	Board board = new Board(7, 6);
+    	InGameMenuPanel testPanel = new InGameMenuPanel(board.getSize(), board.Teams);
+    	testPanel.setSize(1000, 1000);
+    	testFrame.add(testPanel);
+    	testPanel.setVisible(true);
+    	testPanel.reDraw(board);
+	}
+	
+	
+	
+	
+	
+	
+//    /**
+//     * This private class represents a robot to be used for testing, containing an image, coordinates, and a direction.
+//     * 
+//     * The robot also has functionality for moving forwards one space, turning left and turning right.
+//     * @author Brandon
+//     *
+//     */
 //    
 //    private class Robot{
 //    	
@@ -209,11 +247,10 @@ public class InGameMenu extends JFrame{
 //    			;
 //    		}
 //    		try{
-//    			if (gamePanel.walkable[x][y] == true){		//If the target coordinate is walkable
-//        			currentX = x;							//Move the robot
-//        			currentY = y;
-//        			repaint();								//Repaint the scene
-//    			}
+//        		currentX = x;							//Move the robot
+//        		currentY = y;
+//        		repaint();								//Repaint the scene
+//    			
 //    		} catch (NullPointerException e){				//If any exceptions are thrown, output "Invalid move"
 //    			System.out.println("Invalid move");
 //    		} catch (ArrayIndexOutOfBoundsException e){
@@ -238,22 +275,6 @@ public class InGameMenu extends JFrame{
 //    		}
 //    	}
 //    }
-
-	public static void main(String[] args){
-		JFrame testFrame = new JFrame("IN-GAME-MENU-PANEL-TEST");
-    	testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    	testFrame.setVisible(true);
-    	testFrame.setSize(1200, 1000);
-    	testFrame.setResizable(false);
-    	
-    	Board swag = new Board(7, 6);
-    	InGameMenuPanel testPanel = new InGameMenuPanel(swag.getSize(), swag.Teams);
-    	testPanel.setSize(1000, 1000);
-    	testFrame.add(testPanel);
-    	testPanel.setVisible(true);
-    	testPanel.reDraw(swag.getHexBoard(), swag.getCurrentRobot(), swag.getHexBoard()[0][0]);
-    }
-    
     
     
 }

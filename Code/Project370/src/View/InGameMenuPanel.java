@@ -4,13 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -18,32 +15,34 @@ import Model.Board;
 import Model.Hex;
 import Model.Robot;
 import Model.RobotTeam;
-import Controller.Controller;
 
 /**
- * Specialized JPanel that contains a list of walkable hexagons, a list of robots,
- * and a reference to the current robot. This can be repainted to update the board.
+ * @category View
  * 
- * @author Brandon
- *
+ * Specialized JPanel that contains a list of walkable 
+ * hexagons, a list of robots, and a reference to the 
+ * current robot. This can be repainted to update the board.
  */
 public class InGameMenuPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
     
-    private static final int PIXELBORDER = 50;
+    /** Border from the */
+    private static final int EDGEBORDER = 50;
     
     private static final int SIDELENGTH = 30;
     
+    /** @private Size of the board to draw */
     private int boardSize;
     
+    /** @private Reference to list of all robot teams */
     private RobotTeam[] robotTeams;
     
+    /** @private Reference to list of all robots */
     private Robot[] robots;
-    
-    private int currentRobotIndex;
-    
-	/** @category Hex Variables */
+  
+    /** @private reference to the current hex list for painting the component */
+	private Hex[][] currentHexes;
 	
 	/** @private the side length of each hexagon in pixels */ 
 	private int s = 0;
@@ -56,10 +55,6 @@ public class InGameMenuPanel extends JPanel {
 	
 	/** @private h = Two times the vertical gap */
 	private int h = 0;
-	
-	
-	/** @category Buttons */
-	
 	
 	/** @public Constructs a game board with the given size */
 	public InGameMenuPanel(int size, RobotTeam[] teams){
@@ -83,38 +78,44 @@ public class InGameMenuPanel extends JPanel {
 	}
 	
 	@Override
+	/** Paints the board and draws all robots in the game 
+	 * 
+	 *@param g The graphics component to draw on
+	 */
 	protected void paintComponent(Graphics g){
-		Graphics2D g2 = (Graphics2D) g;
+		Graphics2D g2 = (Graphics2D) g;								//Casts g to Graphics2D
 		
-		super.paintComponent(g2);
+		super.paintComponent(g2);									//Calls the super() paintComponent on g2
 		
-		if(currentHexes != null){
+		if(currentHexes != null){									//If the current list of hexes is not null
 			
-			for(int i = 0; i < currentHexes.length; i++){
+			for(int i = 0; i < currentHexes.length; i++){			//For each hex row of hexes
 			
-				for(int j = 0; j < currentHexes[i].length; j++){
+				for(int j = 0; j < currentHexes[i].length; j++){	//For each hex in the current row
 					
-					if(currentHexes[i][j] != null)
-						
+					if(currentHexes[i][j] != null)					//If hex[i][j] exists
+																	//Draw the hex and add the board size to account for coordinate offset
 						drawHex(currentHexes[i][j].getPositionX() + boardSize, currentHexes[i][j].getPositionY() + boardSize, g2);
 				}
 			}
 			
 		}
 		
-		for(int i = 0; i < robots.length; i++){		//Draw each robot on the board
+		for(int i = 0; i < robots.length; i++){						//Draw each robot on the board
 			drawRobot(robots[i], g2);
 		}
 	}
 	
-	/** Private reference to the current hex list for painting the component */
-	private Hex[][] currentHexes;
-	
-	public void reDraw(Hex[][] listOfHexes, int currentRobot, Hex selectedHex){
+	/**
+	 * Draws the given board
+	 * 
+	 * @param board The board to draw
+	 */
+	public void reDraw(Board board){
 		
-		currentHexes = listOfHexes;
+		currentHexes = board.hexBoard;			//Set the reference to the current list of hexes
 		
-		repaint();
+		repaint();								//Repaint the board
 	}
 	
 	/**
@@ -126,19 +127,19 @@ public class InGameMenuPanel extends JPanel {
 	 * @return The color to paint the hex
 	 */
 	private Color hexColor(int x, int y){
-		Color color = Color.white;				//Default hex is white
+		Color color = Color.white;							//Default hex is white
 		                                //CHECK FOR WEIRD OFFSET
-		if(x == boardSize && y == 1)		//West side is red
+		if(x == boardSize && y == 1)						//West side is red
 			color = Color.red;
-		else if(x == 1 && y == boardSize)		//North-West side is orange
+		else if(x == 1 && y == boardSize)					//North-West side is orange
 			color = Color.orange;
-		else if (x == 1 && y == boardSize * 2 - 1)
+		else if (x == 1 && y == boardSize * 2 - 1)			//North-East side is yellow
 			color = Color.yellow;
-		else if (x == boardSize && y == boardSize * 2 - 1)
+		else if (x == boardSize && y == boardSize * 2 - 1)	//East side is green
 			color = Color.green;
-		else if (x == boardSize * 2 - 1 && y == 1)
-			color = Color.pink;
-		else if (x == boardSize * 2 - 1 && y == boardSize)
+		else if (x == boardSize * 2 - 1 && y == 1)			//South-West side is purple
+			color = Color.MAGENTA;
+		else if (x == boardSize * 2 - 1 && y == boardSize)	//South-East side is blue
 			color = Color.blue;
 		
 		return color;
@@ -149,13 +150,14 @@ public class InGameMenuPanel extends JPanel {
 	 * 
 	 * @param i The array x-position of the hexagon
 	 * @param j The array y-position of the hexagon
+	 * @param g The Graphics2D to draw on
 	 */
 	private void drawHex(int i, int j, Graphics2D g){
 			//Graphics2D g = (Graphics2D) getGraphics();
 			
-	    	int x = i * (s + t);                    
-	    	int y = j * h + i * (h / 2);
-	    	Polygon poly = createHex(y, x);         //CHANGE THIS
+	    	int y = i * (s + t);                    
+	    	int x = j * h + i * (h / 2);
+	    	Polygon poly = createHex(x, y);         //CHANGE THIS
 	    	
 	    	g.setColor(hexColor(i, j));
 	    	
@@ -175,71 +177,76 @@ public class InGameMenuPanel extends JPanel {
 	 */
 	private void drawRobot(Robot toDraw, Graphics2D g){
 		Hex robotHex = toDraw.getPosition();
-    	int y = (robotHex.getPositionX() + boardSize) * (s + t);
-    	int x = (robotHex.getPositionY() + boardSize) * h + (robotHex.getPositionX() + boardSize) * (h / 2);
+    	int y = (robotHex.getPositionY() + boardSize) * (s + t);	//Accounts for the board coordinate offset and centers Y
+    																//Accounts for the board coordinate offset and centers X
+    	int x = (robotHex.getPositionX() + boardSize) * h + (robotHex.getPositionY() + boardSize) * (h / 2);
     	
-    	x += PIXELBORDER;											//Current x equals the xPos + the border size
-    	y += PIXELBORDER;											//Current y equals the yPos + the border size
-    	g.drawImage(getRobotImage(toDraw), x + r / 2, y + s / 2, this);
+    	x += EDGEBORDER;											//Handles the pixelborder's x influence
+    	y += EDGEBORDER;											//Handles the pixelborder's y influence
+    	g.drawImage(getRobotImage(toDraw), x + r / 2, y + s / 2, this);	//Draws the robot 
 	}	
     
+	/**
+	 * Creates a hexagonal polygon at the given x
+	 * and y positions
+	 * 
+	 * @param xPos The x coordinate to draw at
+	 * @param yPos The y coordinate to draw at
+	 * 
+	 * @return The polygon representing a hexagon
+	 */
     private Polygon createHex(int xPos, int yPos){
 
-    	int x = xPos + PIXELBORDER;		//Current x equals the xPos + the border size
-    	int y = yPos + PIXELBORDER;		//Current y equals the yPos + the border size
+    	int x = xPos + EDGEBORDER;								//Current x equals the xPos + the border size
+    	int y = yPos + EDGEBORDER;								//Current y equals the yPos + the border size
     	
-    	int[] cx, cy;					//Arrays for x and y point coordinates
+    	int[] cx, cy;											//Arrays for x and y point coordinates
     	
     	cx = new int[] {x, x, x+r, x+r+r, x+r+r, x+r};			//Begins with the bottom left point and generates clockwise
     	cy = new int[] {y+t, y+s+t, y+s+t+t, y+s+t, y+t, y};	//Begins with the bottom left point and generates clockwise
     	
-    	return new Polygon(cx, cy, 6);	//Returns the created hexagon
-    }
-    
-    private BufferedImage getRobotImage(Robot robot){
-    	String imagePath = "/View/resources/";
-    	
-    	RobotTeam team = robotTeams[robot.getTeam()];
-		
-		imagePath += team.getColour().toLowerCase() + "_";
-		
-		for(int i = 0; i < 3; i++){     //USE ROBOT TYPE REFERENCE HERE
-			if(team.getTeamOfRobot()[i] == robot){
-				switch(i){
-				case 0:
-					imagePath += "scout.png";
-					break;
-				case 1:
-					imagePath += "sniper.png";
-					break;
-				case 2:
-					imagePath += "tank.png";
-					break;
-				}
-			}
-		}
-
-		try{
-			BufferedImage robotImage = ImageIO.read(getClass().getResourceAsStream(imagePath) );
-			return robotImage;
-		} catch (IOException e){
-			System.err.println(e);
-		} catch (IllegalArgumentException e){
-			System.err.println(e);
-		}
-			
-		return null;
+    	return new Polygon(cx, cy, 6);							//Returns the created hexagon
     }
     
     /**
-	 * Creates the game board with the given size, as well as all required buttons
-	 * and their action listeners.
-	 * 
-	 * @param size The size of the board
-	 */
-	public void remakeBoard(Board board){
-        reDraw(board.hexBoard, board.getCurrentRobot(), board.getCurrentHex());								//Repaint the panel
-	}
+     * Loads the correct image file from the resource folder
+     * based on the type of robot
+     * 
+     * @param robot The robot that needs an image
+     * 
+     * @return The robot's image
+     */
+    private BufferedImage getRobotImage(Robot robot){
+    	String imagePath = "/View/resources/";				//Creates initial directory
+    	
+    	RobotTeam team = robotTeams[robot.getTeam()];		//Gets the robot's team
+		
+		imagePath += team.getColour().toLowerCase() + "_";	//Adds the robot's team color to the directory path
+		
+		switch(robot.getType()){							//Adds the rest of the directory path based on robot type
+		case 1:
+			imagePath += "scout.png";
+			break;
+		case 2:
+			imagePath += "sniper.png";
+			break;
+		case 3:
+			imagePath += "tank.png";
+			break;
+		}
+
+		try{												//Tries to load and return the image from the path
+			BufferedImage robotImage = ImageIO.read(getClass().getResourceAsStream(imagePath) );
+			return robotImage;
+		} catch (IOException e){							//Throws an exception if there is an error reading
+			System.err.println(e);
+		} catch (IllegalArgumentException e){				//Throws an error if the path is invalid
+			System.err.println(e);
+		}
+			
+		return null;										//Return null
+    }
+ 
 
     
     public static void main(String args[]){
@@ -252,8 +259,7 @@ public class InGameMenuPanel extends JPanel {
     	testPanel.setSize(1000, 1000);
     	testFrame.add(testPanel);
     	testPanel.setVisible(true);
-    	testPanel.remakeBoard(testBoard);
-    	testPanel.reDraw(testBoard.getHexBoard(), testBoard.getCurrentRobot(), testBoard.getHexBoard()[0][0]);
+    	testPanel.reDraw(testBoard);
     	
     	testFrame.setVisible(true);
     }

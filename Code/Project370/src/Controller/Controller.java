@@ -3,6 +3,13 @@ package Controller;
 import Model.*;
 import View.*;
 
+/**
+ * @category Controller
+ * 
+ * Handles all game logistics and operations for manipulating
+ * the game. This contains all methods for telling robots
+ * what to do, as well as spectator functions
+ */
 public class Controller {
 
 	private static Controller instance = null;
@@ -19,7 +26,7 @@ public class Controller {
     
     public InGameMenu inGameMenu;
     
-    private Controller() {
+    protected Controller() {
         gameBoard = new Board(5, 2);
         playMenu = new PlayMenu("Prepare board");
         playMenu.setVisible(false);
@@ -37,22 +44,27 @@ public class Controller {
     	return instance;
     }
     
+    /** Quits the game from the menu */
     public void M_quitGame(){
         System.exit(0);
     }
     
+    /** Pauses the game for spectators */
     public void S_pauseGame(){
         gameBoard.getSpectator().pausePlay();
     }
     
+    /** Fast forwards the game for spectators */
     public void S_fastForwardGame(){
         gameBoard.getSpectator().changeTime();
     }
 
+    /** Toggles the fog of war option for a spectator */
     public void S_fogOfWarSwitch(){
         gameBoard.getSpectator().changeFogOfWar();
     }
     
+    /** Rotates the current robot left */
     public void G_turnLeft(){
         int currentRotation = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getAbsDirection();
         if(currentRotation == 0){
@@ -61,10 +73,12 @@ public class Controller {
             gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentTeam()].setAbsDirection(currentRotation - 1);
         }
         
-        inGameMenu.gamePanel.reDraw(gameBoard.hexBoard, gameBoard.getCurrentRobot(), gameBoard.getCurrentHex());
+        inGameMenu.gamePanel.reDraw(gameBoard);
     }
     
+    /** Rotates the current robot right */
     public void G_turnRight(){
+    	
         int currentRotation = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getAbsDirection();
         if(currentRotation == 5){
             gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentTeam()].setAbsDirection(0);
@@ -73,6 +87,24 @@ public class Controller {
         }
     }
     
+    /** Ends the current robot's play */
+    public void G_endPlay(){
+    	
+    	//Each team plays their first robot, then their second, then third
+    	if(gameBoard.getCurrentTeam() >= gameBoard.getTeamAmount() - 1){
+    		gameBoard.setCurrentTeam(0);
+    		
+    		if(gameBoard.getCurrentRobot() >= 2){
+    			gameBoard.setCurrentRobot(0);
+    		} else {
+    			gameBoard.setCurrentRobot(gameBoard.getCurrentRobot() + 1);
+    		}
+    	} else {
+    		gameBoard.setCurrentTeam(gameBoard.getCurrentTeam() + 1);
+    	}
+    }
+    
+    /** Moves the current robot in it's current direction */
     public void G_Move(){
         Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()];
         int curX = curRobot.getPosition().getPositionX();
@@ -119,8 +151,8 @@ public class Controller {
             // if the robot is not on the top left side of the hex
             if(curY < gameBoard.getSize() - 1 && curX > -(gameBoard.getSize() - 1)){
                 curRobot.getPosition().removeOcc(curRobot);
-                gameBoard.getHex(curX - 1, curY - 1).addOcc(curRobot);
-                curRobot.setPosition( gameBoard.getHex(curX - 1, curY - 1));
+                gameBoard.getHex(curX - 1, curY + 1).addOcc(curRobot);
+                curRobot.setPosition( gameBoard.getHex(curX - 1, curY + 1));
                 System.out.println("Robot " + gameBoard.getCurrentRobot() + " from team " + gameBoard.getCurrentTeam() + "moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + (curY + 1) + ")");
                 return;
             }
@@ -142,7 +174,7 @@ public class Controller {
     public static void main(String[] args) {
         Controller game = new Controller();
         game.boardSize = 5;
-        game.numberOfPlayers = 2;
+        //game.numberOfPlayers = 2;
         game.gameBoard = new Board(5, 2);
 
     }

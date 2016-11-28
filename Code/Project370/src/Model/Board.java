@@ -182,9 +182,9 @@ public class Board {
     	}
     }
 
-    private LinkedList<RobotTeam> getTargetList() {
-        return targetList;
-    }
+//    private LinkedList<RobotTeam> getTargetList() {
+//        return targetList;
+//    }
     
     private void addTotargetList(Hex h) {
         targetList.addLast(h);
