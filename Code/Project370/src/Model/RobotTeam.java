@@ -2,14 +2,19 @@ package Model;
 
 public class RobotTeam {
 
+    /** Boolean value for if the robot team is human. Human => true.   AI => false. */
     boolean isHuman;
     
+    /** The array of all robots in the team. */
     Robot teamOfRobot[];
     
+    /** The colour of the team. */
     String colour;
     
+    /** The index number of the team. */
     int number;
     
+    /** Constructs a robot team given a boolean for if the team is human, the colour, and the index number of the team. */
     public RobotTeam(boolean isHmn, String teamColour, int teamNumber) {
         isHuman = isHmn;
         colour = teamColour;
@@ -20,6 +25,7 @@ public class RobotTeam {
 
     }
     
+    /** Returns the answer to the question: "Is the team still alive?"*/
     public boolean isAlive(){
         for(int i = 0; i < 3; i++){
             if(!teamOfRobot[i].isAlive()){
