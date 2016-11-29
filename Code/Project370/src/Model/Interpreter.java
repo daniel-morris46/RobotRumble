@@ -139,6 +139,7 @@ public class Interpreter {
 			if(wordMap.containsKey(currWord)){
 				
 				// runs function code
+			    
 			}
 			if(variableMap.containsKey(currWord)){
 				

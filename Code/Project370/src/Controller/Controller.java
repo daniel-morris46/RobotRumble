@@ -90,6 +90,8 @@ public class Controller {
     /** Ends the current robot's play */
     public void G_endPlay(){
     	
+        gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].setMovementCur(0);
+        
     	//Each team plays their first robot, then their second, then third
     	if(gameBoard.getCurrentTeam() >= gameBoard.getTeamAmount() - 1){
     		gameBoard.setCurrentTeam(0);
@@ -111,6 +113,19 @@ public class Controller {
         int curY = curRobot.getPosition().getPositionY();
         
         
+        if (curRobot.getMovementCur() == curRobot.getMovementMax()){
+            System.out.print(gameBoard.Teams[gameBoard.getCurrentTeam()].getColour() + " ");
+            if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 1){
+                System.out.print("Scout");
+            }else if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 2){
+                System.out.print("Sniper");
+            }else{
+                System.out.print("Tank");
+            }
+            System.out.println(" tried to move when they had no moves left."); 
+            return;
+        }
+        
         if(curRobot.getAbsDirection() == 0){
             // if the robot is not on the right side of the hex
             if(curX < gameBoard.getSize() - 1 && curX + curY < gameBoard.getSize() - 1){
@@ -126,6 +141,7 @@ public class Controller {
                     System.out.print("Tank");
                 }
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + curY + ")");
+                curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 return;
             }
         }else if(curRobot.getAbsDirection() == 1){
@@ -142,7 +158,8 @@ public class Controller {
                 }else{
                     System.out.print("Tank");
                 }
-                System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + (curY - 1) + ")");                
+                System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + (curY - 1) + ")");   
+                curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 return;
             }
         }else if(curRobot.getAbsDirection() == 2){
@@ -159,7 +176,8 @@ public class Controller {
                 }else{
                     System.out.print("Tank");
                 }
-                System.out.println(" moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY - 1) + ")");                
+                System.out.println(" moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY - 1) + ")");         
+                curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 return;
             }
         }else if(curRobot.getAbsDirection() == 3){
@@ -176,7 +194,8 @@ public class Controller {
                 }else{
                     System.out.print("Tank");
                 }
-                System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + curY + ")");                
+                System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + curY + ")");          
+                curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 return;
             }
         }else if(curRobot.getAbsDirection() == 4){
@@ -193,7 +212,8 @@ public class Controller {
                 }else{
                     System.out.print("Tank");
                 }
-                System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + (curY + 1) + ")");                
+                System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + (curY + 1) + ")");          
+                curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 return;
             }
         }else if(curRobot.getAbsDirection() == 5){
@@ -210,7 +230,8 @@ public class Controller {
                 }else{
                     System.out.print("Tank");
                 }
-                System.out.println(" moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY + 1) + ")");                
+                System.out.println(" moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY + 1) + ")");           
+                curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 return;
             }
         }
