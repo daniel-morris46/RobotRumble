@@ -117,7 +117,15 @@ public class Controller {
                 curRobot.getPosition().removeOcc(curRobot);
                 gameBoard.getHex(curX + 1, curY).addOcc(curRobot);
                 curRobot.setPosition( gameBoard.getHex(curX + 1, curY));
-                System.out.println("Robot " + gameBoard.getCurrentRobot() + " from team " + gameBoard.getCurrentTeam() + "moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + curY + ")");
+                System.out.print(gameBoard.Teams[gameBoard.getCurrentTeam()].getColour() + " ");
+                if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 1){
+                    System.out.print("Scout");
+                }else if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 2){
+                    System.out.print("Sniper");
+                }else{
+                    System.out.print("Tank");
+                }
+                System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + curY + ")");
                 return;
             }
         }else if(curRobot.getAbsDirection() == 1){
@@ -126,7 +134,15 @@ public class Controller {
                 curRobot.getPosition().removeOcc(curRobot);
                 gameBoard.getHex(curX + 1, curY - 1).addOcc(curRobot);
                 curRobot.setPosition( gameBoard.getHex(curX + 1, curY - 1));
-                System.out.println("Robot " + gameBoard.getCurrentRobot() + " from team " + gameBoard.getCurrentTeam() + "moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + (curY - 1) + ")");
+                System.out.print(gameBoard.Teams[gameBoard.getCurrentTeam()].getColour() + " ");
+                if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 1){
+                    System.out.print("Scout");
+                }else if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 2){
+                    System.out.print("Sniper");
+                }else{
+                    System.out.print("Tank");
+                }
+                System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + (curY - 1) + ")");                
                 return;
             }
         }else if(curRobot.getAbsDirection() == 2){
@@ -135,7 +151,15 @@ public class Controller {
                 curRobot.getPosition().removeOcc(curRobot);
                 gameBoard.getHex(curX, curY - 1).addOcc(curRobot);
                 curRobot.setPosition( gameBoard.getHex(curX, curY - 1));
-                System.out.println("Robot " + gameBoard.getCurrentRobot() + " from team " + gameBoard.getCurrentTeam() + "moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY - 1) + ")");
+                System.out.print(gameBoard.Teams[gameBoard.getCurrentTeam()].getColour() + " ");
+                if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 1){
+                    System.out.print("Scout");
+                }else if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 2){
+                    System.out.print("Sniper");
+                }else{
+                    System.out.print("Tank");
+                }
+                System.out.println(" moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY - 1) + ")");                
                 return;
             }
         }else if(curRobot.getAbsDirection() == 3){
@@ -144,7 +168,15 @@ public class Controller {
                 curRobot.getPosition().removeOcc(curRobot);
                 gameBoard.getHex(curX - 1, curY).addOcc(curRobot);
                 curRobot.setPosition( gameBoard.getHex(curX - 1, curY));
-                System.out.println("Robot " + gameBoard.getCurrentRobot() + " from team " + gameBoard.getCurrentTeam() + "moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + curY + ")");
+                System.out.print(gameBoard.Teams[gameBoard.getCurrentTeam()].getColour() + " ");
+                if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 1){
+                    System.out.print("Scout");
+                }else if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 2){
+                    System.out.print("Sniper");
+                }else{
+                    System.out.print("Tank");
+                }
+                System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + curY + ")");                
                 return;
             }
         }else if(curRobot.getAbsDirection() == 4){
@@ -153,7 +185,15 @@ public class Controller {
                 curRobot.getPosition().removeOcc(curRobot);
                 gameBoard.getHex(curX - 1, curY + 1).addOcc(curRobot);
                 curRobot.setPosition( gameBoard.getHex(curX - 1, curY + 1));
-                System.out.println("Robot " + gameBoard.getCurrentRobot() + " from team " + gameBoard.getCurrentTeam() + "moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + (curY + 1) + ")");
+                System.out.print(gameBoard.Teams[gameBoard.getCurrentTeam()].getColour() + " ");
+                if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 1){
+                    System.out.print("Scout");
+                }else if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 2){
+                    System.out.print("Sniper");
+                }else{
+                    System.out.print("Tank");
+                }
+                System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + (curY + 1) + ")");                
                 return;
             }
         }else if(curRobot.getAbsDirection() == 5){
@@ -162,13 +202,28 @@ public class Controller {
                 curRobot.getPosition().removeOcc(curRobot);
                 gameBoard.getHex(curX, curY + 1).addOcc(curRobot);
                 curRobot.setPosition( gameBoard.getHex(curX, curY + 1));
-                System.out.println("Robot " + gameBoard.getCurrentRobot() + " from team " + gameBoard.getCurrentTeam() + "moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY + 1) + ")");
+                System.out.print(gameBoard.Teams[gameBoard.getCurrentTeam()].getColour() + " ");
+                if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 1){
+                    System.out.print("Scout");
+                }else if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 2){
+                    System.out.print("Sniper");
+                }else{
+                    System.out.print("Tank");
+                }
+                System.out.println(" moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY + 1) + ")");                
                 return;
             }
         }
         //if the robot did not move
-        System.out.println("Robot " + gameBoard.getCurrentRobot() + " from team " + gameBoard.getCurrentTeam() + "tried to move off of the board.");
-        
+        System.out.print(gameBoard.Teams[gameBoard.getCurrentTeam()].getColour() + " ");
+        if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 1){
+            System.out.print("Scout");
+        }else if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 2){
+            System.out.print("Sniper");
+        }else{
+            System.out.print("Tank");
+        }
+        System.out.println(" tried to move off of the board.");         
     }
     
     public static void main(String[] args) {
