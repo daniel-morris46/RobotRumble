@@ -162,6 +162,11 @@ public class InGameMenuPanel extends JPanel {
 	 */
 	private void drawRobot(Robot toDraw, Graphics2D g){
 		Hex robotHex = toDraw.getPosition();
+		
+		if(robotHex.getColour() == Color.GRAY){						//If the robot is on a hex hidden by fog of war
+			return;													//Do not draw the robot
+		}
+		
     	int y = (robotHex.getPositionY() + boardSize) * (s + t);	//Accounts for the board coordinate offset and centers Y
     																//Accounts for the board coordinate offset and centers X
     	int x = (robotHex.getPositionX() + boardSize) * h + (robotHex.getPositionY() + boardSize) * (h / 2);
