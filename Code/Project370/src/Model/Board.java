@@ -1,5 +1,6 @@
 package Model;
 
+import java.awt.Color;
 import java.util.*;
 
 public class Board {
@@ -26,7 +27,7 @@ public class Board {
     Spectator spect;
     
     /**The array of colours assigned to each robot team.*/
-    String[] colourList;
+    //Color[] colourList;
     
     /**The index of the current target in the target list.*/
     int currentTarget;
@@ -39,14 +40,12 @@ public class Board {
 
     /** @public Constructs a game board of a given size and number of players. */
     public Board(int boardSize, int numberOfTeams){
-        this(boardSize, numberOfTeams, new String[] {"Red", "Orange", "Yellow", "Green", "Blue", "Purple"});
-        colourList = new String[] {"Red", "Orange", "Yellow", "Green", "Blue", "Purple"};
+        this(boardSize, numberOfTeams, new Color[] {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.magenta});
     }
     
     /** @public Constructs a game board given a size and number of players. */
-    public Board(int boardSize, int numberOfTeams, String inputColourList[]) {
+    public Board(int boardSize, int numberOfTeams, Color inputColourList[]) {
         //colourList = new String[] {"Red", "Orange", "Yellow", "Green", "Blue", "Purple"};
-        colourList = inputColourList;
         currentTeam = 0;
         currentRobot = 0;
         size = boardSize;
@@ -55,7 +54,7 @@ public class Board {
         Teams = new RobotTeam[numberOfTeams];
         targetList = new LinkedList<Hex>();
         for(int i = 0; i < numberOfTeams; i++){
-            Teams[i] = new RobotTeam(true, colourList[i], i);
+            Teams[i] = new RobotTeam(true, inputColourList[i], i);
         }
         
         
@@ -79,14 +78,13 @@ public class Board {
                 Teams[0].teamOfRobot[i].setPosition(this.getHex(-(boardSize - 1), 0));
                 Teams[1].teamOfRobot[i].setPosition(this.getHex(0, boardSize -1));
                 Teams[2].teamOfRobot[i].setPosition(this.getHex(boardSize - 1, -(boardSize - 1)));
-            }else if(numberOfTeams == 7){
+            }else if(numberOfTeams == 6){
                 Teams[0].teamOfRobot[i].setPosition(this.getHex(-(boardSize - 1), 0));
                 Teams[1].teamOfRobot[i].setPosition(this.getHex(-(boardSize - 1), boardSize -1));
                 Teams[2].teamOfRobot[i].setPosition(this.getHex(0, boardSize - 1));
                 Teams[3].teamOfRobot[i].setPosition(this.getHex(boardSize - 1, 0));
                 Teams[4].teamOfRobot[i].setPosition(this.getHex(boardSize - 1, -(boardSize -1)));
-                Teams[5].teamOfRobot[i].setPosition(this.getHex(boardSize - 1, -(boardSize - 1)));
-                Teams[6].teamOfRobot[i].setPosition(this.getHex(0, -(boardSize - 1)));            
+                Teams[5].teamOfRobot[i].setPosition(this.getHex(0, -(boardSize - 1)));
             }
         }
         
@@ -163,9 +161,9 @@ public class Board {
         return spect;
     }
 
-    public String[] getColourList() {
-        return colourList;
-    }
+//    public Color[] getColourList() {
+//        return colourList;
+//    }
 
     public void setTargetList(LinkedList<Hex> targetList) {
         this.targetList = targetList;
@@ -260,7 +258,7 @@ public class Board {
 
 
     public static void main(String[] args) {
-        String[] testColourList = new String[] {"Red", "Orange", "Yellow", "Green", "Blue", "Purple"};
+        Color[] testColourList = new Color[] {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.magenta};
         Board myBoard = new Board(5, 2, testColourList);
         for(int i = -4; i <= 4; i++){
             for(int j = -4; j < 4; j++){

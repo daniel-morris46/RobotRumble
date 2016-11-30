@@ -1,5 +1,7 @@
 package Model;
 
+import java.awt.Color;
+
 public class RobotTeam {
 
     /** Boolean value for if the robot team is human. Human => true.   AI => false. */
@@ -9,13 +11,13 @@ public class RobotTeam {
     Robot teamOfRobot[];
     
     /** The colour of the team. */
-    String colour;
+    Color colour;
     
     /** The index number of the team. */
     int number;
     
     /** Constructs a robot team given a boolean for if the team is human, the colour, and the index number of the team. */
-    public RobotTeam(boolean isHmn, String teamColour, int teamNumber) {
+    public RobotTeam(boolean isHmn, Color teamColour, int teamNumber) {
         isHuman = isHmn;
         colour = teamColour;
         teamOfRobot = new Robot[3];
@@ -51,11 +53,11 @@ public class RobotTeam {
         this.teamOfRobot = teamOfRobot;
     }
 
-    public String getColour() {
+    public Color getColour() {
         return colour;
     }
 
-    public void setColour(String colour) {
+    public void setColour(Color colour) {
         this.colour = colour;
     }
 

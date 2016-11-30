@@ -1,5 +1,6 @@
 package Model;
 
+import java.awt.Color;
 import java.util.LinkedList;
 
 public class Hex {
@@ -10,6 +11,9 @@ public class Hex {
     /** The y coordinate of the hex.*/
     int positionY;
     
+    /** The current colour of the hex. */
+    Color colour;
+    
     /** The list of robots currently on the hex. */
     LinkedList<Robot> listOfOccupants;
     
@@ -19,9 +23,18 @@ public class Hex {
         positionX = x;
         positionY = y; 
         listOfOccupants = new LinkedList<Robot>();
+        colour = Color.white;
         
     }
     
+    public Color getColour() {
+        return colour;
+    }
+
+    public void setColour(Color colour) {
+        this.colour = colour;
+    }
+
     public void addOcc(Robot r){
         listOfOccupants.add(r);
     }

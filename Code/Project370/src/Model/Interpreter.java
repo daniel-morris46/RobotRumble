@@ -1,5 +1,6 @@
 package Model;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
@@ -159,7 +160,8 @@ public class Interpreter {
 	}
 
 	public static void main(String[] args) {
-        // TODO Auto-generated method stub
+        Color test = Color.red;
+        System.out.println(test.red);
 
     }
 }

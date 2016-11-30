@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Controller.Controller;
 import Model.Board;
 import Model.Hex;
 import Model.Robot;
@@ -142,7 +143,13 @@ public class InGameMenuPanel extends JPanel {
 		else if (x == boardSize * 2 - 1 && y == boardSize)	//South-East side is blue
 			color = Color.blue;
 		
-		return color;
+	    return color;
+//	    System.out.println("X: " + x + ", Y: " + y);
+//	    if(x < Controller.getInstance().gameBoard.hexBoard.length && y < Controller.getInstance().gameBoard.hexBoard[0].length){
+//	        return Controller.getInstance().gameBoard.hexBoard[x][y].getColour();
+//	    }else{
+//	        return Color.white;
+//	    }
 	}
 	
 	/**
@@ -221,7 +228,21 @@ public class InGameMenuPanel extends JPanel {
     	
     	RobotTeam team = robotTeams[robot.getTeam()];		//Gets the robot's team
 		
-		imagePath += team.getColour().toLowerCase() + "_";	//Adds the robot's team color to the directory path
+    	if(team.getColour() == Color.red){
+            imagePath += "red_";
+    	}else if(team.getColour() == Color.orange){
+            imagePath += "orange_";
+        }else if(team.getColour() == Color.yellow){
+            imagePath += "yellow_";
+        }else if(team.getColour() == Color.green){
+            imagePath += "green_";
+        }else if(team.getColour() == Color.blue){
+            imagePath += "blue_";
+        }else if(team.getColour() == Color.magenta){
+            imagePath += "magenta_";
+        }
+    	
+		//imagePath += team.getColour().toLowerCase() + "_";	//Adds the robot's team color to the directory path
 		
 		switch(robot.getType()){							//Adds the rest of the directory path based on robot type
 		case 1:

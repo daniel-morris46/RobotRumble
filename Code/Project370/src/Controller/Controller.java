@@ -72,6 +72,15 @@ public class Controller {
         }else{
             gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].setAbsDirection(currentRotation - 1);
         }
+        System.out.print(gameBoard.Teams[gameBoard.getCurrentTeam()].getColour() + " ");
+        if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 1){
+            System.out.print("Scout");
+        }else if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 2){
+            System.out.print("Sniper");
+        }else{
+            System.out.print("Tank");
+        }
+        System.out.println(" turned left.");
         
         inGameMenu.gamePanel.reDraw(gameBoard);
     }
@@ -85,6 +94,18 @@ public class Controller {
         }else{
             gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].setAbsDirection(currentRotation + 1);
         }
+        System.out.print(gameBoard.Teams[gameBoard.getCurrentTeam()].getColour() + " ");
+        if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 1){
+            System.out.print("Scout");
+        }else if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 2){
+            System.out.print("Sniper");
+        }else{
+            System.out.print("Tank");
+        }
+        System.out.println(" turned right.");
+        
+        inGameMenu.gamePanel.reDraw(gameBoard);
+
     }
     
     /** Ends the current robot's play */
@@ -104,6 +125,7 @@ public class Controller {
     	} else {
     		gameBoard.setCurrentTeam(gameBoard.getCurrentTeam() + 1);
     	}
+    	
     }
     
     /** Moves the current robot in it's current direction */
