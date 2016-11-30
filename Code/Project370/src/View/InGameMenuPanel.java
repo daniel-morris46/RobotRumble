@@ -143,8 +143,9 @@ public class InGameMenuPanel extends JPanel {
 		else if (x == boardSize * 2 - 1 && y == boardSize)	//South-East side is blue
 			color = Color.blue;
 		
-	    return color;
-//	    System.out.println("X: " + x + ", Y: " + y);
+        return Controller.getInstance().gameBoard.hexBoard[x-1][y-1].getColour();
+
+	    //return color;
 //	    if(x < Controller.getInstance().gameBoard.hexBoard.length && y < Controller.getInstance().gameBoard.hexBoard[0].length){
 //	        return Controller.getInstance().gameBoard.hexBoard[x][y].getColour();
 //	    }else{

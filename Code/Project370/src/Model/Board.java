@@ -69,15 +69,22 @@ public class Board {
             }
         }
         
-        // for setting the starting locations of the robots
+        // for setting the starting locations of the robots and the colours for the starting hexs
         for(int i = 0; i < 3; i++){
             if(numberOfTeams == 2){
                 Teams[0].teamOfRobot[i].setPosition(this.getHex(-(boardSize - 1), 0));
                 Teams[1].teamOfRobot[i].setPosition(this.getHex(boardSize - 1, 0));
+                
+                this.getHex(-(boardSize - 1), 0).setColour(Teams[0].getColour());
+                this.getHex(boardSize - 1, 0).setColour(Teams[1].getColour());
             }else if(numberOfTeams == 3){
                 Teams[0].teamOfRobot[i].setPosition(this.getHex(-(boardSize - 1), 0));
                 Teams[1].teamOfRobot[i].setPosition(this.getHex(0, boardSize -1));
                 Teams[2].teamOfRobot[i].setPosition(this.getHex(boardSize - 1, -(boardSize - 1)));
+                
+                this.getHex(-(boardSize - 1), 0).setColour(Teams[0].getColour());
+                this.getHex(0, boardSize -1).setColour(Teams[1].getColour());
+                this.getHex(boardSize - 1, -(boardSize - 1)).setColour(Teams[2].getColour());
             }else if(numberOfTeams == 6){
                 Teams[0].teamOfRobot[i].setPosition(this.getHex(-(boardSize - 1), 0));
                 Teams[1].teamOfRobot[i].setPosition(this.getHex(-(boardSize - 1), boardSize -1));
@@ -85,6 +92,15 @@ public class Board {
                 Teams[3].teamOfRobot[i].setPosition(this.getHex(boardSize - 1, 0));
                 Teams[4].teamOfRobot[i].setPosition(this.getHex(boardSize - 1, -(boardSize -1)));
                 Teams[5].teamOfRobot[i].setPosition(this.getHex(0, -(boardSize - 1)));
+                
+//                this.getHex(-(boardSize - 1), 0).setColour(Teams[0].getColour());
+//                this.getHex(-(boardSize - 1), boardSize -1).setColour(Teams[1].getColour());
+//                this.getHex(0, boardSize - 1).setColour(Teams[2].getColour());
+//                this.getHex(boardSize - 1, 0).setColour(Teams[3].getColour());
+//                this.getHex(-boardSize - 1, -(boardSize -1)).setColour(Teams[4].getColour());
+//                this.getHex(0, -(boardSize - 1)).setColour(Teams[5].getColour());
+                
+                
             }
         }
         
