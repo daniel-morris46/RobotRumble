@@ -96,7 +96,7 @@ public class InGameMenuPanel extends JPanel {
 					
 					if(currentHexes[i][j] != null)					//If hex[i][j] exists
 																	//Draw the hex and add the board size to account for coordinate offset
-						drawHex(currentHexes[i][j].getPositionX() + boardSize, currentHexes[i][j].getPositionY() + boardSize, g2);
+						drawHex(currentHexes[i][j], g2);
 				}
 			}
 			
@@ -118,7 +118,6 @@ public class InGameMenuPanel extends JPanel {
 		
 		repaint();								//Repaint the board
 	}
-	
 	/**
 	 * Gets the current hex color to draw based on the board size
 	 * 
@@ -128,52 +127,30 @@ public class InGameMenuPanel extends JPanel {
 	 * @return The color to paint the hex
 	 */
 	private Color hexColor(int x, int y){
-		Color color = Color.white;							//Default hex is white
-		                                //CHECK FOR WEIRD OFFSET
-		if(x == boardSize && y == 1)						//West side is red
-			color = Color.red;
-		else if(x == 1 && y == boardSize)					//North-West side is orange
-			color = Color.orange;
-		else if (x == 1 && y == boardSize * 2 - 1)			//North-East side is yellow
-			color = Color.yellow;
-		else if (x == boardSize && y == boardSize * 2 - 1)	//East side is green
-			color = Color.green;
-		else if (x == boardSize * 2 - 1 && y == 1)			//South-West side is purple
-			color = Color.MAGENTA;
-		else if (x == boardSize * 2 - 1 && y == boardSize)	//South-East side is blue
-			color = Color.blue;
-		
         return Controller.getInstance().gameBoard.hexBoard[x-1][y-1].getColour();
-
-	    //return color;
-//	    if(x < Controller.getInstance().gameBoard.hexBoard.length && y < Controller.getInstance().gameBoard.hexBoard[0].length){
-//	        return Controller.getInstance().gameBoard.hexBoard[x][y].getColour();
-//	    }else{
-//	        return Color.white;
-//	    }
 	}
 	
 	/**
 	 * Private function for drawing a hexagon on a Graphics2D object
 	 * 
-	 * @param i The array x-position of the hexagon
-	 * @param j The array y-position of the hexagon
+	 * The hex to draw
 	 * @param g The Graphics2D to draw on
 	 */
-	private void drawHex(int i, int j, Graphics2D g){
+	private void drawHex(Hex hex, Graphics2D g){
 			//Graphics2D g = (Graphics2D) getGraphics();
 			
-	    	int y = i * (s + t);                    
-	    	int x = j * h + i * (h / 2);
-	    	Polygon poly = createHex(x, y);         //CHANGE THIS
+			int y = (hex.getPositionY() + boardSize) * (s + t);		//Get x and y coordinates to draw at
+			int x = (hex.getPositionX() + boardSize) * h + (hex.getPositionY() + boardSize) * (h / 2);
+			
+	    	Polygon poly = createHex(x, y);							//Create the polygon for the hex
+	    															//Set the color of the hex accounting for hex offset
+	    	g.setColor(hexColor(hex.getPositionX() + boardSize, hex.getPositionY() + boardSize));
 	    	
-	    	g.setColor(hexColor(i, j));
+	    	g.fillPolygon(poly);									//Fill the polygon
 	    	
-	    	g.fillPolygon(poly);
+	    	g.setColor(Color.black);								//Set color to black
 	    	
-	    	g.setColor(Color.BLACK);
-	    	
-	    	g.drawPolygon(poly);
+	    	g.drawPolygon(poly);									//Outline Polygon
 
 	}
 	
