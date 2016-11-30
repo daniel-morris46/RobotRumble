@@ -1,5 +1,6 @@
 package View;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -154,11 +155,44 @@ public class PlayMenu extends JFrame {
     private class BeginListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		//TELL BOARD TO CREATE GAME USING INPUTTED PARAMETERS
-    		Board newBoard = new Board(boardSize, numPlayers);
+    		Board newBoard = new Board(boardSize, numPlayers, parseColors());
     		Controller.getInstance().gameBoard = newBoard;
     		Controller.getInstance().inGameMenu = new InGameMenu(newBoard);
     		setVisible(false);
     	}
+    }
+    
+    /** Parses the colors from active combo boxes and returns the color list */
+    private Color[] parseColors(){
+    	Color[] colors = new Color[numPlayers];
+    	
+    	String curString = "";
+    	for(int i = 0; i < numPlayers; i++){
+    		curString = playerColors[i].getSelectedItem().toString();
+    			
+    		switch(curString){
+	    		case "Red":
+	    			colors[i] = Color.RED;
+	    			break;
+	    		case "Orange":
+	    			colors[i] = Color.ORANGE;
+	    			break;
+	    		case "Yellow":
+	    			colors[i] = Color.YELLOW;
+	    			break;
+	    		case "Green":
+	    			colors[i] = Color.GREEN;
+	    			break;
+	    		case "Blue":
+	    			colors[i] = Color.BLUE;
+	    			break;
+	    		case "Purple":
+	    			colors[i] = Color.MAGENTA;
+	    			break;
+    		}
+    	}
+    	
+    	return colors;
     }
     
     /** The action listener for the five player radio button
