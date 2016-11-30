@@ -102,6 +102,10 @@ public class Board {
                 
                 
             }
+            
+            
+            //setting the fog of war
+            this.updateHexColours();
         }
         
      // for setting the starting rotations of the robots
@@ -271,7 +275,78 @@ public class Board {
     private void clearTargetlist() {
         targetList.removeAll(targetList);
     }
-
+    
+    public void updateHexColours() {
+        
+        
+        
+        int isInRangeCounter = 0;
+        
+        for(int x = -(getSize() - 1); x < getSize(); x++){
+            for(int y = -(getSize() - 1); y < getSize(); y++){
+                if(getHex(x, y) != null){
+                    
+                    for(int i = 0; i < 3; i++){
+                        if(isOutOfRange(getHex(x, y), this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[i].getPosition(), this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[i].getRange())){
+                            isInRangeCounter += 1;
+                        }
+                    }
+                    
+                    if(isInRangeCounter == 3){
+                        getHex(x, y).setColour(Color.gray);
+                    }else{
+                        getHex(x, y).setColour(Color.white);
+                    }
+                    
+                    isInRangeCounter = 0;
+                
+                    
+                }
+            }
+        }
+                
+    }
+    
+    /** Returns true if hex1 is out of range of hex2 given the specified range. */
+    private boolean isOutOfRange(Hex hex1, Hex hex2, int range) {
+        //LinkedList<Hex> rangeList = new LinkedList<Hex>();
+        
+        
+        if(hex2.getPositionX() < hex1.getPositionX() + (range + 1) && hex2.getPositionX() > hex1.getPositionX() - (range + 1)){
+            if(hex2.getPositionY() < hex1.getPositionY() + (range + 1) && hex2.getPositionY() > hex1.getPositionY() - (range + 1)){
+                if(hex2.getPositionX() + hex2.getPositionY() > (hex1.getPositionX() + hex1.getPositionY() + -(range+1)) && hex2.getPositionX() + hex2.getPositionY() < (hex1.getPositionX() + hex1.getPositionY() + range+1)){
+                    //System.out.println("Hex: (" + hex1.getPositionX() + ", " + hex1.getPositionY() + ") is  in range of (" + hex2.getPositionX() + ", " + hex2.getPositionY() + ")");
+                    return false;
+                    
+                }
+            }
+        }
+        return true;
+        
+        
+//        //looping through every hex on the board
+//        for (int y = size-1; y >= -(size-1); y--) {
+//            for (int x = -(size-1); x <= size-1; x++) {
+//                //checking if that hex is within range
+//                if (x < hex1.getPositionX() + (range + 1) && x > hex1.getPositionX() - (range + 1) && y < hex1.getPositionY() + (range + 1) && y > hex1.getPositionY() - (range + 1)) {
+//                    //additional check to see if the hex is within range
+//                    if(x + y > -(range+1) && x + y < (range+1)){          
+//
+//                            rangeList.add(getHex(x, y));
+//                            System.out.println("HELLO");
+//                        
+//                    }
+//                }
+//            }
+//        }
+//        if(rangeList.contains(hex2)){
+//            rangeList.clear();
+//            return false;
+//        }else{
+//            rangeList.clear();
+//            return true;
+//        }
+    }
 
     public static void main(String[] args) {
         Color[] testColourList = new Color[] {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.magenta};
@@ -329,4 +404,6 @@ public class Board {
         System.out.println(myBoard.getHex(1, 3).listOfOccupants.getFirst().getHealth());
         
     }
+
+    
 }

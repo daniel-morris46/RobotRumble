@@ -58,5 +58,6 @@ public class Hex {
         return "(" + positionX + "," + positionY + ")";
     }
 
+
 }
 

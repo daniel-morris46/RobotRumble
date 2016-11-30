@@ -125,6 +125,7 @@ public class Controller {
     	} else {
     		gameBoard.setCurrentTeam(gameBoard.getCurrentTeam() + 1);
     	}
+        gameBoard.updateHexColours();
     	
     }
     
@@ -164,6 +165,7 @@ public class Controller {
                 }
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + curY + ")");
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
+                gameBoard.updateHexColours();
                 return;
             }
         }else if(curRobot.getAbsDirection() == 1){
@@ -182,6 +184,7 @@ public class Controller {
                 }
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + (curY - 1) + ")");   
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
+                gameBoard.updateHexColours();
                 return;
             }
         }else if(curRobot.getAbsDirection() == 2){
@@ -200,6 +203,7 @@ public class Controller {
                 }
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY - 1) + ")");         
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
+                gameBoard.updateHexColours();
                 return;
             }
         }else if(curRobot.getAbsDirection() == 3){
@@ -218,6 +222,7 @@ public class Controller {
                 }
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + curY + ")");          
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
+                gameBoard.updateHexColours();
                 return;
             }
         }else if(curRobot.getAbsDirection() == 4){
@@ -236,6 +241,7 @@ public class Controller {
                 }
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + (curY + 1) + ")");          
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
+                gameBoard.updateHexColours();
                 return;
             }
         }else if(curRobot.getAbsDirection() == 5){
@@ -254,6 +260,7 @@ public class Controller {
                 }
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY + 1) + ")");           
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
+                gameBoard.updateHexColours();
                 return;
             }
         }

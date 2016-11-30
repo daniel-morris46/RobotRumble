@@ -163,6 +163,7 @@ public class InGameMenu extends JFrame{
 	private class EndPlayButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		Controller.getInstance().G_endPlay();
+            gamePanel.repaint();
     	}
 	}
     
