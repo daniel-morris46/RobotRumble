@@ -222,7 +222,7 @@ public class InGameMenuPanel extends JPanel {
         }else if(team.getColour() == Color.blue){
             imagePath += "blue_";
         }else if(team.getColour() == Color.magenta){
-            imagePath += "magenta_";
+            imagePath += "purple_";
         }
     	
 		//imagePath += team.getColour().toLowerCase() + "_";	//Adds the robot's team color to the directory path
