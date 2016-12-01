@@ -293,7 +293,7 @@ public class Board {
         targetList.addLast(h);
     }
     
-    private void clearTargetlist() {
+    public void clearTargetlist() {
         targetList.removeAll(targetList);
     }
     
@@ -406,8 +406,11 @@ public class Board {
     }
     
     public void updateTargetColours(Board board) {
+    	updateHexColours();
+    	for (int i = 0; i < targetList.size(); i++) {
+    		targetList.get(i).setColour(Color.yellow);
+    	}
     	if (!targetList.isEmpty() && !board.gameMode) {
-	    	updateHexColours();
 	    	board.currentHex.setColour(Color.red);
 	    }
     }
