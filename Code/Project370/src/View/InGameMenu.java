@@ -110,10 +110,14 @@ public class InGameMenu extends JFrame{
     		if(actionToggle == true){
     			actionToggle = false;
     			actionButton.setText("Shoot");
+    			Controller.getInstance().G_ToggleShooting();
     		} else {
     			actionToggle = true;
     			actionButton.setText("Move");
+                Controller.getInstance().G_ToggleMoving();
+
     		}
+    		gamePanel.repaint();
     	}
     }
 	
@@ -162,7 +166,10 @@ public class InGameMenu extends JFrame{
 	/** Tells the controller to end the current play */
 	private class EndPlayButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
+    	    actionToggle = true;
+            actionButton.setText("Move");
     		Controller.getInstance().G_endPlay();
+    		Controller.getInstance().G_ToggleMoving();
             gamePanel.repaint();
     	}
 	}
