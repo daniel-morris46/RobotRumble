@@ -110,14 +110,12 @@ public class InGameMenu extends JFrame{
     		if(actionToggle == true){
     			actionToggle = false;
     			actionButton.setText("Shoot");
-    			Controller.getInstance().G_ToggleShooting();
+    			Controller.getInstance().G_ShootMode();
     		} else {
     			actionToggle = true;
     			actionButton.setText("Move");
-                Controller.getInstance().G_ToggleMoving();
-
+    			Controller.getInstance().G_MoveMode();
     		}
-    		gamePanel.repaint();
     	}
     }
 	
@@ -156,6 +154,7 @@ public class InGameMenu extends JFrame{
     		if(actionToggle == true){				//MOVING
     			Controller.getInstance().G_Move();
     		} else {													//ATTACKING
+    			Controller.getInstance().G_Attack();
     			//TELL CONTROLLER TO ATTACK THE CURRENT TARGET HEX
     		}
     		
@@ -166,10 +165,7 @@ public class InGameMenu extends JFrame{
 	/** Tells the controller to end the current play */
 	private class EndPlayButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
-    	    actionToggle = true;
-            actionButton.setText("Move");
     		Controller.getInstance().G_endPlay();
-    		Controller.getInstance().G_ToggleMoving();
             gamePanel.repaint();
     	}
 	}
