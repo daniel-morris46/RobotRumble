@@ -347,6 +347,40 @@ public class Board {
 //            return true;
 //        }
     }
+    
+    public void updateMovementColours(Robot curRobot, int x, int y, Board board) {
+    	 if(curRobot.getAbsDirection() == 0){ 
+    		 updateHexColours();
+    		 if (!isOutOfRange(curRobot.position, board.getHex(x + 1, y), 1)) {
+    			 board.getHex(x + 1, y).setColour(Color.green); 
+    		 }
+         } else if (curRobot.getAbsDirection() == 1){
+        	 updateHexColours();
+        	 if (!isOutOfRange(curRobot.position, board.getHex(x + 1, y - 1), 1)) {
+        	 board.getHex(x + 1, y - 1).setColour(Color.green);
+        	 }
+         } else if (curRobot.getAbsDirection() == 2){
+        	 updateHexColours();
+        	 if (!isOutOfRange(curRobot.position, board.getHex(x, y - 1), 1)) {
+        	 board.getHex(x, y - 1).setColour(Color.green);
+        	 }
+         } else if (curRobot.getAbsDirection() == 3){
+        	 updateHexColours();
+        	 if (!isOutOfRange(curRobot.position, board.getHex(x - 1, y), 1)) {
+        	 board.getHex(x - 1, y).setColour(Color.green);
+        	 }
+         } else if (curRobot.getAbsDirection() == 4){
+        	 updateHexColours();
+        	 if (!isOutOfRange(curRobot.position, board.getHex(x - 1, y + 1), 1)) {
+        	 board.getHex(x - 1, y + 1).setColour(Color.green);
+        	 }
+         } else if (curRobot.getAbsDirection() == 5){
+        	 updateHexColours();
+        	 if (!isOutOfRange(curRobot.position, board.getHex(x, y + 1), 1)) {
+        	 board.getHex(x, y + 1).setColour(Color.green);
+        	 }
+         }
+    }
 
     public static void main(String[] args) {
         Color[] testColourList = new Color[] {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.magenta};
