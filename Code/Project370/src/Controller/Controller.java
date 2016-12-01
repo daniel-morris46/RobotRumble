@@ -151,6 +151,7 @@ public class Controller {
         int curY = curRobot.getPosition().getPositionY();
     	
         gameBoard.updateHexColours();
+        gameBoard.clearTargetlist();
         gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
     	
     }
