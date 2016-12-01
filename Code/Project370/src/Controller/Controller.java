@@ -1,5 +1,7 @@
 package Controller;
 
+import java.awt.Color;
+
 import Model.*;
 import View.*;
 
@@ -66,6 +68,10 @@ public class Controller {
     
     /** Rotates the current robot left */
     public void G_turnLeft(){
+    	Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()];
+        int curX = curRobot.getPosition().getPositionX();
+        int curY = curRobot.getPosition().getPositionY();
+        
         int currentRotation = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getAbsDirection();
         if(currentRotation == 0){
             gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].setAbsDirection(5);
@@ -82,12 +88,16 @@ public class Controller {
         }
         System.out.println(" turned left.");
         
+        gameBoard.updateMovementColours(curRobot, curX, curY, gameBoard);
         inGameMenu.gamePanel.reDraw(gameBoard);
     }
     
     /** Rotates the current robot right */
     public void G_turnRight(){
-    	
+    	Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()];
+        int curX = curRobot.getPosition().getPositionX();
+        int curY = curRobot.getPosition().getPositionY();
+        
         int currentRotation = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getAbsDirection();
         if(currentRotation == 5){
             gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].setAbsDirection(0);
@@ -104,13 +114,14 @@ public class Controller {
         }
         System.out.println(" turned right.");
         
+        gameBoard.updateMovementColours(curRobot, curX, curY, gameBoard);
         inGameMenu.gamePanel.reDraw(gameBoard);
 
     }
     
     /** Ends the current robot's play */
     public void G_endPlay(){
-    	
+        
         gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].setMovementCur(0);
         
     	//Each team plays their first robot, then their second, then third
@@ -125,7 +136,13 @@ public class Controller {
     	} else {
     		gameBoard.setCurrentTeam(gameBoard.getCurrentTeam() + 1);
     	}
+    	
+    	Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()];
+        int curX = curRobot.getPosition().getPositionX();
+        int curY = curRobot.getPosition().getPositionY();
+    	
         gameBoard.updateHexColours();
+        gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
     	
     }
     
@@ -166,6 +183,7 @@ public class Controller {
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + curY + ")");
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 gameBoard.updateHexColours();
+                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
                 return;
             }
         }else if(curRobot.getAbsDirection() == 1){
@@ -185,6 +203,7 @@ public class Controller {
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + (curY - 1) + ")");   
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 gameBoard.updateHexColours();
+                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
                 return;
             }
         }else if(curRobot.getAbsDirection() == 2){
@@ -204,6 +223,7 @@ public class Controller {
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY - 1) + ")");         
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 gameBoard.updateHexColours();
+                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
                 return;
             }
         }else if(curRobot.getAbsDirection() == 3){
@@ -223,6 +243,7 @@ public class Controller {
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + curY + ")");          
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 gameBoard.updateHexColours();
+                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
                 return;
             }
         }else if(curRobot.getAbsDirection() == 4){
@@ -242,6 +263,7 @@ public class Controller {
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + (curY + 1) + ")");          
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 gameBoard.updateHexColours();
+                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
                 return;
             }
         }else if(curRobot.getAbsDirection() == 5){
@@ -261,9 +283,10 @@ public class Controller {
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY + 1) + ")");           
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 gameBoard.updateHexColours();
+                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
                 return;
             }
-        }
+        }        
         //if the robot did not move
         System.out.print(gameBoard.Teams[gameBoard.getCurrentTeam()].getColour() + " ");
         if(gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].getType() == 1){
