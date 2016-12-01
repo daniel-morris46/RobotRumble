@@ -17,7 +17,6 @@ public class Board {
     /**The index of the current robot.*/
     int currentRobot;
     
-    
     /**The side length of the board.*/
     int size;
     
@@ -39,10 +38,9 @@ public class Board {
     /**The current selected hex on the board.*/
     Hex currentHex;
     
-    /**The toggle between shooting and moving. If true the player is shooting. */
-    private boolean isShooting;
+    boolean gameMode = true;
 
-    /** @public Constructs a game board of a given size and number of players. */
+	/** @public Constructs a game board of a given size and number of players. */
     public Board(int boardSize, int numberOfTeams){
         this(boardSize, numberOfTeams, new Color[] {Color.red, Color.orange, Color.yellow, Color.green, Color.blue, Color.magenta});
     }
@@ -50,7 +48,6 @@ public class Board {
     /** @public Constructs a game board given a size and number of players. */
     public Board(int boardSize, int numberOfTeams, Color inputColourList[]) {
         //colourList = new String[] {"Red", "Orange", "Yellow", "Green", "Blue", "Purple"};
-        isShooting = false;
         currentTeam = 0;
         currentRobot = 0;
         size = boardSize;
@@ -110,10 +107,7 @@ public class Board {
             
             
             //setting the fog of war
-            updateHexColours();
-            
-            //setting the movement colours
-            //updateMovementColours(this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[this.getCurrentRobot()], this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[this.getCurrentRobot()].getPosition().getPositionX(), this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[this.getCurrentRobot()].getPosition().getPositionX(), this);
+            this.updateHexColours();
         }
         
      // for setting the starting rotations of the robots
@@ -210,6 +204,15 @@ public class Board {
         
   
     }
+    
+    public boolean isGameMode() {
+		return gameMode;
+	}
+
+	public void setGameMode(boolean gameMode) {
+		this.gameMode = gameMode;
+		updateHexColours();
+	}
     /**
      * Searches a certain range around a given hex for robots. The targetList of the board will be set
      * to the list of robots that the search finds.
@@ -250,51 +253,32 @@ public class Board {
         h.removeOcc(r);
     }
 
-    public void toggleShooting(){
-            System.out.println("Toggled to shoot");
-            this.isShooting = true;
-            this.updateHexColours();
-            this.updateMovementColours();
-        
-    }
-    
-    public boolean getIsShooting() {
-        return isShooting;
-    }
-    
-    public void toggleMoving() {
-            this.isShooting = false;
-            this.updateHexColours();
-            this.updateMovementColours();
-    }
-    
     public void damageHex(Hex h, int damage) {
         for (int i = 0; i < h.listOfOccupants.size(); i ++ ) {
             h.listOfOccupants.get(i).setHealth(h.listOfOccupants.get(i).getHealth() - damage);
         }
     }
     
-    private void firstRobot() {
-        currentHex = targetList.getFirst();
+    public  void firstRobot() {
+    	if (!targetList.isEmpty()) {
+    		currentHex = targetList.getFirst();
+    	}
     }
 
-    public void nextRobot() {
-    	if(targetList.indexOf(currentHex) != targetList.indexOf(targetList.getLast())){
-            currentHex = targetList.get(targetList.indexOf(currentHex) + 1);
-    	}else{
-    	    currentHex = targetList.getFirst();
+    public  void nextRobot() {
+    	if (!targetList.isEmpty()) {
+	    	if(targetList.indexOf(currentHex) != targetList.indexOf(targetList.getLast())){
+	            currentHex = targetList.get(targetList.indexOf(currentHex) + 1);
+	    	}
     	}
-        this.updateHexColours();
     }
-    
 
-    public void prevRobot() {
-    	if(targetList.indexOf(currentHex) != 0){
-            currentHex = targetList.get(targetList.indexOf(currentHex) - 1);
-    	}else{
-    	    currentHex = targetList.getLast();
+    public  void prevRobot() {
+    	if (!targetList.isEmpty()) {
+	    	if(targetList.indexOf(currentHex) != 0){
+	            currentHex = targetList.get(targetList.indexOf(currentHex) - 1);
+	    	}
     	}
-    	this.updateHexColours();
     }
 
     private LinkedList<Hex> getTargetList() {
@@ -310,55 +294,40 @@ public class Board {
     }
     
     public void updateHexColours() {
-        //counter for counting each hex to make sure all 3 robots cannot see it
-        Robot curRobotObject = this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[this.getCurrentRobot()];
+        
+        
+        
         int isInRangeCounter = 0;
-        //looping through every hex
+        
         for(int x = -(getSize() - 1); x < getSize(); x++){
             for(int y = -(getSize() - 1); y < getSize(); y++){
-                //making sure the current hex isnt null
                 if(getHex(x, y) != null){
-                    //looping to see if any of the three robots can see it
+                    
                     for(int i = 0; i < 3; i++){
-                        //making sure the robot is actually alive
-                        if(this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[i].isAlive()){
-                            //checking if the current hex is out of range of robot i
-                            if(isOutOfRange(getHex(x, y), this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[i].getPosition(), this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[i].getRange())){
-                                isInRangeCounter += 1;
-                            }
-                        };
-                        
+                        if(isOutOfRange(getHex(x, y), this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[i].getPosition(), this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[i].getRange())){
+                            isInRangeCounter += 1;
+                        }
                     }
-                    //setting the colour of the hex to gray or white depending on if the hex was out of range of all the robots in the team
+                    
                     if(isInRangeCounter == 3){
                         getHex(x, y).setColour(Color.gray);
                     }else{
                         getHex(x, y).setColour(Color.white);
                     }
+                    
                     isInRangeCounter = 0;
                 
                     
                 }
             }
         }
-        //System.out.println("Shooting is: " + this.getIsShooting());
-        if(this.getIsShooting() == true){
-            //System.out.println("Setting yellow hex's");
-            this.search(curRobotObject.getPosition(), curRobotObject.getRange());
-            if(!this.targetList.contains(currentHex)){
-                this.setCurrentHex(this.getTargetList().getFirst());
-            }
-            for(Hex curHex : this.getTargetList()){
-                curHex.setColour(Color.yellow);
-            }
-            this.currentHex.setColour(Color.red);
-        }
-        
                 
     }
     
     /** Returns true if hex1 is out of range of hex2 given the specified range. */
     private boolean isOutOfRange(Hex hex1, Hex hex2, int range) {
+        //LinkedList<Hex> rangeList = new LinkedList<Hex>();
+        
         
         if(hex2.getPositionX() < hex1.getPositionX() + (range + 1) && hex2.getPositionX() > hex1.getPositionX() - (range + 1)){
             if(hex2.getPositionY() < hex1.getPositionY() + (range + 1) && hex2.getPositionY() > hex1.getPositionY() - (range + 1)){
@@ -369,46 +338,74 @@ public class Board {
                 }
             }
         }
-        return true;       
+        return true;
+        
+        
+//        //looping through every hex on the board
+//        for (int y = size-1; y >= -(size-1); y--) {
+//            for (int x = -(size-1); x <= size-1; x++) {
+//                //checking if that hex is within range
+//                if (x < hex1.getPositionX() + (range + 1) && x > hex1.getPositionX() - (range + 1) && y < hex1.getPositionY() + (range + 1) && y > hex1.getPositionY() - (range + 1)) {
+//                    //additional check to see if the hex is within range
+//                    if(x + y > -(range+1) && x + y < (range+1)){          
+//
+//                            rangeList.add(getHex(x, y));
+//                            System.out.println("HELLO");
+//                        
+//                    }
+//                }
+//            }
+//        }
+//        if(rangeList.contains(hex2)){
+//            rangeList.clear();
+//            return false;
+//        }else{
+//            rangeList.clear();
+//            return true;
+//        }
     }
     
-    public void updateMovementColours() {
-        if(!getIsShooting()){
-            Robot curRobot = this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[this.getCurrentRobot()];
-            int x = curRobot.getPosition().getPositionX();
-            int y = curRobot.getPosition().getPositionY();
-        	 if(curRobot.getAbsDirection() == 0){ 
-        		 updateHexColours();
-        		 if (!isOutOfRange(curRobot.position, this.getHex(x + 1, y), 1)) {
-        			 this.getHex(x + 1, y).setColour(Color.green); 
-        		 }
-             } else if (curRobot.getAbsDirection() == 1){
-            	 updateHexColours();
-            	 if (!isOutOfRange(curRobot.position, this.getHex(x + 1, y - 1), 1)) {
-            	 this.getHex(x + 1, y - 1).setColour(Color.green);
-            	 }
-             } else if (curRobot.getAbsDirection() == 2){
-            	 updateHexColours();
-            	 if (!isOutOfRange(curRobot.position, this.getHex(x, y - 1), 1)) {
-            	 this.getHex(x, y - 1).setColour(Color.green);
-            	 }
-             } else if (curRobot.getAbsDirection() == 3){
-            	 updateHexColours();
-            	 if (!isOutOfRange(curRobot.position, this.getHex(x - 1, y), 1)) {
-            	 this.getHex(x - 1, y).setColour(Color.green);
-            	 }
-             } else if (curRobot.getAbsDirection() == 4){
-            	 updateHexColours();
-            	 if (!isOutOfRange(curRobot.position, this.getHex(x - 1, y + 1), 1)) {
-            	 this.getHex(x - 1, y + 1).setColour(Color.green);
-            	 }
-             } else if (curRobot.getAbsDirection() == 5){
-            	 updateHexColours();
-            	 if (!isOutOfRange(curRobot.position, this.getHex(x, y + 1), 1)) {
-            	 this.getHex(x, y + 1).setColour(Color.green);
-            	 }
-             }
-        }
+    public void updateMovementColours(Robot curRobot, int x, int y, Board board) {
+    	if (board.isGameMode()) {
+	    	 if(curRobot.getAbsDirection() == 0){ 
+	    		 updateHexColours();
+	    		 if (!isOutOfRange(curRobot.position, board.getHex(x + 1, y), 1)) {
+	    			 board.getHex(x + 1, y).setColour(Color.green); 
+	    		 }
+	         } else if (curRobot.getAbsDirection() == 1){
+	        	 updateHexColours();
+	        	 if (!isOutOfRange(curRobot.position, board.getHex(x + 1, y - 1), 1)) {
+	        	 board.getHex(x + 1, y - 1).setColour(Color.green);
+	        	 }
+	         } else if (curRobot.getAbsDirection() == 2){
+	        	 updateHexColours();
+	        	 if (!isOutOfRange(curRobot.position, board.getHex(x, y - 1), 1)) {
+	        	 board.getHex(x, y - 1).setColour(Color.green);
+	        	 }
+	         } else if (curRobot.getAbsDirection() == 3){
+	        	 updateHexColours();
+	        	 if (!isOutOfRange(curRobot.position, board.getHex(x - 1, y), 1)) {
+	        	 board.getHex(x - 1, y).setColour(Color.green);
+	        	 }
+	         } else if (curRobot.getAbsDirection() == 4){
+	        	 updateHexColours();
+	        	 if (!isOutOfRange(curRobot.position, board.getHex(x - 1, y + 1), 1)) {
+	        	 board.getHex(x - 1, y + 1).setColour(Color.green);
+	        	 }
+	         } else if (curRobot.getAbsDirection() == 5){
+	        	 updateHexColours();
+	        	 if (!isOutOfRange(curRobot.position, board.getHex(x, y + 1), 1)) {
+	        	 board.getHex(x, y + 1).setColour(Color.green);
+	        	 }
+	         }
+    	}
+    }
+    
+    public void updateTargetColours(Board board) {
+    	if (!targetList.isEmpty() && !board.gameMode) {
+	    	updateHexColours();
+	    	board.currentHex.setColour(Color.red);
+	    }
     }
 
     public static void main(String[] args) {
@@ -467,10 +464,6 @@ public class Board {
         System.out.println(myBoard.getHex(1, 3).listOfOccupants.getFirst().getHealth());
         
     }
-
-    
-
-    
 
     
 }
