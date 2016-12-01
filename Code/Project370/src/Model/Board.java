@@ -269,6 +269,8 @@ public class Board {
     	if (!targetList.isEmpty()) {
 	    	if(targetList.indexOf(currentHex) != targetList.indexOf(targetList.getLast())){
 	            currentHex = targetList.get(targetList.indexOf(currentHex) + 1);
+	    	} else if (targetList.indexOf(currentHex) == targetList.indexOf(targetList.getLast())) {
+	    		currentHex = targetList.getFirst();
 	    	}
     	}
     }
@@ -277,6 +279,8 @@ public class Board {
     	if (!targetList.isEmpty()) {
 	    	if(targetList.indexOf(currentHex) != 0){
 	            currentHex = targetList.get(targetList.indexOf(currentHex) - 1);
+	    	} else if (targetList.indexOf(currentHex) == 0) {
+	    		currentHex = targetList.getLast();
 	    	}
     	}
     }
