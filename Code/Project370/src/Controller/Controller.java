@@ -336,7 +336,7 @@ public class Controller {
     }
     
     public static void main(String[] args) {
-        Controller game = new Controller();
+        Controller game = Controller.getInstance();
         game.boardSize = 5;
         //game.numberOfPlayers = 2;
         game.gameBoard = new Board(5, 2);

@@ -46,8 +46,6 @@ public class InGameMenu extends JFrame{
 	/**@private JButton for ending the current play */
 	private JButton endPlayButton;
 	
-	private JPanel teamDisplayPanel;
-	
 	/**@public True = moving, false = shooting */
 	public boolean actionToggle = true;
 	
@@ -184,7 +182,7 @@ public class InGameMenu extends JFrame{
 	private class EndPlayButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
     		Controller.getInstance().G_endPlay();
-            gamePanel.repaint();
+            gamePanel.reDraw(Controller.getInstance().gameBoard);
     	}
 	}
     
