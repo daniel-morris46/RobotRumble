@@ -1,0 +1,64 @@
+CMPT 370 Meeting Nov 29th
+
+Final:
+
+Half: 
+Very similar to midterm definitions up to architecture
+other half: another document that another team had written.
+
+highlighter really pick out the issue areas and good areas.
+last document we handed in.
+
+Know document structures. Finish within time.
+
+Last Document to hand in:
+
+What is expected:
+Multiple Sections:
+	User Guide:
+	Screenshots
+	
+	What the game is
+	Rules
+	(Little bit)
+
+	Coder manual/maintence manual:
+	(new uml)
+	(architecture)
+
+	Javadoc:
+	all prinited out in a row. All functions what they do inputs and outputs
+
+	What would I want for this system.
+
+	Work on the code all the way up to the date he starts marking
+
+Personal Experiences
+
+Mark Each other on the final.
+
+Model:
+add color to hexe here instead of the view
+Fog of war
+get current team 
+get current robot
+
+Controller:
+Fire
+Exit Game
+Forfeit
+Cycle right/left
+
+View:
+-Polishing
+-inGameLog
+-Current Team Indication
+-Which way robots are facing
+-Options
+-target hex/current hex
+-transitions
+-EndGame images (win/loss)
+-Team color
+-Fog of War
+-2 player switch transition
+date the date in workState + workINsurance + workLocation
