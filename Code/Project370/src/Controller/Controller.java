@@ -310,12 +310,10 @@ public class Controller {
     }
     
     public void G_ShootMode(){
-        System.out.print("Test");
         Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()];
-        int curX = curRobot.getPosition().getPositionX();
-        int curY = curRobot.getPosition().getPositionY();
         
         gameBoard.setGameMode(false);
+        gameBoard.clearTargetlist();
         gameBoard.search(curRobot.getPosition(), curRobot.getRange());
         gameBoard.firstRobot();
         gameBoard.updateTargetColours(gameBoard);
