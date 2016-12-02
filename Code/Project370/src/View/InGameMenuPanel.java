@@ -1,14 +1,19 @@
 package View;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Controller.Controller;
@@ -27,10 +32,8 @@ import Model.RobotTeam;
 public class InGameMenuPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    
-    /** Border from the */
-    private static final int EDGEBORDER = 50;
-    
+
+    /** @private The side length of each hex in pixels */
     private static final int SIDELENGTH = 30;
     
     /** @private Size of the board to draw */
@@ -44,6 +47,9 @@ public class InGameMenuPanel extends JPanel {
   
     /** @private reference to the current hex list for painting the component */
 	private Hex[][] currentHexes;
+	
+	/** public teamDisplayPanel */
+	public JPanel teamDisplayPanel;
 	
 	/** @private the side length of each hexagon in pixels */ 
 	private int s = 0;
@@ -62,7 +68,12 @@ public class InGameMenuPanel extends JPanel {
 		super();
 		boardSize = size;
 		robotTeams = teams;
+		setLayout(new BorderLayout());
 		robots = new Robot[teams.length * 3];
+		teamDisplayPanel = new JPanel();
+		teamDisplayPanel.setSize(40,40);
+		add(teamDisplayPanel, BorderLayout.EAST);
+		
 		
 		for(int i = 0; i < teams.length; i++){
 			Robot curRobots[] = teams[i].getTeamOfRobot();
@@ -105,6 +116,9 @@ public class InGameMenuPanel extends JPanel {
 		for(int i = 0; i < robots.length; i++){						//Draw each robot on the board
 			drawRobot(robots[i], g2);
 		}
+		
+		Board board = Controller.getInstance().gameBoard;
+		drawTeamPanel(board.Teams[board.getCurrentTeam()]);
 	}
 	
 	/**
@@ -118,6 +132,34 @@ public class InGameMenuPanel extends JPanel {
 		
 		repaint();								//Repaint the board
 	}
+	
+	private void drawTeamPanel(RobotTeam currentTeam){
+		
+		if(!currentTeam.isHuman())
+			return;
+		
+		Robot currentRobot;
+		JLabel curLabel;
+		JLabel curStats;
+		String statString = "";
+		teamDisplayPanel.removeAll();
+		
+		for(int i = 0; i < 3; i++){
+			currentRobot = currentTeam.getTeamOfRobot()[i];
+			curLabel = new JLabel(new ImageIcon(getRobotImage(currentRobot) ) );
+			statString = "M: " + currentRobot.getMovementCur() + "/" + currentRobot.getMovementMax() + "  ";
+			statString += "H: " + currentRobot.getHealth() + "  ";
+			statString += "R: " + currentRobot.getRange();
+			curStats = new JLabel(statString);
+			teamDisplayPanel.add(curLabel);
+			teamDisplayPanel.add(curStats);
+		}
+		
+	teamDisplayPanel.revalidate();
+		teamDisplayPanel.repaint();
+	}
+
+
 	/**
 	 * Gets the current hex color to draw based on the board size
 	 * 
@@ -170,9 +212,7 @@ public class InGameMenuPanel extends JPanel {
     	int y = (robotHex.getPositionY() + boardSize) * (s + t);	//Accounts for the board coordinate offset and centers Y
     																//Accounts for the board coordinate offset and centers X
     	int x = (robotHex.getPositionX() + boardSize) * h + (robotHex.getPositionY() + boardSize) * (h / 2);
-    	
-    	x += EDGEBORDER;											//Handles the pixelborder's x influence
-    	y += EDGEBORDER;											//Handles the pixelborder's y influence
+
     	g.drawImage(getRobotImage(toDraw), x + r / 2, y + s / 2, this);	//Draws the robot 
 	}	
     
@@ -186,14 +226,11 @@ public class InGameMenuPanel extends JPanel {
 	 * @return The polygon representing a hexagon
 	 */
     private Polygon createHex(int xPos, int yPos){
-
-    	int x = xPos + EDGEBORDER;								//Current x equals the xPos + the border size
-    	int y = yPos + EDGEBORDER;								//Current y equals the yPos + the border size
     	
     	int[] cx, cy;											//Arrays for x and y point coordinates
     	
-    	cx = new int[] {x, x, x+r, x+r+r, x+r+r, x+r};			//Begins with the bottom left point and generates clockwise
-    	cy = new int[] {y+t, y+s+t, y+s+t+t, y+s+t, y+t, y};	//Begins with the bottom left point and generates clockwise
+    	cx = new int[] {xPos, xPos, xPos+r, xPos+r+r, xPos+r+r, xPos+r};//Begins with the bottom left point and generates clockwise
+    	cy = new int[] {yPos+t, yPos+s+t, yPos+s+t+t, yPos+s+t, yPos+t, yPos};	//Begins with the bottom left point and generates clockwise
     	
     	return new Polygon(cx, cy, 6);							//Returns the created hexagon
     }

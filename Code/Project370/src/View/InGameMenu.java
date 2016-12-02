@@ -2,6 +2,8 @@ package View;
 
 import Model.*;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -44,6 +46,8 @@ public class InGameMenu extends JFrame{
 	/**@private JButton for ending the current play */
 	private JButton endPlayButton;
 	
+	private JPanel teamDisplayPanel;
+	
 	/**@public True = moving, false = shooting */
 	public boolean actionToggle = true;
 	
@@ -59,47 +63,64 @@ public class InGameMenu extends JFrame{
         super("370 ROBOT RUMBLE");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
-        gamePanel = new InGameMenuPanel(b.getSize(), b.Teams);
-        gamePanel.reDraw(b);
-        add(gamePanel);
-        gamePanel.setVisible(true);
+        
+        //teamDisplayPanel = gamePanel.teamDisplayPanel;
+		//add(teamDisplayPanel);
+        //teamDisplayPanel.setVisible(true);
         
         setSize(800, 800);
         
         actionToggleButton = new JButton("*");	//Creating action toggle button and adding it to panel
         actionToggleButton.addActionListener(new ActionToggleButtonListener());
-        gamePanel.add(actionToggleButton);
+        
         actionToggleButton.setVisible(true);
         
         leftButton = new JButton("<");			//Creating left button and adding it to panel
         leftButton.addActionListener(new LeftButtonListener());
-        gamePanel.add(leftButton);
+        
         leftButton.setVisible(true);
         
         rightButton = new JButton(">");			//Creating right button and adding it to panel
         rightButton.addActionListener(new RightButtonListener());
-        gamePanel.add(rightButton);
+        
         rightButton.setVisible(true);
 
         actionButton = new JButton("Move");		//Creating action button and adding it to panel
         actionButton.addActionListener(new ActionButtonListener());
-        gamePanel.add(actionButton);
+        
         actionButton.setVisible(true);
         
         endPlayButton = new JButton("End Play");//Creating end play button and adding it to panel
         endPlayButton.addActionListener(new EndPlayButtonListener());
-        gamePanel.add(endPlayButton);
+        
         endPlayButton.setVisible(true);
         
         forfeitButton = new JButton("Forfeit");	//Creating forfeit button and adding it to panel
         forfeitButton.addActionListener(new ForfeitButtonListener());
-        gamePanel.add(forfeitButton);
+        
         forfeitButton.setVisible(true);
         
         exitButton = new JButton("Exit");		//Creating exit button and adding it to panel
         exitButton.addActionListener(new ExitButtonListener());
         exitButton.setVisible(true);
-        gamePanel.add(exitButton);
+        
+        
+        gamePanel = new InGameMenuPanel(b.getSize(), b.Teams);
+        gamePanel.reDraw(b);
+        gamePanel.add(actionToggleButton, BorderLayout.NORTH);
+        gamePanel.add(leftButton, BorderLayout.NORTH);
+        gamePanel.add(rightButton, BorderLayout.NORTH);
+        gamePanel.add(actionButton, BorderLayout.NORTH);
+        gamePanel.add(endPlayButton, BorderLayout.NORTH);
+        gamePanel.add(forfeitButton, BorderLayout.NORTH);
+        gamePanel.add(exitButton, BorderLayout.NORTH);
+        
+        
+        
+        
+        add(gamePanel);
+        
+        gamePanel.setVisible(true);
         
         setVisible(true);						//Set the game panel as visible
     }
@@ -171,18 +192,7 @@ public class InGameMenu extends JFrame{
 	}
     
 	public static void main(String[] args){
-		JFrame testFrame = new JFrame("IN-GAME-MENU-PANEL-TEST");
-    	testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    	testFrame.setVisible(true);
-    	testFrame.setSize(1200, 1000);
-    	testFrame.setResizable(false);
-    	
-    	Board board = new Board(7, 6);
-    	InGameMenuPanel testPanel = new InGameMenuPanel(board.getSize(), board.Teams);
-    	testPanel.setSize(1000, 1000);
-    	testFrame.add(testPanel);
-    	testPanel.setVisible(true);
-    	testPanel.reDraw(board);
+		Controller.getInstance();
 	}
 	
 	
