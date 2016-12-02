@@ -89,7 +89,7 @@ public class Controller {
 	        }
 	        System.out.println(" turned left.");
 	        
-	        gameBoard.updateMovementColours(curRobot, curX, curY, gameBoard);
+	        gameBoard.updateMovementColours(curRobot, curX, curY, gameBoard, currentRotation);
         } else if (!gameBoard.isGameMode()) {
         	gameBoard.nextRobot();
         	gameBoard.updateTargetColours(gameBoard);
@@ -120,7 +120,7 @@ public class Controller {
 	        }
 	        System.out.println(" turned right.");
 	        
-	        gameBoard.updateMovementColours(curRobot, curX, curY, gameBoard);
+	        gameBoard.updateMovementColours(curRobot, curX, curY, gameBoard, currentRotation);
         } else if (!gameBoard.isGameMode()) {
         	gameBoard.prevRobot();
         	gameBoard.updateTargetColours(gameBoard);
@@ -152,7 +152,7 @@ public class Controller {
     	
         gameBoard.updateHexColours();
         gameBoard.clearTargetlist();
-        gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
+        gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard, curRobot.getAbsDirection());
     	
     }
     
@@ -193,7 +193,7 @@ public class Controller {
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + curY + ")");
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 gameBoard.updateHexColours();
-                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
+                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard, curRobot.getAbsDirection());
                 return;
             }
         }else if(curRobot.getAbsDirection() == 1){
@@ -213,7 +213,7 @@ public class Controller {
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX + 1) + "," + (curY - 1) + ")");   
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 gameBoard.updateHexColours();
-                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
+                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard, curRobot.getAbsDirection());
                 return;
             }
         }else if(curRobot.getAbsDirection() == 2){
@@ -233,7 +233,7 @@ public class Controller {
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY - 1) + ")");         
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 gameBoard.updateHexColours();
-                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
+                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard, curRobot.getAbsDirection());
                 return;
             }
         }else if(curRobot.getAbsDirection() == 3){
@@ -253,7 +253,7 @@ public class Controller {
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + curY + ")");          
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 gameBoard.updateHexColours();
-                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
+                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard, curRobot.getAbsDirection());
                 return;
             }
         }else if(curRobot.getAbsDirection() == 4){
@@ -273,7 +273,7 @@ public class Controller {
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + (curX - 1) + "," + (curY + 1) + ")");          
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 gameBoard.updateHexColours();
-                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
+                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard, curRobot.getAbsDirection());
                 return;
             }
         }else if(curRobot.getAbsDirection() == 5){
@@ -293,7 +293,7 @@ public class Controller {
                 System.out.println(" moved from (" + curX + "," + curY + ") to (" + curX + "," + (curY + 1) + ")");           
                 curRobot.setMovementCur(curRobot.getMovementCur() + 1);
                 gameBoard.updateHexColours();
-                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard);
+                gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard, curRobot.getAbsDirection());
                 return;
             }
         }        
@@ -326,7 +326,7 @@ public class Controller {
         int curY = curRobot.getPosition().getPositionY();
         
         gameBoard.setGameMode(true);
-        gameBoard.updateMovementColours(curRobot, curX, curY, gameBoard);
+        gameBoard.updateMovementColours(curRobot, curX, curY, gameBoard, curRobot.getAbsDirection());
         inGameMenu.gamePanel.reDraw(gameBoard);
     }
     
@@ -340,7 +340,6 @@ public class Controller {
         game.boardSize = 5;
         //game.numberOfPlayers = 2;
         game.gameBoard = new Board(5, 2);
-
     }
         
 }
