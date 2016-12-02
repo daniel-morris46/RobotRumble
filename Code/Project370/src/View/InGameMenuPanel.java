@@ -71,8 +71,9 @@ public class InGameMenuPanel extends JPanel {
 		setLayout(new BorderLayout());
 		robots = new Robot[teams.length * 3];
 		teamDisplayPanel = new JPanel();
-		teamDisplayPanel.setSize(40,40);
-		add(teamDisplayPanel, BorderLayout.EAST);
+		teamDisplayPanel.setLayout(new GridLayout(3,1));
+		teamDisplayPanel.setSize(1,10);
+		add(teamDisplayPanel, BorderLayout.WEST);
 		
 		
 		for(int i = 0; i < teams.length; i++){
@@ -155,7 +156,7 @@ public class InGameMenuPanel extends JPanel {
 			teamDisplayPanel.add(curStats);
 		}
 		
-	teamDisplayPanel.revalidate();
+		teamDisplayPanel.revalidate();
 		teamDisplayPanel.repaint();
 	}
 

@@ -63,61 +63,58 @@ public class InGameMenu extends JFrame{
         super("370 ROBOT RUMBLE");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
+        setSize(1050, 800);
         
-        //teamDisplayPanel = gamePanel.teamDisplayPanel;
-		//add(teamDisplayPanel);
-        //teamDisplayPanel.setVisible(true);
-        
-        setSize(800, 800);
+        JPanel buttonPanel = new JPanel();
         
         actionToggleButton = new JButton("*");	//Creating action toggle button and adding it to panel
         actionToggleButton.addActionListener(new ActionToggleButtonListener());
-        
+        actionToggleButton.setSize(20,20);
         actionToggleButton.setVisible(true);
         
         leftButton = new JButton("<");			//Creating left button and adding it to panel
         leftButton.addActionListener(new LeftButtonListener());
-        
+        leftButton.setSize(20,20);
         leftButton.setVisible(true);
         
         rightButton = new JButton(">");			//Creating right button and adding it to panel
         rightButton.addActionListener(new RightButtonListener());
-        
+        rightButton.setSize(20,20);
         rightButton.setVisible(true);
 
         actionButton = new JButton("Move");		//Creating action button and adding it to panel
         actionButton.addActionListener(new ActionButtonListener());
-        
+        actionButton.setSize(20,20);
         actionButton.setVisible(true);
         
         endPlayButton = new JButton("End Play");//Creating end play button and adding it to panel
         endPlayButton.addActionListener(new EndPlayButtonListener());
-        
+        endPlayButton.setSize(20,20);
         endPlayButton.setVisible(true);
         
         forfeitButton = new JButton("Forfeit");	//Creating forfeit button and adding it to panel
         forfeitButton.addActionListener(new ForfeitButtonListener());
-        
+        forfeitButton.setSize(20,20);
         forfeitButton.setVisible(true);
         
         exitButton = new JButton("Exit");		//Creating exit button and adding it to panel
         exitButton.addActionListener(new ExitButtonListener());
+        exitButton.setSize(20,20);
         exitButton.setVisible(true);
         
         
         gamePanel = new InGameMenuPanel(b.getSize(), b.Teams);
         gamePanel.reDraw(b);
-        gamePanel.add(actionToggleButton, BorderLayout.NORTH);
-        gamePanel.add(leftButton, BorderLayout.NORTH);
-        gamePanel.add(rightButton, BorderLayout.NORTH);
-        gamePanel.add(actionButton, BorderLayout.NORTH);
-        gamePanel.add(endPlayButton, BorderLayout.NORTH);
-        gamePanel.add(forfeitButton, BorderLayout.NORTH);
-        gamePanel.add(exitButton, BorderLayout.NORTH);
+        buttonPanel.add(actionToggleButton, BorderLayout.NORTH);
+        buttonPanel.add(leftButton, BorderLayout.NORTH);
+        buttonPanel.add(rightButton, BorderLayout.NORTH);
+        buttonPanel.add(actionButton, BorderLayout.NORTH);
+        buttonPanel.add(endPlayButton, BorderLayout.NORTH);
+        buttonPanel.add(forfeitButton, BorderLayout.NORTH);
+        buttonPanel.add(exitButton, BorderLayout.NORTH);
         
         
-        
-        
+        gamePanel.add(buttonPanel, BorderLayout.SOUTH);
         add(gamePanel);
         
         gamePanel.setVisible(true);
