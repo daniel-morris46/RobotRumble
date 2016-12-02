@@ -222,21 +222,27 @@ public class Board {
      * 
      */
     public void search(Hex h, int range) {
-        
-        targetList.clear();
-        //looping through every hex on the board
-        for (int y = size-1; y >= -(size-1); y--) {
-            for (int x = -(size-1); x <= size-1; x++) {
-                //checking if that hex is within range
-                if (x < h.getPositionX() + (range + 1) && x > h.getPositionX() - (range + 1) && y < h.getPositionY() + (range + 1) && y > h.getPositionY() - (range + 1)) {
-                    //additional check to see if the hex is within range
-                    if(x + y > -(range+1) && x + y < (range+1)){          
-                        //if the hex has robots in it
-                        if(getHex(x, y) != null && !(getHex(x, y).getOcc().isEmpty())){
-                            targetList.add(getHex(x, y));
+    	 targetList.clear();
+         //looping through every hex on the board
+    	 for (int x = -(size-1); x <= size-1; x++) {
+    		 for (int y = -(size-1); y <= size-1; y++) {
+                 //checking if that hex is within range
+    			 int isInRangeCounter = 0;
+    			 for(int i = 0; i < 3; i++){
+    				 if(getHex(x, y) != null) {
+    					 if(!isOutOfRange(getHex(x, y), h  ,range)){
+    						 isInRangeCounter += 1;
+                     	}
+    				 }
+                 }
+              
+    			 if(isInRangeCounter == 3){
+                     //if the hex has robots in it
+                     if(getHex(x, y) != null && !(getHex(x, y).getOcc().isEmpty())){
+                        	targetList.add(getHex(x, y));
                         }
-                    }
-                }
+                 }
+
             }
         }        
     }
