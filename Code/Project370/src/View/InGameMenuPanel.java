@@ -15,6 +15,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 
 import Controller.Controller;
 import Model.Board;
@@ -34,7 +36,10 @@ public class InGameMenuPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
     /** @private The side length of each hex in pixels */
-    private static final int SIDELENGTH = 30;
+    private static final int SIDELENGTHFIVE = 38;
+    
+    /** @private The side length of each hex in pixels */
+    private static final int SIDELENGTHSEVEN = 29;
     
     /** @private Size of the board to draw */
     private int boardSize;
@@ -73,8 +78,15 @@ public class InGameMenuPanel extends JPanel {
 		robotTeams = teams;
 		setLayout(new BorderLayout());
 		robots = new Robot[teams.length * 3];
+		
 		JLabel currentTeamLabel = new JLabel("INSERT TEAM NAME");
 		add(currentTeamLabel, BorderLayout.NORTH);
+		
+		JTextPane actionLog = new JTextPane();
+		actionLog.setText("The game/debug log can go here :)");
+		add(actionLog, BorderLayout.EAST);
+		actionLog.setSize(100,100);
+		actionLog.setEditable(false);
 		teamDisplayPanel = new JPanel();
 		teamDisplayPanel.setLayout(new GridLayout(3,1));
 		teamDisplayPanel.setSize(1,10);
@@ -89,7 +101,11 @@ public class InGameMenuPanel extends JPanel {
 			}
 		}
 		
-		s = SIDELENGTH;							//s = the side length of each hex in pixels
+		if(size == 7)
+			s = SIDELENGTHSEVEN;							//s = the side length of each hex in pixels
+		else
+			s = SIDELENGTHFIVE;
+		
     	t = (int) (s / 2);						//t = s * sin(30)
     	r = (int) (s * Math.cos(Math.PI / 6));	//r = s * cos(30)
     	h = 2 * r;								//

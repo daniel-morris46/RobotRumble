@@ -61,7 +61,7 @@ public class InGameMenu extends JFrame{
         super("370 ROBOT RUMBLE");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
-        setSize(1050, 800);
+        setSize(1100, 800);
         
         JPanel buttonPanel = new JPanel();
         
