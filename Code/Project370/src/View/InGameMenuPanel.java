@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -56,6 +57,9 @@ public class InGameMenuPanel extends JPanel {
 	/** @private The JPanel for displaying teams of robots */
 	private JPanel teamDisplayPanel;
 	
+	/** @private The JPanel for displaying teams of robots */
+	private JPanel hexDisplayPanel;
+	
 	/** @private The JLabel for displaying the current team's name */
 	private JLabel currentTeamLabel;
 	
@@ -84,9 +88,15 @@ public class InGameMenuPanel extends JPanel {
 		
 		JTextPane actionLog = new JTextPane();
 		actionLog.setText("The game/debug log can go here :)");
+		actionLog.setSize(11,1);
 		add(actionLog, BorderLayout.EAST);
-		actionLog.setSize(100,100);
 		actionLog.setEditable(false);
+		
+		hexDisplayPanel = new JPanel();
+		hexDisplayPanel.setLayout(new GridLayout(12,2));
+		hexDisplayPanel.setSize(1,10);
+		add(hexDisplayPanel, BorderLayout.EAST);
+		
 		teamDisplayPanel = new JPanel();
 		teamDisplayPanel.setLayout(new GridLayout(3,1));
 		teamDisplayPanel.setSize(1,10);
@@ -141,6 +151,7 @@ public class InGameMenuPanel extends JPanel {
 		
 		Board board = Controller.getInstance().gameBoard;
 		drawTeamPanel(board.Teams[board.getCurrentTeam()]);
+		drawHexPanel(board);
 	}
 	
 	/**
@@ -181,6 +192,48 @@ public class InGameMenuPanel extends JPanel {
 		
 		teamDisplayPanel.revalidate();
 		teamDisplayPanel.repaint();
+	}
+	
+	/**
+	 * Draws the panel containing information on the current target hex
+	 * 
+	 * @param board The board containing the current hex
+	 */
+	private void drawHexPanel(Board board){
+		hexDisplayPanel.removeAll();
+	
+		if(board.getCurrentHex() == null){
+			return;
+		}
+		
+		Hex cur = board.getCurrentHex();
+		
+		Robot currentRobot;
+		JLabel curLabel;
+		JLabel curStats;
+		String statString = "";
+		
+		
+		if(cur.getOcc().size() > 0){
+			Iterator<Robot> iterator = cur.getOcc().iterator();
+			
+			while(iterator.hasNext()){
+				currentRobot = iterator.next();
+				
+				statString = "<html> Movement: " + currentRobot.getMovementCur() + "/" + currentRobot.getMovementMax() + "<br>";
+				statString += " Health: " + currentRobot.getHealth() + "<br>";
+				statString += " Range: " + currentRobot.getRange() + "<br>";
+				statString += " Damage: " + currentRobot.getDamage() + "</html>";
+				curStats = new JLabel(statString);
+				curStats.setSize(100,50);
+				curLabel = new JLabel(new ImageIcon(getRobotImage(currentRobot) ) );
+				hexDisplayPanel.add(curLabel);
+				hexDisplayPanel.add(curStats);
+			}
+		}
+		
+		hexDisplayPanel.revalidate();
+		hexDisplayPanel.repaint();
 	}
 
 
