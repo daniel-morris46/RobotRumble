@@ -169,10 +169,12 @@ public class InGameMenuPanel extends JPanel {
 		for(int i = 0; i < 3; i++){
 			currentRobot = currentTeam.getTeamOfRobot()[i];
 			curLabel = new JLabel(new ImageIcon(getRobotImage(currentRobot) ) );
-			statString = "M: " + currentRobot.getMovementCur() + "/" + currentRobot.getMovementMax() + "  ";
-			statString += "H: " + currentRobot.getHealth() + "  ";
-			statString += "R: " + currentRobot.getRange();
+			statString = "<html> Movement: " + currentRobot.getMovementCur() + "/" + currentRobot.getMovementMax() + "<br>";
+			statString += " Health: " + currentRobot.getHealth() + "<br>";
+			statString += " Range: " + currentRobot.getRange() + "<br>";
+			statString += " Damage: " + currentRobot.getDamage() + "</html>";
 			curStats = new JLabel(statString);
+			curStats.setSize(50,50);
 			teamDisplayPanel.add(curLabel);
 			teamDisplayPanel.add(curStats);
 		}
