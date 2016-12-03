@@ -95,7 +95,7 @@ public class InGameMenuPanel extends JPanel {
 		actionLog.setEditable(false);								//Set the text as uneditable
 		
 		hexDisplayPanel = new JPanel();								//Create the hex display panel
-		hexDisplayPanel.setLayout(new GridLayout(12,2));			//Set the layout for the panel
+		hexDisplayPanel.setLayout(new GridLayout(10,2));			//Set the layout for the panel
 		hexDisplayPanel.setSize(1,10);								//Set the size of the panel
 		add(hexDisplayPanel, BorderLayout.EAST);					//Add the hex display panel
 		
