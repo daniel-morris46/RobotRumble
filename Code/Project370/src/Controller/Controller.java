@@ -152,7 +152,7 @@ public class Controller {
     	
         gameBoard.updateHexColours();
         gameBoard.clearTargetlist();
-        gameBoard.updateMovementColours(curRobot, curRobot.getPosition().getPositionX(), curRobot.getPosition().getPositionY(), gameBoard, curRobot.getAbsDirection());
+        gameBoard.updateMovementColours(curRobot, curX, curY, gameBoard, curRobot.getAbsDirection());
     	
     }
     

@@ -2,7 +2,6 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -16,7 +15,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 import Controller.Controller;
@@ -75,35 +73,40 @@ public class InGameMenuPanel extends JPanel {
 	/** @private h = Two times the vertical gap */
 	private int h = 0;
 	
-	/** @public Constructs a game board with the given size */
+	/**
+	 * @public Constructs a game board with the given size
+	 * 
+	 * @param size The size of the board
+	 * @param teams The list of robot teams
+	 */
 	public InGameMenuPanel(int size, RobotTeam[] teams){
 		super();
-		boardSize = size;
-		robotTeams = teams;
-		setLayout(new BorderLayout());
-		robots = new Robot[teams.length * 3];
+		boardSize = size;											//Set size of board
+		robotTeams = teams;											//Set the reference to the teams
+		setLayout(new BorderLayout());								//Set the panel layout
 		
-		JLabel currentTeamLabel = new JLabel("INSERT TEAM NAME");
-		add(currentTeamLabel, BorderLayout.NORTH);
+		JLabel currentTeamLabel = new JLabel("INSERT TEAM NAME");	//Create the current team label 
+		add(currentTeamLabel, BorderLayout.NORTH);					//Add the current team label
 		
-		JTextPane actionLog = new JTextPane();
-		actionLog.setText("The game/debug log can go here :)");
-		actionLog.setSize(11,1);
-		add(actionLog, BorderLayout.EAST);
-		actionLog.setEditable(false);
+		JTextPane actionLog = new JTextPane();						//Add the debug log text pane
+		actionLog.setText("The game/debug log can go here :)");		//Set the text
+		actionLog.setSize(11,1);									//Set the actionLog size
+		add(actionLog, BorderLayout.EAST);							//Add the actionLog to the panel
+		actionLog.setEditable(false);								//Set the text as uneditable
 		
-		hexDisplayPanel = new JPanel();
-		hexDisplayPanel.setLayout(new GridLayout(12,2));
-		hexDisplayPanel.setSize(1,10);
-		add(hexDisplayPanel, BorderLayout.EAST);
+		hexDisplayPanel = new JPanel();								//Create the hex display panel
+		hexDisplayPanel.setLayout(new GridLayout(12,2));			//Set the layout for the panel
+		hexDisplayPanel.setSize(1,10);								//Set the size of the panel
+		add(hexDisplayPanel, BorderLayout.EAST);					//Add the hex display panel
 		
-		teamDisplayPanel = new JPanel();
-		teamDisplayPanel.setLayout(new GridLayout(3,1));
-		teamDisplayPanel.setSize(1,10);
-		add(teamDisplayPanel, BorderLayout.WEST);
+		teamDisplayPanel = new JPanel();							//Create the team display panel
+		teamDisplayPanel.setLayout(new GridLayout(3,1));			//Set the layout for the team panel
+		teamDisplayPanel.setSize(1,10);								//Set the size of the panel
+		add(teamDisplayPanel, BorderLayout.WEST);					//Add the team display panel
 		
+		robots = new Robot[teams.length * 3];						//Create robot array
 		
-		for(int i = 0; i < teams.length; i++){
+		for(int i = 0; i < teams.length; i++){						//Get reference to each robot
 			Robot curRobots[] = teams[i].getTeamOfRobot();
 			
 			for(int j = 0; j < 3; j++){
@@ -112,13 +115,13 @@ public class InGameMenuPanel extends JPanel {
 		}
 		
 		if(size == 7)
-			s = SIDELENGTHSEVEN;							//s = the side length of each hex in pixels
+			s = SIDELENGTHSEVEN;									//s = the side length of each hex in pixels
 		else
 			s = SIDELENGTHFIVE;
 		
-    	t = (int) (s / 2);						//t = s * sin(30)
-    	r = (int) (s * Math.cos(Math.PI / 6));	//r = s * cos(30)
-    	h = 2 * r;								//
+    	t = (int) (s / 2);											//t = s * sin(30)
+    	r = (int) (s * Math.cos(Math.PI / 6));						//r = s * cos(30)
+    	h = 2 * r;													//h = 2 * r
 	}
 	
 	@Override
@@ -166,9 +169,14 @@ public class InGameMenuPanel extends JPanel {
 		repaint();								//Repaint the board
 	}
 	
+	/**
+	 * Draws the panel containing information on the current team playing
+	 * 
+	 * @param currentTeam The current team to display
+	 */
 	private void drawTeamPanel(RobotTeam currentTeam){
 		
-		if(!currentTeam.isHuman())
+		if(!currentTeam.isHuman())				
 			return;
 		
 		Robot currentRobot;
@@ -325,7 +333,7 @@ public class InGameMenuPanel extends JPanel {
     	
     	RobotTeam team = robotTeams[robot.getTeam()];		//Gets the robot's team
 		
-    	if(team.getColour() == Color.red){
+    	if(team.getColour() == Color.red){					//Get the robot's color
             imagePath += "red_";
     	}else if(team.getColour() == Color.orange){
             imagePath += "orange_";
