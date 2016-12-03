@@ -6,18 +6,47 @@ import com.google.gson.*;
 
 import Model.Robot;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.io.*;
+import java.net.*;
 
 
 public class OptionsMenuPanel extends JPanel{
 	
-	
-	
+	private final String hostName = "gpu0.usask.ca";
+	private final String request = "{ \"list-request\" : { \"data\" : \"brief\" }}";
+	private final int port = 20001;
 	
 	/** @public Initializes Options menu. */
 	public OptionsMenuPanel(){
 		super();
 		
+		String serverData = "";
+		
+		try {
+			Socket socket = new Socket(hostName, port);
+			PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			
+			out.println(request);
+			
+			serverData = in.readLine();
+			System.out.println(serverData);
+			serverData = "{ \"robots\":" + serverData + "}";
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Finished");
+		
+		//PARSE serverData
+		
+		JsonElement jElement = new JsonParser().parse(serverData);
+		
+		JsonObject jObject = jElement.getAsJsonObject();
+		JsonArray jArray = jObject.getAsJsonArray("robots");
 		
 		//Send JSON list-request to librarian
 
@@ -26,10 +55,16 @@ public class OptionsMenuPanel extends JPanel{
 			
 			//create robot info panel with information
 		//}
-		
-		
-				
+	}
 	
+	public static void main(String args[]){
+		JFrame testFrame = new JFrame("IN-GAME-MENU-PANEL-TEST");
+    	testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	testFrame.setVisible(true);
+    	testFrame.setSize(1200, 1000);
+    	testFrame.setResizable(false);
+    	
+    	testFrame.add(new OptionsMenuPanel());
 	}
 	
 //	public String parse(){

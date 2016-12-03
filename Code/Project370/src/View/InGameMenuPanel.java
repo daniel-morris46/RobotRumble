@@ -48,8 +48,11 @@ public class InGameMenuPanel extends JPanel {
     /** @private reference to the current hex list for painting the component */
 	private Hex[][] currentHexes;
 	
-	/** public teamDisplayPanel */
-	public JPanel teamDisplayPanel;
+	/** @private The JPanel for displaying teams of robots */
+	private JPanel teamDisplayPanel;
+	
+	/** @private The JLabel for displaying the current team's name */
+	private JLabel currentTeamLabel;
 	
 	/** @private the side length of each hexagon in pixels */ 
 	private int s = 0;
@@ -70,6 +73,8 @@ public class InGameMenuPanel extends JPanel {
 		robotTeams = teams;
 		setLayout(new BorderLayout());
 		robots = new Robot[teams.length * 3];
+		JLabel currentTeamLabel = new JLabel("INSERT TEAM NAME");
+		add(currentTeamLabel, BorderLayout.NORTH);
 		teamDisplayPanel = new JPanel();
 		teamDisplayPanel.setLayout(new GridLayout(3,1));
 		teamDisplayPanel.setSize(1,10);

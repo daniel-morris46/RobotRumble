@@ -167,11 +167,10 @@ public class InGameMenu extends JFrame{
 	/** Tells the controller to attack the current target hex */
 	private class ActionButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
-    		if(actionToggle == true){				//MOVING
+    		if(actionToggle == true){								//MOVING
     			Controller.getInstance().G_Move();
     		} else {													//ATTACKING
     			Controller.getInstance().G_Attack();
-    			//TELL CONTROLLER TO ATTACK THE CURRENT TARGET HEX
     		}
     		
     		gamePanel.repaint();
