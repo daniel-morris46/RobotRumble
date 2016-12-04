@@ -26,9 +26,9 @@ import Model.RobotTeam;
 /**
  * @category View
  * 
- * Specialized JPanel that contains a list of walkable 
- * hexagons, a list of robots, and a reference to the 
- * current robot. This can be repainted to update the board.
+ * InGameMenuPanel is a specialized JPanel for displaying the game's state
+ * by drawing the board and it's robots, as well as displaying information
+ * for hexes and providing fog of war. This updates as the game is played.
  */
 public class InGameMenuPanel extends JPanel {
 
@@ -183,19 +183,20 @@ public class InGameMenuPanel extends JPanel {
 		JLabel curLabel;
 		JLabel curStats;
 		String statString = "";
-		teamDisplayPanel.removeAll();
+		teamDisplayPanel.removeAll();			//Clear the current display
 		
-		for(int i = 0; i < 3; i++){
+		for(int i = 0; i < 3; i++){				//For each robot, make a label and add robot stats
 			currentRobot = currentTeam.getTeamOfRobot()[i];
 			curLabel = new JLabel(new ImageIcon(getRobotImage(currentRobot) ) );
+			
 			statString = "<html> Movement: " + currentRobot.getMovementCur() + "/" + currentRobot.getMovementMax() + "<br>";
 			statString += " Health: " + currentRobot.getHealth() + "<br>";
 			statString += " Range: " + currentRobot.getRange() + "<br>";
 			statString += " Damage: " + currentRobot.getDamage() + "</html>";
 			curStats = new JLabel(statString);
 			curStats.setSize(50,50);
-			teamDisplayPanel.add(curLabel);
-			teamDisplayPanel.add(curStats);
+			teamDisplayPanel.add(curLabel);		//Add the robot label to the display panel
+			teamDisplayPanel.add(curStats);		//Add the stat label to the display panel
 		}
 		
 		teamDisplayPanel.revalidate();
@@ -208,13 +209,14 @@ public class InGameMenuPanel extends JPanel {
 	 * @param board The board containing the current hex
 	 */
 	private void drawHexPanel(Board board){
-		hexDisplayPanel.removeAll();
-	
-		if(board.getCurrentHex() == null){
+												
+		if(board.getCurrentHex() == null){		//If there's no current hex, return
 			return;
 		}
 		
-		Hex cur = board.getCurrentHex();
+		hexDisplayPanel.removeAll();			//Clear the current display
+		
+		Hex cur = board.getCurrentHex();		//Get the current hex
 		
 		Robot currentRobot;
 		JLabel curLabel;
@@ -222,12 +224,12 @@ public class InGameMenuPanel extends JPanel {
 		String statString = "";
 		
 		
-		if(cur.getOcc().size() > 0){
+		if(cur.getOcc().size() > 0){			//If the hex has occupants
 			Iterator<Robot> iterator = cur.getOcc().iterator();
-			
-			while(iterator.hasNext()){
+									
+			while(iterator.hasNext()){			//Create an iterator for the occupants
 				currentRobot = iterator.next();
-				
+												//Adds the current robot's stats to a label
 				statString = "<html> Movement: " + currentRobot.getMovementCur() + "/" + currentRobot.getMovementMax() + "<br>";
 				statString += " Health: " + currentRobot.getHealth() + "<br>";
 				statString += " Range: " + currentRobot.getRange() + "<br>";
@@ -235,13 +237,13 @@ public class InGameMenuPanel extends JPanel {
 				curStats = new JLabel(statString);
 				curStats.setSize(100,50);
 				curLabel = new JLabel(new ImageIcon(getRobotImage(currentRobot) ) );
-				hexDisplayPanel.add(curLabel);
-				hexDisplayPanel.add(curStats);
+				hexDisplayPanel.add(curLabel);	//Adds the robot's image to hex display
+				hexDisplayPanel.add(curStats);	//Adds the robot's stats to hex display
 			}
 		}
 		
-		hexDisplayPanel.revalidate();
-		hexDisplayPanel.repaint();
+		hexDisplayPanel.revalidate();			//Revalidates the panel
+		hexDisplayPanel.repaint();				//Repaints the panel
 	}
 
 
@@ -346,10 +348,8 @@ public class InGameMenuPanel extends JPanel {
         }else if(team.getColour() == Color.magenta){
             imagePath += "purple_";
         }
-    	
-		//imagePath += team.getColour().toLowerCase() + "_";	//Adds the robot's team color to the directory path
 		
-		switch(robot.getType()){							//Adds the rest of the directory path based on robot type
+		switch(robot.getType()){		//Adds the rest of the directory path based on robot type
 		case 1:
 			imagePath += "scout.png";
 			break;
@@ -361,16 +361,16 @@ public class InGameMenuPanel extends JPanel {
 			break;
 		}
 
-		try{												//Tries to load and return the image from the path
+		try{									//Tries to load and return the image from the path
 			BufferedImage robotImage = ImageIO.read(getClass().getResourceAsStream(imagePath) );
 			return robotImage;
-		} catch (IOException e){							//Throws an exception if there is an error reading
+		} catch (IOException e){				//Throws an exception if there is an error reading
 			System.err.println(e);
-		} catch (IllegalArgumentException e){				//Throws an error if the path is invalid
+		} catch (IllegalArgumentException e){	//Throws an error if the path is invalid
 			System.err.println(e);
 		}
 			
-		return null;										//Return null
+		return null;							//Return null
     }
  
 

@@ -14,20 +14,28 @@ import View.*;
  */
 public class Controller {
 
+	/** Singleton reference to the controller instance */
 	private static Controller instance = null;
 	
+	/** The current game board to play on */
     public Board gameBoard;
     
+    /** The size of the board */
     int boardSize;
     
+    /** The number of players in the game */
     int numberOfPlayers;
         
+    /** The play menu for playing and selecting options */
     public PlayMenu playMenu;
     
+    /** The game menu for selecting board size and player amount */
     public GameMenu gameMenu;
     
+    /** The in-game menu for updating the board's representation */
     public InGameMenu inGameMenu;
     
+    /** Creates a controller and initializes the menus */
     protected Controller() {
         gameBoard = new Board(5, 2);
         playMenu = new PlayMenu("Prepare board");
@@ -38,6 +46,7 @@ public class Controller {
         inGameMenu.setVisible(false);
     }
     
+    /** Ensures the singleton property of this class and returns a ocontroller reference */
     public static Controller getInstance(){
     	if(instance == null){
     		instance = new Controller();
