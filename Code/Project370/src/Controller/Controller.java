@@ -141,7 +141,7 @@ public class Controller {
     public void G_endPlay(){
         
         gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].setMovementCur(0);
-        
+        gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].setHasShot(false);
         //change team to next team
         if(gameBoard.getCurrentTeam() >= gameBoard.getTeamAmount() - 1){
             gameBoard.setCurrentTeam(0);
@@ -377,12 +377,16 @@ public class Controller {
     
     public void G_Attack(){
         Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()];
-        gameBoard.damageHex(gameBoard.getCurrentHex(), curRobot.getDamage());
         
-        gameBoard.search(curRobot.getPosition(), curRobot.getRange());
-        gameBoard.firstRobot();
-        gameBoard.updateTargetColours(gameBoard);
-        inGameMenu.gamePanel.reDraw(gameBoard);
+        if(curRobot.getHasShot() == false){
+            gameBoard.damageHex(gameBoard.getCurrentHex(), curRobot.getDamage());
+            curRobot.setHasShot(true);
+            
+            gameBoard.search(curRobot.getPosition(), curRobot.getRange());
+            gameBoard.firstRobot();
+            gameBoard.updateTargetColours(gameBoard);
+            inGameMenu.gamePanel.reDraw(gameBoard);
+        }
     }
     
     public static void main(String[] args) {

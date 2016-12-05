@@ -14,6 +14,9 @@ public class Robot {
     /** The range of the robot.*/
     int range;
     
+    /** The boolean determining if the robot has shot yet in the current play.*/
+    boolean hasShot;
+    
     /** The hex that the robot is currently on.*/
     Hex position;
     
@@ -40,6 +43,7 @@ public class Robot {
         health = robotType;
         movementMax = 4 - robotType;
         movementCur = 0;
+        hasShot = false;
         if(robotType == 1){
             range = 2;
         }else if(robotType == 2){
@@ -64,6 +68,15 @@ public class Robot {
         }
     }
 
+    public boolean getHasShot(){
+        return hasShot;
+    }
+    
+    public void setHasShot(boolean b){
+        hasShot = b;
+    }
+    
+    
     public int getHealth() {
         return health;
     }
