@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Stack;
 
 import com.google.gson.*;
@@ -131,11 +132,11 @@ public class Interpreter {
 		}
 		
 		String body = wordMap.get(word);
-		LinkedList<String> wordsQ = (LinkedList<String>) Arrays.asList(body.split("\\s+"));
+		ListIterator<String> wordsQ = Arrays.asList(body.split("\\s+")).listIterator();
 		
-		while(!(wordsQ.isEmpty())){
+		while(wordsQ.hasNext()){
 			
-			String currWord = wordsQ.removeFirst();
+			String currWord = wordsQ.next();
 			
 			if(wordMap.containsKey(currWord)){
 				
@@ -158,6 +159,104 @@ public class Interpreter {
 		// TODO Auto-generated method stub
 		return false;
 	}
+    
+    
+    
+    
+    void setVariable(String name, String Value){
+		
+		
+	}
+	
+	String getVariable(String name){
+		
+		return null;
+	}
+	
+	
+	//ARITHMETIC FUNCTIONS
+
+	
+	void subtract(){
+		
+		String temp1 = stack.pop();
+		String temp2 = stack.pop();		
+		stack.push(Integer.toString(Integer.parseInt(temp2)-Integer.parseInt(temp1)));
+	}
+	
+	void add(){
+		
+		String temp1 = stack.pop();
+		String temp2 = stack.pop();		
+		stack.push(Integer.toString(Integer.parseInt(temp2)+Integer.parseInt(temp1)));
+	}
+    
+	void multiply(){
+		
+		String temp1 = stack.pop();
+		String temp2 = stack.pop();
+		stack.push(Integer.toString(Integer.parseInt(temp1)*Integer.parseInt(temp2)));
+	}
+    
+    
+	void divide(){
+		
+		String temp1 = stack.pop();
+		String temp2 = stack.pop();
+		stack.push(Integer.toString(Integer.parseInt(temp1)%Integer.parseInt(temp2)));
+		stack.push(Integer.toString(Integer.parseInt(temp1)/Integer.parseInt(temp2)));
+	}
+    
+    
+	//LOGIC FUNCTIONS
+    
+    void ifCond(ListIterator<String> list){
+    	
+    	if (stack.pop().compareTo("equal") == 0){
+    		
+    		return;
+    	}
+    	else if (stack.pop().compareTo("unequal") == 0){
+    		
+    		goTo(list, "else");
+    	}
+    	else{
+    		//Invalid value
+    	}
+    }
+    
+    
+    void elseCond(ListIterator<String> list){
+    	
+    	goTo(list, "then");
+    }
+    
+    
+    
+    void nothing(){
+    	
+    	return;
+    }
+    
+    
+    void comparisonFunc(){
+    	
+    	// if true, pushes equal to stack, else pushes unequal
+    }
+    
+    
+    
+    
+    
+    
+    
+    //UTILITY FUNCTIONS
+    
+    void goTo(ListIterator<String> list, String target){
+    	
+    	while((list.next().compareTo(target) != 0));
+    }
+    
 
 	public static void main(String[] args) {
         Color test = Color.red;
