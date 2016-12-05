@@ -142,18 +142,54 @@ public class Controller {
         
         gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].setMovementCur(0);
         
-    	//Each team plays their first robot, then their second, then third
-    	if(gameBoard.getCurrentTeam() >= gameBoard.getTeamAmount() - 1){
-    		gameBoard.setCurrentTeam(0);
-    		
-    		if(gameBoard.getCurrentRobot() >= 2){
-    			gameBoard.setCurrentRobot(0);
-    		} else {
-    			gameBoard.setCurrentRobot(gameBoard.getCurrentRobot() + 1);
-    		}
-    	} else {
-    		gameBoard.setCurrentTeam(gameBoard.getCurrentTeam() + 1);
-    	}
+        //change team to next team
+        if(gameBoard.getCurrentTeam() >= gameBoard.getTeamAmount() - 1){
+            gameBoard.setCurrentTeam(0);
+        }else {
+                gameBoard.setCurrentTeam(gameBoard.getCurrentTeam() + 1);
+        }
+        
+        
+        while(!gameBoard.getTeams()[gameBoard.getCurrentTeam()].isAlive()){
+          //change team to next team
+            if(gameBoard.getCurrentTeam() >= gameBoard.getTeamAmount() - 1){
+                gameBoard.setCurrentTeam(0);
+            }else {
+                    gameBoard.setCurrentTeam(gameBoard.getCurrentTeam() + 1);
+            }
+        }
+        
+        // change robot to next robot
+        
+        //if this is not the first time we pressed end play
+        
+        if(gameBoard.getCurrentRobot() >= 2){
+            gameBoard.setCurrentRobot(0);
+        } else {
+            gameBoard.setCurrentRobot(gameBoard.getCurrentRobot() + 1);
+        }
+        
+        while(!gameBoard.getTeams()[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()].isAlive()){
+            // change robot to next robot
+            if(gameBoard.getCurrentRobot() >= 2){
+                gameBoard.setCurrentRobot(0);
+            } else {
+                gameBoard.setCurrentRobot(gameBoard.getCurrentRobot() + 1);
+            }
+        }
+        
+//    	//Each team plays their first robot, then their second, then third
+//    	if(gameBoard.getCurrentTeam() >= gameBoard.getTeamAmount() - 1){
+//    		gameBoard.setCurrentTeam(0);
+//    		
+//    		if(gameBoard.getCurrentRobot() >= 2){
+//    			gameBoard.setCurrentRobot(0);
+//    		} else {
+//    			gameBoard.setCurrentRobot(gameBoard.getCurrentRobot() + 1);
+//    		}
+//    	} else {
+//    		gameBoard.setCurrentTeam(gameBoard.getCurrentTeam() + 1);
+//    	}
     	
     	Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()];
         int curX = curRobot.getPosition().getPositionX();
@@ -340,8 +376,13 @@ public class Controller {
     }
     
     public void G_Attack(){
-    	Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()];
-    	gameBoard.damageHex(gameBoard.getCurrentHex(), curRobot.getDamage());
+        Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()];
+        gameBoard.damageHex(gameBoard.getCurrentHex(), curRobot.getDamage());
+        
+        gameBoard.search(curRobot.getPosition(), curRobot.getRange());
+        gameBoard.firstRobot();
+        gameBoard.updateTargetColours(gameBoard);
+        inGameMenu.gamePanel.reDraw(gameBoard);
     }
     
     public static void main(String[] args) {

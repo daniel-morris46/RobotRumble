@@ -29,12 +29,28 @@ public class RobotTeam {
     
     /** Returns the answer to the question: "Is the team still alive?"*/
     public boolean isAlive(){
+        int deadCounter = 0;
         for(int i = 0; i < 3; i++){
             if(!teamOfRobot[i].isAlive()){
-                return false;
+                deadCounter += 1;
             }
         }
+        
+        if(deadCounter == 3){
+            return false;
+        }
         return true;
+    }
+    
+    
+    public int getNumAliveRobots(){
+        int counter = 0;
+        for(int i = 0; i < 3; i++){
+            if(teamOfRobot[i].isAlive()){
+                counter++;
+            }
+        }
+        return counter;
     }
 
     public boolean isHuman() {

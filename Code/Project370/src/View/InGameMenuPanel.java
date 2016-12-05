@@ -148,8 +148,10 @@ public class InGameMenuPanel extends JPanel {
 			
 		}
 		
-		for(int i = 0; i < robots.length; i++){						//Draw each robot on the board
-			drawRobot(robots[i], g2);
+		for(int i = 0; i < robots.length; i++){						//Draw each robot on the board if they are alive
+			if(robots[i].isAlive()){
+		         drawRobot(robots[i], g2);
+			}
 		}
 		
 		Board board = Controller.getInstance().gameBoard;

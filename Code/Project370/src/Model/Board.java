@@ -15,7 +15,7 @@ public class Board {
     int currentTeam;
     
     /**The index of the current robot.*/
-    int currentRobot;
+    int currentRobot[];
     
     /**The side length of the board.*/
     int size;
@@ -49,7 +49,14 @@ public class Board {
     public Board(int boardSize, int numberOfTeams, Color inputColourList[]) {
         //colourList = new String[] {"Red", "Orange", "Yellow", "Green", "Blue", "Purple"};
         currentTeam = 0;
-        currentRobot = 0;
+        currentRobot = new int[numberOfTeams];
+        for(int i = 0; i < numberOfTeams; i++){
+            if(i != 0){
+                currentRobot[i] = 2;
+            }else{
+                currentRobot[i] = 0;
+            }
+        }
         size = boardSize;
         teamAmount = numberOfTeams;
         spect = new Spectator();
@@ -148,11 +155,11 @@ public class Board {
     }
 
     public int getCurrentRobot() {
-        return currentRobot;
+        return currentRobot[currentTeam];
     }
 
     public void setCurrentRobot(int currentRobot) {
-        this.currentRobot = currentRobot;
+        this.currentRobot[currentTeam] = currentRobot;
     }
 
     public int getCurrentTarget() {
@@ -262,6 +269,10 @@ public class Board {
     public void damageHex(Hex h, int damage) {
         for (int i = 0; i < h.listOfOccupants.size(); i ++ ) {
             h.listOfOccupants.get(i).setHealth(h.listOfOccupants.get(i).getHealth() - damage);
+            if(!h.listOfOccupants.get(i).isAlive()){
+                //h.listOfOccupants.get(i).setPosition(null);
+                h.removeOcc(h.listOfOccupants.get(i));
+            }
         }
     }
     
@@ -309,17 +320,24 @@ public class Board {
         
         int isInRangeCounter = 0;
         
+        
+        
         for(int x = -(getSize() - 1); x < getSize(); x++){
             for(int y = -(getSize() - 1); y < getSize(); y++){
                 if(getHex(x, y) != null){
                     
                     for(int i = 0; i < 3; i++){
-                        if(isOutOfRange(getHex(x, y), this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[i].getPosition(), this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[i].getRange())){
-                            isInRangeCounter += 1;
+                        if(this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[i].isAlive()){
+                            if(isOutOfRange(getHex(x, y), this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[i].getPosition(), this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[i].getRange())){
+                                isInRangeCounter += 1;
+                            }
                         }
+                        
                     }
                     
-                    if(isInRangeCounter == 3){
+                  
+                    
+                    if(isInRangeCounter == this.getTeams()[this.getCurrentTeam()].getNumAliveRobots()){
                         getHex(x, y).setColour(Color.gray);
                     }else{
                         getHex(x, y).setColour(Color.white);
