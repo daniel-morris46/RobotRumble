@@ -3,6 +3,7 @@ package View;
 import Model.*;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,6 +24,9 @@ public class InGameMenu extends JFrame{
 	
 	/**@public The panel where all images will be drawn*/
 	public InGameMenuPanel gamePanel;
+	
+	/**@public The panel for hiding the game while switching players */
+	public JPanel standByPanel;
 	
 	/**@private JButton for rotating/cycling left */
 	private JButton leftButton;
@@ -59,9 +63,8 @@ public class InGameMenu extends JFrame{
 	public InGameMenu(Board b) {
         super("370 ROBOT RUMBLE");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+        setLayout(new CardLayout());
         setSize(1100, 800);
-        
         JPanel buttonPanel = new JPanel();
         
         actionToggleButton = new JButton("*");	//Creating action toggle button and adding it to panel
@@ -99,6 +102,11 @@ public class InGameMenu extends JFrame{
         exitButton.setSize(20,20);
         exitButton.setVisible(true);
         
+        standByPanel = new JPanel();
+        JButton nextButton = new JButton("Next Player");
+        nextButton.addActionListener(new NextPlayerButtonListener());
+        standByPanel.add(nextButton);
+        
         
         gamePanel = new InGameMenuPanel(b.getSize(), b.Teams);
         gamePanel.reDraw(b);
@@ -112,9 +120,13 @@ public class InGameMenu extends JFrame{
         
         
         gamePanel.add(buttonPanel, BorderLayout.SOUTH);
+        
+        add(standByPanel);
         add(gamePanel);
         
+        standByPanel.setVisible(false);
         gamePanel.setVisible(true);
+        
         
         setVisible(true);						//Set the game panel as visible
     }
@@ -176,14 +188,37 @@ public class InGameMenu extends JFrame{
     	}
     }
 	
-	/** Tells the controller to end the current play */
+	/** Tells the controller to end the current play and hide board for player change*/
 	private class EndPlayButtonListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
+    		
+    		Board board = Controller.getInstance().gameBoard;
+    		
+    		boolean prev = board.getTeams()[board.getCurrentTeam()].isHuman();
     		Controller.getInstance().G_endPlay();
-            gamePanel.reDraw(Controller.getInstance().gameBoard);
+    		boolean next = board.getTeams()[board.getCurrentTeam()].isHuman();
+    		
+    		if(prev && next){
+				gamePanel.setVisible(false);
+				standByPanel.setVisible(true);
+				gamePanel.reDraw(Controller.getInstance().gameBoard);
+				revalidate();
+    		}
     	}
 	}
     
+	/** Tells the controller to show the board for the next player */
+	private class NextPlayerButtonListener implements ActionListener{
+    	public void actionPerformed(ActionEvent e){
+			
+    		standByPanel.setVisible(false);
+    		gamePanel.setVisible(true);
+    		gamePanel.reDraw(Controller.getInstance().gameBoard);
+			revalidate();
+			
+    	}
+	}
+	
 	public static void main(String[] args){
 		Controller.getInstance();
 	}
