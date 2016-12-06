@@ -27,3 +27,20 @@ until	:
 ?		:	getVariable
 .		:	
 random	:	
+health	:
+healthLeft	:
+moves	:
+movesLeft	:
+attack	:
+range	:
+team	:
+type	:
+turn!	:
+move!	:
+shoot!	:
+check!	:
+scan!	:
+identify!	:
+send!	:
+mesg?	:
+recv!	:

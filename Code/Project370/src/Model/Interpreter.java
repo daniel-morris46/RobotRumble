@@ -11,6 +11,8 @@ import java.util.Stack;
 
 import com.google.gson.*;
 
+import Controller.Controller;
+
 public class Interpreter {
 
 	private Robot robot;
@@ -78,7 +80,7 @@ public class Interpreter {
 
 		codeArr = parsedJson.getAsJsonObject("code").getAsJsonArray();
 		
-		boolean inComment = false;
+		int inComment = 0;
 		boolean inDefinition = false;
 		String functionBody = "";
 		String functionName = "";
@@ -94,9 +96,12 @@ public class Interpreter {
     		
     		String curWord = stack.pop();
     		
-    		if (inComment){//if flagged as currently in forth comment
+    		if (inComment > 0){//if flagged as currently in forth comment
     			if (curWord.equals(")")){//checks to see if at end of comment
-    				inComment = false;
+    				inComment--;
+	    		}
+    			if (curWord.equals("(")){//checks to see start of nested comment
+    				inComment++;
 	    		}
     			continue;
     		}
@@ -115,14 +120,17 @@ public class Interpreter {
     		
     		switch (curWord){
     		case "(": //if start of forth comment is detected
-	    		inComment = true;
+	    		inComment++;
+	    		break;
     		case "variable":
     			variables.put(stack.pop(), "0");
     			stack.pop();
+    			break;
     		case ":":
     			inDefinition = true;
     			functionName = curWord;
     			functionBody = "";
+    			break;
     		}
 	    }
 	}
@@ -148,26 +156,35 @@ public class Interpreter {
 			if(userWords.containsKey(currWord)){
 				
 				// runs function code
-			    
+				continue;
 			}
 			if (basicWords.containsKey(currWord)){
 				
 				//performs defined operation.
 			}
+			
+			Controller c = Controller.getInstance();
+			
+			switch(currWord){
+			case "move!":
+				c.G_Move();
+				break;
+			case "turn!":
+				c.G_turnRight();
+				break;
+			case "shoot!":
+				c.G_Attack();
+				break;
+			case "scan!":
+				
+				break;
+			case "":
+				
+				break;
+			}
+			
+			
 		}
-	}
-    
-    
-    
-    
-    void setVariable(String name, String Value){
-		
-		
-	}
-	
-	String getVariable(String name){
-		
-		return null;
 	}
 	
 	
@@ -257,6 +274,8 @@ public class Interpreter {
     
     
     
+    
+    //ROBOT FUNCTIONS
     
     
     
