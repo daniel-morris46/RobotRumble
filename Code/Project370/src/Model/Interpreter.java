@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Random;
 import java.util.Stack;
 
 import com.google.gson.*;
@@ -16,8 +16,9 @@ public class Interpreter {
 	private Robot robot;
 	private Stack<String> stack;
 	private JsonObject parsedJson; 
-	private HashMap<String, String> wordMap;
-	private HashMap<String, String> variableMap;
+	private HashMap<String, String> basicWords;
+	private HashMap<String, String> userWords;
+	private HashMap<String, String> variables;
 	
 	/**
 	 * Constructor for interpreter.
@@ -26,9 +27,15 @@ public class Interpreter {
 	public Interpreter(Robot robot) {
 		this.robot = robot;
 		this.stack = new Stack<String>();
-		//parsedJson = new JsonObject();
-		wordMap = new HashMap<String, String>();
-		variableMap = new HashMap<String, String>();
+		basicWords = new HashMap<String, String>();
+		userWords = new HashMap<String, String>();
+		variables = new HashMap<String, String>();
+		
+		
+		//load basic words
+		
+		
+		//load words from code
 		try {
 		parsedJson = (new JsonParser().parse(new FileReader(robot.getPath()))).getAsJsonObject();
     	} catch (JsonParseException e) {
@@ -65,8 +72,8 @@ public class Interpreter {
 		
 		JsonArray codeArr;
 		
-		wordMap.clear();
-		variableMap.clear();
+		userWords.clear();
+		variables.clear();
 		stack.clear();
 
 		codeArr = parsedJson.getAsJsonObject("code").getAsJsonArray();
@@ -96,7 +103,7 @@ public class Interpreter {
     		if (inDefinition){//if flagged as currently in forth comment
 				if (curWord.equals(";")){//checks to see if at end of definition
 					inDefinition = false;
-					wordMap.put(functionName, functionBody);
+					userWords.put(functionName, functionBody);
 	    		}
 				else{
 					functionBody.concat(" ");
@@ -110,7 +117,7 @@ public class Interpreter {
     		case "(": //if start of forth comment is detected
 	    		inComment = true;
     		case "variable":
-    			variableMap.put(stack.pop(), "0");
+    			variables.put(stack.pop(), "0");
     			stack.pop();
     		case ":":
     			inDefinition = true;
@@ -126,38 +133,28 @@ public class Interpreter {
 	 */
 	public void runWord(String word){
 		
-		if (!(wordMap.containsKey(word))){
+		if (!(userWords.containsKey(word))){
 			
 			throw new IllegalArgumentException("runWord: Argument is not a defined word!");
 		}
 		
-		String body = wordMap.get(word);
+		String body = userWords.get(word);
 		ListIterator<String> wordsQ = Arrays.asList(body.split("\\s+")).listIterator();
 		
 		while(wordsQ.hasNext()){
 			
 			String currWord = wordsQ.next();
 			
-			if(wordMap.containsKey(currWord)){
+			if(userWords.containsKey(currWord)){
 				
 				// runs function code
 			    
 			}
-			if(variableMap.containsKey(currWord)){
+			if (basicWords.containsKey(currWord)){
 				
-				
-			}
-			if(isArithmetic(currWord)){
-				
-				
+				//performs defined operation.
 			}
 		}
-	}
-	
-
-    private boolean isArithmetic(String currWord) {
-		// TODO Auto-generated method stub
-		return false;
 	}
     
     
@@ -176,7 +173,10 @@ public class Interpreter {
 	
 	//ARITHMETIC FUNCTIONS
 
-	
+	/**
+	 * Subtracts the first int on stack from the second int on the stack, 
+	 * and pushes result back onto the stack.
+	 */
 	void subtract(){
 		
 		String temp1 = stack.pop();
@@ -184,6 +184,10 @@ public class Interpreter {
 		stack.push(Integer.toString(Integer.parseInt(temp2)-Integer.parseInt(temp1)));
 	}
 	
+	/**
+	 * Adds the first int on stack to the second int on the stack, and pushes
+	 * result back onto the stack.
+	 */
 	void add(){
 		
 		String temp1 = stack.pop();
@@ -191,6 +195,10 @@ public class Interpreter {
 		stack.push(Integer.toString(Integer.parseInt(temp2)+Integer.parseInt(temp1)));
 	}
     
+	/**
+	 * Multiplies the first int on stack to the second int on the stack, and 
+	 * pushes result back onto the stack.
+	 */
 	void multiply(){
 		
 		String temp1 = stack.pop();
@@ -198,19 +206,22 @@ public class Interpreter {
 		stack.push(Integer.toString(Integer.parseInt(temp1)*Integer.parseInt(temp2)));
 	}
     
-    
+	/**
+	 * Divides the first int on stack to the second int on the stack, and pushes 
+	 * the quotient and the remainder back onto the stack (in that order).
+	 */
 	void divide(){
 		
 		String temp1 = stack.pop();
 		String temp2 = stack.pop();
-		stack.push(Integer.toString(Integer.parseInt(temp1)%Integer.parseInt(temp2)));
-		stack.push(Integer.toString(Integer.parseInt(temp1)/Integer.parseInt(temp2)));
+		stack.push(Integer.toString(Integer.parseInt(temp2)%Integer.parseInt(temp1)));
+		stack.push(Integer.toString(Integer.parseInt(temp2)/Integer.parseInt(temp1)));
 	}
     
     
 	//LOGIC FUNCTIONS
     
-    void ifCond(ListIterator<String> list){
+    void ifCond(ListIterator<String> code){
     	
     	if (stack.pop().compareTo("equal") == 0){
     		
@@ -218,7 +229,7 @@ public class Interpreter {
     	}
     	else if (stack.pop().compareTo("unequal") == 0){
     		
-    		goTo(list, "else");
+    		goTo(code, "else");
     	}
     	else{
     		//Invalid value
@@ -226,9 +237,9 @@ public class Interpreter {
     }
     
     
-    void elseCond(ListIterator<String> list){
+    void elseCond(ListIterator<String> code){
     	
-    	goTo(list, "then");
+    	goTo(code, "then");
     }
     
     
@@ -241,7 +252,7 @@ public class Interpreter {
     
     void comparisonFunc(){
     	
-    	// if true, pushes equal to stack, else pushes unequal
+    	// if true, pushes "equal" to stack, else pushes "unequal"
     }
     
     
@@ -251,13 +262,48 @@ public class Interpreter {
     
     
     //UTILITY FUNCTIONS
-    
-    void goTo(ListIterator<String> list, String target){
+    /**
+     * Goes to target from current position
+     * @param list ListIterator to seek through.
+     * @param target Target String.
+     */
+    void goTo(ListIterator<String> code, String target){
     	
-    	while((list.next().compareTo(target) != 0));
+    	int nestLevel = 0;
+    	String currWord;
+    	while(((currWord = code.next()).compareTo(target) != 0) && nestLevel == 0){
+    		
+    		if ((currWord.compareTo("if") == 0) || (currWord.compareTo("do") == 0) || (currWord.compareTo("begin") == 0)){
+    			nestLevel++;
+    		}
+    		else if ((currWord.compareTo("then") == 0) || (currWord.compareTo("loop") == 0) || (currWord.compareTo("until") == 0)){
+    			nestLevel--;
+    		}
+    	};
     }
     
+    /**
+     * Pops, and prints string at top of stack.
+     */
+    void popPrint(){
+    	
+    	System.out.println(stack.pop());
+    }
+    
+    /**
+     * Generates random number from 0 to i, where i is a popped int from stack.
+     */
+    void random(){
+    	
+    	int i = (new Random()).nextInt(Integer.parseInt(stack.pop()));
+    	stack.push(Integer.toString(i));
+    }
+    
+    
 
+    //MAIN
+    
+    
 	public static void main(String[] args) {
         Color test = Color.red;
         System.out.println(test.red);
