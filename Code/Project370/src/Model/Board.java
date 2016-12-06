@@ -394,56 +394,42 @@ public class Board {
     }
     
     public void updateMovementColours(Robot curRobot, int x, int y, Board board, int cur) {
-    	if (board.isGameMode()) {
-	    	 if(curRobot.getAbsDirection() == 0){ 
-	    		 updateHexColours();
-	    		 if (board.getHex(x + 1, y) != null) {
-	    			 board.getHex(x + 1, y).setColour(Color.green); 
-	    		 } else {
-	    			 curRobot.setAbsDirection(cur);
-	    			 updateMovementColours(curRobot, x, y, board, cur);
-	    		 }
-	         } else if (curRobot.getAbsDirection() == 1){
-	        	 updateHexColours();
-	        	 if (board.getHex(x + 1, y - 1) != null) {
-	        		 board.getHex(x + 1, y - 1).setColour(Color.green);
-	        	 } else {
-	    			 curRobot.setAbsDirection(cur);
-	    			 updateMovementColours(curRobot, x, y, board, cur);
-	    		 }
-	         } else if (curRobot.getAbsDirection() == 2){
-	        	 updateHexColours();
-	        	 if (board.getHex(x, y - 1) != null) {
-	        		 board.getHex(x, y - 1).setColour(Color.green);
-	        	 } else {
-	    			 curRobot.setAbsDirection(cur);
-	    			 updateMovementColours(curRobot, x, y, board, cur);
-	    		 }
-	         } else if (curRobot.getAbsDirection() == 3){
-	        	 updateHexColours();
-	        	 if (board.getHex(x - 1, y) != null) {
-	        		 board.getHex(x - 1, y).setColour(Color.green);
-	        	 } else {
-	    			 curRobot.setAbsDirection(cur);
-	    			 updateMovementColours(curRobot, x, y, board, cur);
-	    		 }
-	         } else if (curRobot.getAbsDirection() == 4){
-	        	 updateHexColours();
-	        	 if (board.getHex(x - 1, y + 1) != null) {
-	        		 board.getHex(x - 1, y + 1).setColour(Color.green);
-	        	 } else {
-	    			 curRobot.setAbsDirection(cur);
-	    			 updateMovementColours(curRobot, x, y, board, cur);
-	    		 }
-	         } else if (curRobot.getAbsDirection() == 5){
-	        	 updateHexColours();
-	        	 if (board.getHex(x, y + 1) != null) {
-	        		 board.getHex(x, y + 1).setColour(Color.green);
-	        	 } else {
-	    			 curRobot.setAbsDirection(cur);
-	    			 updateMovementColours(curRobot, x, y, board, cur);
-	    		 }
-	         }
+    	try {
+	    	if (board.isGameMode()) {
+		    	 if(curRobot.getAbsDirection() == 0){ 
+		    		 updateHexColours();
+		    		 if (board.getHex(x + 1, y) != null) {
+		    			 board.getHex(x + 1, y).setColour(Color.green); 
+		    		 }
+		         } else if (curRobot.getAbsDirection() == 1){
+		        	 updateHexColours();
+		        	 if (board.getHex(x + 1, y - 1) != null) {
+		        		 board.getHex(x + 1, y - 1).setColour(Color.green);
+		        	 }
+		         } else if (curRobot.getAbsDirection() == 2){
+		        	 updateHexColours();
+		        	 if (board.getHex(x, y - 1) != null) {
+		        		 board.getHex(x, y - 1).setColour(Color.green);
+		        	 }
+		         } else if (curRobot.getAbsDirection() == 3){
+		        	 updateHexColours();
+		        	 if (board.getHex(x - 1, y) != null) {
+		        		 board.getHex(x - 1, y).setColour(Color.green);
+		        	 }
+		         } else if (curRobot.getAbsDirection() == 4){
+		        	 updateHexColours();
+		        	 if (board.getHex(x - 1, y + 1) != null) {
+		        		 board.getHex(x - 1, y + 1).setColour(Color.green);
+		        	 }
+		         } else if (curRobot.getAbsDirection() == 5){
+		        	 updateHexColours();
+		        	 if (board.getHex(x, y + 1) != null) {
+		        		 board.getHex(x, y + 1).setColour(Color.green);
+		        	 }
+		         }
+	    	}
+    	} catch (Exception e) {
+    		
     	}
     }
     
