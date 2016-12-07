@@ -194,7 +194,8 @@ public class Controller {
     	Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard.getCurrentRobot()];
         int curX = curRobot.getPosition().getPositionX();
         int curY = curRobot.getPosition().getPositionY();
-    	
+        
+    	G_MoveMode();
         gameBoard.updateHexColours();
         gameBoard.clearTargetlist();
         gameBoard.updateMovementColours(curRobot, curX, curY, gameBoard, curRobot.getAbsDirection());
@@ -386,6 +387,12 @@ public class Controller {
             gameBoard.firstRobot();
             gameBoard.updateTargetColours(gameBoard);
             inGameMenu.gamePanel.reDraw(gameBoard);
+            
+            if (!curRobot.isAlive()) {
+            	gameBoard.clearTargetlist();
+            	gameBoard.updateTargetColours(gameBoard);
+                inGameMenu.gamePanel.reDraw(gameBoard);
+            }
         }
     }
     
