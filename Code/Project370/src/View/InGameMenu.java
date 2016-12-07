@@ -195,7 +195,9 @@ public class InGameMenu extends JFrame{
     		Board board = Controller.getInstance().gameBoard;
     		
     		boolean prev = board.getTeams()[board.getCurrentTeam()].isHuman();
+    		actionToggle = true;
     		Controller.getInstance().G_endPlay();
+    		actionButton.setText("Move");
     		boolean next = board.getTeams()[board.getCurrentTeam()].isHuman();
     		
     		if(prev && next){
