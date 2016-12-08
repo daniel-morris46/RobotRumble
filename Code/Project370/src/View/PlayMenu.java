@@ -9,14 +9,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.*;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -25,34 +22,55 @@ import Model.Board;
 
 public class PlayMenu extends JFrame {
 	
+	/** The size of the board (default is 5) */
 	private int boardSize = 5;
 	
+	/** The number of robot teams (default is 2) */
 	private int numPlayers = 2;
 	
-	public JComboBox<Integer> numberOfPlayers;
+	/** The ComboBox for storing the selected number of players */
+	private JComboBox<Integer> numberOfPlayers;
 	
-	public JComboBox<String>[] playerTypes;
+	/** The ComboBox for storing the selected types of each player (HUMAN/AI) */
+	private JComboBox<String>[] playerTypes;
 	
-	public JComboBox<String>[] playerColors;
+	/** The ComboBox for storing the selected color for each player */
+	private JComboBox<String>[] playerColors;
 	
-	public JComboBox<String>[] scoutScripts;
+	/** The ComboBox for storing selected scout scripts */
+	private JComboBox<String>[] scoutScripts;
 	
-	public JComboBox<String>[] sniperScripts;
+	/** The ComboBox for storing selected sniper scripts */
+	private JComboBox<String>[] sniperScripts;
 
-	public JComboBox<String>[] tankScripts;
+	/** The ComboBox for storing selected tank scripts */
+	private JComboBox<String>[] tankScripts;
 	
+	/** The array representing the path of each scout script */
 	private String[] scoutScriptPaths;
+
+	/** The array representing the path of each sniper script */
 	private String[] sniperScriptPaths;
+
+	/** The array representing the path of each tank script */
 	private String[] tankScriptPaths;
 	
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Gets an instance of the controller, starting the system
+	 */
 	public static void main(String[] args){
-		
-		new PlayMenu("Choose board options.");
-	
+		Controller.getInstance();
 	}
 	
+	/**
+	 * Creates the play menu, providing the user with game configuration options
+	 * such as board size, number of players, colors, and player types. As well,
+	 * the user will be able to choose robot scripts for each AI team.
+	 * 
+	 * @param title The frame's title to display at the top
+	 */
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public PlayMenu(String title) {
     	super(title);
@@ -286,7 +304,7 @@ public class PlayMenu extends JFrame {
     		boardSize = 5;
     		
     		String[] numPossiblePlayers = {"2", "3"};
-        	DefaultComboBoxModel model = new DefaultComboBoxModel(numPossiblePlayers);
+        	DefaultComboBoxModel<Integer> model = new DefaultComboBoxModel(numPossiblePlayers);
         	numberOfPlayers.setModel(model);
         	
         	updateComboBoxes();
@@ -302,7 +320,7 @@ public class PlayMenu extends JFrame {
     		boardSize = 7;
     		
     		String[] numPossiblePlayers = {"3", "6"};
-        	DefaultComboBoxModel model = new DefaultComboBoxModel(numPossiblePlayers);
+        	DefaultComboBoxModel<Integer> model = new DefaultComboBoxModel(numPossiblePlayers);
         	numberOfPlayers.setModel(model);
         	
         	updateComboBoxes();
@@ -344,6 +362,7 @@ public class PlayMenu extends JFrame {
     private void updateComboBoxes(){
     	numPlayers = Integer.parseInt( numberOfPlayers.getSelectedItem().toString() );
 		
+    	//Display each combo box based on the number of players
 		for (int i = 0; i < 6; i++){
     		if(i < numPlayers){
     			playerTypes[i].setVisible(true);
@@ -359,6 +378,7 @@ public class PlayMenu extends JFrame {
     			tankScripts[i].setVisible(false);
     		}
     		
+    		//If the current team's player type is human, we do not need scripts
     		if(playerTypes[i].getSelectedItem().toString() == "Human"){
     			scoutScripts[i].setVisible(false);
     			sniperScripts[i].setVisible(false);
@@ -367,37 +387,56 @@ public class PlayMenu extends JFrame {
     	}
     }
 
+    /** Loads all scripts from the src/Model/scripts folder, sorts them based on
+     *  their robot type and initializes the combo boxes for each team
+     *  based on the player size and script amount.
+     *  
+     * @throws FileNotFoundException If there are no files found, throw an exception
+     */
     @SuppressWarnings("unchecked")
 	private void loadScripts() throws FileNotFoundException{
-    	List<String> scouts = new LinkedList<String>();
-    	List<String> scoutFiles = new LinkedList<String>();
+    	
+    	//Initializing lists for holding robots
+    	List<String> scouts = new LinkedList<String>();				
     	List<String> snipers = new LinkedList<String>();
-    	List<String> sniperFiles = new LinkedList<String>();
     	List<String> tanks = new LinkedList<String>();
+    	
+    	//Initializing lists for holding robot scripts
+    	List<String> scoutFiles = new LinkedList<String>();			
+    	List<String> sniperFiles = new LinkedList<String>();
     	List<String> tankFiles = new LinkedList<String>();
     	
-    	File folder = new File("src/Model/scripts");
-    	File[] robotScripts = folder.listFiles();
+    	//Gets the directory of the scripts
+    	File folder = new File("src/Model/scripts");				
     	
-    	for (int i = 0; i < robotScripts.length; i++){
+    	//Gets each file in the script directory
+    	File[] robotScripts = folder.listFiles();					
+    	
+    	//For each robot script
+    	for (int i = 0; i < robotScripts.length; i++){				
     		
-    		try {
+    		try {		
+    			//Try parsing it into a JSON object
 				BufferedReader buffer = new BufferedReader(new FileReader(robotScripts[i]));
 				JsonObject curObj = new JsonParser().parse(buffer).
 									getAsJsonObject().get("script").getAsJsonObject();
 				
-				String type = curObj.get("class").getAsString();
+				//Get the robot's type
+				String type = curObj.get("class").getAsString();	
 				
-				switch(type){
-					case("Scout"):
+				switch(type){										
+					case("Scout"):				
+						//Add scout robots to the scout list
 						scouts.add(curObj.get("name").getAsString());
 						scoutFiles.add(robotScripts[i].getPath());
 						break;
-					case("Sniper"):
+					case("Sniper"):									
+						//Add sniper robots to the sniper list
 						snipers.add(curObj.get("name").getAsString());
 						sniperFiles.add(robotScripts[i].getPath());
 						break;
-					case("Tank"):
+					case("Tank"):									
+						//Add tank robots to the tank list
 						tanks.add(curObj.get("name").getAsString());
 						tankFiles.add(robotScripts[i].getPath());
 						break;
@@ -408,42 +447,52 @@ public class PlayMenu extends JFrame {
 			}
     	}
     	
-    	scoutScriptPaths = new String[scoutFiles.size()];
+    	//Create an array for holding robot script paths
+    	scoutScriptPaths = new String[scoutFiles.size()];	
     	sniperScriptPaths = new String[sniperFiles.size()];
     	tankScriptPaths = new String[tankFiles.size()];
     	
-    	for(int i = 0; i < scoutFiles.size(); i++){
+    	//Get file path for each scout
+    	for(int i = 0; i < scoutFiles.size(); i++){			
     		scoutScriptPaths[i] = scoutFiles.get(i);
     	}
     	
-    	for(int i = 0; i < sniperFiles.size(); i++){
+    	//Get file path for each sniper
+    	for(int i = 0; i < sniperFiles.size(); i++){		
     		sniperScriptPaths[i] = sniperFiles.get(i);
     	}
     	
-    	for(int i = 0; i < tankFiles.size(); i++){
+    	//Get file path for each tank
+    	for(int i = 0; i < tankFiles.size(); i++){			
     		tankScriptPaths[i] = tankFiles.get(i);
     	}
 		
-		String[] scoutNames = new String[scouts.size()];
-		String[] sniperNames = new String[snipers.size()];
+    	//Create arrays for holding robot names
+		String[] scoutNames = new String[scouts.size()];	
+		String[] sniperNames = new String[snipers.size()];	
 		String[] tankNames = new String[tanks.size()];
 		
-		scoutScripts = new JComboBox[6];
-		sniperScripts = new JComboBox[6];
-		tankScripts = new JComboBox[6];
-		
+		//Get name of each scout
 		for(int i = 0; i < scouts.size(); i++){
     		scoutNames[i] = scouts.get(i);
     	}
     	
+		//Get name of each sniper
     	for(int i = 0; i < snipers.size(); i++){
     		sniperNames[i] = snipers.get(i);
     	}
     	
+    	//Get name of each tank
     	for(int i = 0; i < tanks.size(); i++){
     		tankNames[i] = tanks.get(i);
     	}
-		
+
+    	//Initialize combo box array of size 6, for each robot class for each team
+    	scoutScripts = new JComboBox[6];							
+    	sniperScripts = new JComboBox[6];
+    	tankScripts = new JComboBox[6];
+    	
+    	//Initialize all six combo boxes for each class using the robot names
 		for(int i = 0; i < 6; i++){
 			scoutScripts[i] = new JComboBox<String>(scoutNames);
 			sniperScripts[i] = new JComboBox<String>(sniperNames);
