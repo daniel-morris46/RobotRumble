@@ -1,5 +1,6 @@
 package View;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +8,10 @@ import com.google.gson.*;
 
 import Model.Robot;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.io.*;
 import java.net.*;
@@ -85,27 +89,35 @@ public class OptionsMenuPanel extends JPanel{
     	testFrame.add(new OptionsMenuPanel());
 	}
 	
-//	public String parse(){
-		
-//		JsonElement jelement = new JsonParser().parse(json);
-//	    JsonObject  jobject = jelement.getAsJsonObject();
-//	    jobject = jobject.getAsJsonObject("data");
-//	    JsonArray jarray = jobject.getAsJsonArray("translations");
-//	    jobject = jarray.get(0).getAsJsonObject();
-//	    String result = jobject.get("translatedText").toString();
-//	    return result;
-//	}
-	
-	
-	//info panel class for display
+	/** JPanel that displays information on a robot to be imported from the robot librarian server */
 	private class RobotInfoPanel extends JPanel{
 		
-		Robot robot;
+		private static final long serialVersionUID = 1L;
+		
+		/** The JSON object representing the current robot */
+		JsonObject script;
+		
+		/** The name of the robot */
+		String name;
 		
 		/** @public Initializes Options menu. */
 		public RobotInfoPanel(JsonObject robotScript, String team, String robotClass, 
 								String robotName, int matches, int wins, int losses){
 			super();
+			setLayout(new GridLayout(8,1));
+			setSize(100,100);
+			script = robotScript;
+			name = robotName;
+			add(new JLabel("Team: " + team));
+			add(new JLabel("Class: " + robotClass));
+			add(new JLabel("Name: " + robotName));
+			add(new JLabel("Matches: " + matches));
+			add(new JLabel("Wins: " + wins));
+			add(new JLabel("Losses: " + losses));
+			this.setBorder(BorderFactory.createLineBorder(Color.black));
+			JButton importButton = new JButton("Import");
+			add(importButton);
+			revalidate();
 		}
 		
 		private class ImportButtonListener implements ActionListener{
