@@ -35,9 +35,14 @@ public class Controller {
     /** The in-game menu for updating the board's representation */
     public InGameMenu inGameMenu;
     
+    /** The options menu for importing new robot scripts */
+    public OptionsMenu optionsMenu;
+    
     /** Creates a controller and initializes the menus */
     protected Controller() {
         gameBoard = new Board(5, 2);
+        optionsMenu = new OptionsMenu();
+        optionsMenu.setVisible(false);
         playMenu = new PlayMenu("Prepare board");
         playMenu.setVisible(false);
         gameMenu = new GameMenu();

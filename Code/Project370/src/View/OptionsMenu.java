@@ -43,7 +43,8 @@ public class OptionsMenu extends JFrame{
      */
     private class BackListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
-    		
+    		Controller.getInstance().gameMenu.setVisible(true);
+    		Controller.getInstance().optionsMenu.setVisible(false);
     	}
     }
 	
