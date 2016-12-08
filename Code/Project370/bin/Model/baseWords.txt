@@ -1,0 +1,46 @@
+drop	:	
+dup		:	
+swap	:	
+rot		:	
++		:	add
+-		:	subtract
+*		:	multiply
+/mod	:	divide
+<		:	comparisonFunc
+<=		:	comparisonFunc
+=		:	comparisonFunc
+<>		:	comparisonFunc
+=>		:	comparisonFunc
+>		:	comparisonFunc
+and		:	
+or		:	
+invert	:
+if		:	ifCond
+else	:	elseCond
+then	:	nothing
+do		:
+loop	:
+leave	:
+begin	:
+until	:
+!		:	setVariable
+?		:	getVariable
+.		:	
+random	:	
+health	:
+healthLeft	:
+moves	:
+movesLeft	:
+attack	:
+range	:
+team	:
+type	:
+turn!	:
+move!	:
+shoot!	:
+check!	:
+scan!	:
+identify!	:
+send!	:
+mesg?	:
+recv!	:

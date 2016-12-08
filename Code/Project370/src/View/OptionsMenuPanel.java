@@ -40,43 +40,41 @@ public class OptionsMenuPanel extends JPanel{
 			serverData = in.readLine();
 			serverData = "{ \"robots\":" + serverData + "}";
 			socket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			;
-		}
-		
-		JsonElement jElement = new JsonParser().parse(serverData);
-		
-		JsonObject jObject = jElement.getAsJsonObject();
-		JsonArray briefInfo = jObject.getAsJsonArray("robots");
-
-		String robotTeam = "";
-		String robotClass = "";
-		String robotName = "";
-		int robotMatches = 0;
-		int robotWins = 0;
-		int robotLosses = 0;
-		
-		JPanel[] robotPanels = new JPanel[briefInfo.size()];
-		
-		for(int i = 0; i < briefInfo.size(); i++){
-			JsonObject curObj = briefInfo.get(i).getAsJsonObject().get("script").getAsJsonObject();
-			robotTeam = curObj.get("team").getAsString();
-			robotClass = curObj.get("class").getAsString();
-			robotName = curObj.get("name").getAsString();
-			robotMatches = curObj.get("matches").getAsInt();
-			robotWins = curObj.get("wins").getAsInt();
-			robotLosses = curObj.get("losses").getAsInt();
 			
-			robotPanels[i] = new RobotInfoPanel(briefInfo.get(i).getAsJsonObject(), robotTeam, 
-									robotClass, robotName, robotMatches, robotWins, robotLosses);
-			this.add(robotPanels[i]);
-			robotPanels[i].setVisible(true);
+			JsonElement jElement = new JsonParser().parse(serverData);
+			
+			JsonObject jObject = jElement.getAsJsonObject();
+			JsonArray briefInfo = jObject.getAsJsonArray("robots");
+
+			String robotTeam = "";
+			String robotClass = "";
+			String robotName = "";
+			int robotMatches = 0;
+			int robotWins = 0;
+			int robotLosses = 0;
+			
+			JPanel[] robotPanels = new JPanel[briefInfo.size()];
+			
+			for(int i = 0; i < briefInfo.size(); i++){
+				JsonObject curObj = briefInfo.get(i).getAsJsonObject().get("script").getAsJsonObject();
+				robotTeam = curObj.get("team").getAsString();
+				robotClass = curObj.get("class").getAsString();
+				robotName = curObj.get("name").getAsString();
+				robotMatches = curObj.get("matches").getAsInt();
+				robotWins = curObj.get("wins").getAsInt();
+				robotLosses = curObj.get("losses").getAsInt();
+				
+				robotPanels[i] = new RobotInfoPanel(briefInfo.get(i).getAsJsonObject(), robotTeam, 
+										robotClass, robotName, robotMatches, robotWins, robotLosses);
+				this.add(robotPanels[i]);
+				robotPanels[i].setVisible(true);
+			}
+		} catch (IOException e) {
+			System.err.println("Could not find host. Robot Librarian is disconnected from system.");
+		} finally {
+			repaint();
+			revalidate();
 		}
-		
-		repaint();
-		revalidate();
 	}
 	
 	public static void main(String args[]){

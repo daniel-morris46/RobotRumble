@@ -1,13 +1,8 @@
 package View;
 
 import java.awt.GridLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
 import javax.swing.*;
 
 import Controller.Controller;
@@ -22,25 +17,7 @@ public class GameMenu extends JFrame{
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args){
-		try {
-            // Set System L&F
-        UIManager.setLookAndFeel(
-            UIManager.getSystemLookAndFeelClassName());
-	    } 
-	    catch (UnsupportedLookAndFeelException e) {
-	       // handle exception
-	    }
-	    catch (ClassNotFoundException e) {
-	       // handle exception
-	    }
-	    catch (InstantiationException e) {
-	       // handle exception
-	    }
-	    catch (IllegalAccessException e) {
-	       // handle exception
-	    }
-		
-		//JFrame menu = new GameMenu();
+		Controller.getInstance();
 		
 	}
 	
@@ -108,7 +85,8 @@ public class GameMenu extends JFrame{
      */
     private class OptionListener implements ActionListener{
     	public void actionPerformed(ActionEvent e){
-    		System.exit(0);
+    		Controller.getInstance().gameMenu.setVisible(false);
+    		Controller.getInstance().optionsMenu.setVisible(true);
     	}
     }
     
