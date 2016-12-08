@@ -116,28 +116,34 @@ public class OptionsMenuPanel extends JPanel{
 			add(new JLabel("Losses: " + losses));
 			this.setBorder(BorderFactory.createLineBorder(Color.black));
 			JButton importButton = new JButton("Import");
+			importButton.addActionListener(new ImportButtonListener(importButton));
 			add(importButton);
 			revalidate();
 		}
 		
 		private class ImportButtonListener implements ActionListener{
+			JButton button;
+			
+			public ImportButtonListener(JButton _button){
+				super();
+				button = _button;
+			}
 	    	public void actionPerformed(ActionEvent e){
-	    		//imports robot tied to info panel
-	    		//imports full, and saves to file locally
+	    		button.setText("Imported!");
+	    		button.setEnabled(false);
+	    		
+	    		try{
+	    			Writer writer = new FileWriter("src/Model/scripts/" + name + ".json");
+	    			writer.write(script.toString());
+	    			writer.close();
+	    		} catch (IOException e1) {
+					e1.printStackTrace();
+				} finally {
+	    			;
+	    		}
 	    	}
 	    }
-		
 	}
-
-	
-	private class CreateTeamButtonListener implements ActionListener{
-    	public void actionPerformed(ActionEvent e){
-    		//creates team from selected robots
-    	}
-    }
-	
-	
-	
 }
 
 
