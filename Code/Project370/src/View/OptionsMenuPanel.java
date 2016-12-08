@@ -1,5 +1,6 @@
 package View;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import com.google.gson.*;
@@ -21,7 +22,8 @@ public class OptionsMenuPanel extends JPanel{
 	/** @public Initializes Options menu. */
 	public OptionsMenuPanel(){
 		super();
-		
+		setSize(1400,800);
+		setLayout(new GridLayout(2,2));
 		String serverData = "";
 		
 		try {
@@ -32,29 +34,45 @@ public class OptionsMenuPanel extends JPanel{
 			out.println(request);
 			
 			serverData = in.readLine();
-			System.out.println(serverData);
 			serverData = "{ \"robots\":" + serverData + "}";
 			socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			;
 		}
-		
-		System.out.println("Finished");
-		
-		//PARSE serverData
 		
 		JsonElement jElement = new JsonParser().parse(serverData);
 		
 		JsonObject jObject = jElement.getAsJsonObject();
-		JsonArray jArray = jObject.getAsJsonArray("robots");
-		
-		//Send JSON list-request to librarian
+		JsonArray briefInfo = jObject.getAsJsonArray("robots");
 
+		String robotTeam = "";
+		String robotClass = "";
+		String robotName = "";
+		int robotMatches = 0;
+		int robotWins = 0;
+		int robotLosses = 0;
 		
-		//for (/*all robots returned*/){
+		JPanel[] robotPanels = new JPanel[briefInfo.size()];
+		
+		for(int i = 0; i < briefInfo.size(); i++){
+			JsonObject curObj = briefInfo.get(i).getAsJsonObject().get("script").getAsJsonObject();
+			robotTeam = curObj.get("team").getAsString();
+			robotClass = curObj.get("class").getAsString();
+			robotName = curObj.get("name").getAsString();
+			robotMatches = curObj.get("matches").getAsInt();
+			robotWins = curObj.get("wins").getAsInt();
+			robotLosses = curObj.get("losses").getAsInt();
 			
-			//create robot info panel with information
-		//}
+			robotPanels[i] = new RobotInfoPanel(briefInfo.get(i).getAsJsonObject(), robotTeam, 
+									robotClass, robotName, robotMatches, robotWins, robotLosses);
+			this.add(robotPanels[i]);
+			robotPanels[i].setVisible(true);
+		}
+		
+		repaint();
+		revalidate();
 	}
 	
 	public static void main(String args[]){
@@ -85,7 +103,8 @@ public class OptionsMenuPanel extends JPanel{
 		Robot robot;
 		
 		/** @public Initializes Options menu. */
-		public RobotInfoPanel(String team, String roboClass, String name, int matches, int wins, int losses){
+		public RobotInfoPanel(JsonObject robotScript, String team, String robotClass, 
+								String robotName, int matches, int wins, int losses){
 			super();
 		}
 		
