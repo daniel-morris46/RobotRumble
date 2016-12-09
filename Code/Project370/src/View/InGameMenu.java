@@ -4,6 +4,8 @@ import Model.*;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,6 +29,12 @@ public class InGameMenu extends JFrame{
 	
 	/**@public The panel for hiding the game while switching players */
 	public JPanel standByPanel;
+	
+	/**@public The panel for the player wins screen */
+    public JPanel winPanel;
+    
+    /**@public The label for the player wins screen */
+    public JLabel winnerMessage;
 	
 	/**@private JButton for rotating/cycling left */
 	private JButton leftButton;
@@ -106,7 +114,16 @@ public class InGameMenu extends JFrame{
         JButton nextButton = new JButton("Next Player");
         nextButton.addActionListener(new NextPlayerButtonListener());
         standByPanel.add(nextButton);
-        
+
+        winPanel = new JPanel();
+        winnerMessage = new JLabel("");
+        winnerMessage.setFont(winnerMessage.getFont().deriveFont(72.0f));
+        JButton winnerExitButton = new JButton("Exit");
+        winnerExitButton.setPreferredSize(new Dimension(450, 200));
+        winnerExitButton.setFont(winnerExitButton.getFont().deriveFont(50.0f));
+        winnerExitButton.addActionListener(new WinnerExitButtonListener());
+        winPanel.add(winnerMessage);
+        winPanel.add(winnerExitButton);
         
         gamePanel = new InGameMenuPanel(b.getSize(), b.Teams);
         gamePanel.reDraw(b);
@@ -122,9 +139,11 @@ public class InGameMenu extends JFrame{
         gamePanel.add(buttonPanel, BorderLayout.SOUTH);
         
         add(standByPanel);
+        add(winPanel);
         add(gamePanel);
         
         standByPanel.setVisible(false);
+        winPanel.setVisible(false);
         gamePanel.setVisible(true);
         
         
@@ -163,7 +182,12 @@ public class InGameMenu extends JFrame{
 	/** Tells the controller to forfeit the game for the current player */
 	private class ForfeitButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
-    		//TELL BOARD TO FORFEIT
+		    
+    		for(int i = 0; i < 3; i++){
+    		    Controller.getInstance().gameBoard.getTeams()[Controller.getInstance().gameBoard.getCurrentTeam()].getTeamOfRobot()[i].setHealth(0);
+    		}
+    		
+    		endPlayButton.doClick();
     	}
     }
 	
@@ -200,7 +224,36 @@ public class InGameMenu extends JFrame{
     		actionButton.setText("Move");
     		boolean next = board.getTeams()[board.getCurrentTeam()].isHuman();
     		
-    		if(prev && next){
+    		RobotTeam aliveTeam = Controller.getInstance().gameBoard.getTeams()[0];
+    		int deadCounter = 0;
+            for(int i = 0; i < Controller.getInstance().gameBoard.getTeamAmount(); i++){
+                if(!Controller.getInstance().gameBoard.getTeams()[i].isAlive()){
+                    deadCounter += 1;
+                }else{
+                    aliveTeam = Controller.getInstance().gameBoard.getTeams()[i];
+                }
+            }
+            
+            if(deadCounter == Controller.getInstance().gameBoard.getTeamAmount() - 1){
+                gamePanel.setVisible(false);
+                if(aliveTeam.getColour() == Color.red){
+                    winnerMessage.setText("Red Team Wins!");
+                }else if(aliveTeam.getColour() == Color.orange){
+                    winnerMessage.setText("Orange Team Wins!");
+                }else if(aliveTeam.getColour() == Color.yellow){
+                    winnerMessage.setText("Yellow Team Wins!");
+                }else if(aliveTeam.getColour() == Color.green){
+                    winnerMessage.setText("Green Team Wins!");
+                }else if(aliveTeam.getColour() == Color.blue){
+                    winnerMessage.setText("Blue Team Wins!");
+                }else if(aliveTeam.getColour() == Color.magenta){
+                    winnerMessage.setText("Purple Team Wins!");
+                }
+                
+                winPanel.setVisible(true);
+                gamePanel.reDraw(Controller.getInstance().gameBoard);
+                revalidate();
+            }else if(prev && next){
 				gamePanel.setVisible(false);
 				standByPanel.setVisible(true);
 				gamePanel.reDraw(Controller.getInstance().gameBoard);
@@ -220,6 +273,16 @@ public class InGameMenu extends JFrame{
 			
     	}
 	}
+	
+	/** Tells the controller to show the board for the next player */
+    private class WinnerExitButtonListener implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            winPanel.setVisible(false);
+            Controller.getInstance().gameMenu.setVisible(true);
+            Controller.getInstance().inGameMenu.setVisible(false);
+        }
+    }
+	
 	
 	public static void main(String[] args){
 		Controller.getInstance();
