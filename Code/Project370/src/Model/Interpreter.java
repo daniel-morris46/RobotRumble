@@ -1,6 +1,5 @@
 package Model;
 
-import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
@@ -287,10 +286,10 @@ public class Interpreter {
      */
     void ifCond(ListIterator<String> code) {
 
-        if (stack.pop().compareTo("equal") == 0) {
+        if (stack.pop().equals("equal")) {
 
             return;
-        } else if (stack.pop().compareTo("unequal") == 0) {
+        } else if (stack.pop().equals("unequal")) {
 
             goTo(code, "else");
         } else {
@@ -311,9 +310,88 @@ public class Interpreter {
     }
 
 
-    void comparisonFunc() {
+    void equalTo() {
 
-        // if true, pushes "equal" to stack, else pushes "unequal"
+        String val2 = stack.pop();
+        String val1 = stack.pop();
+
+        if (val2.equals(val1)) {
+
+            stack.push("equal");
+        } else {
+
+            stack.push("unequal");
+        }
+    }
+
+    void notEqualTo() {
+
+        String val2 = stack.pop();
+        String val1 = stack.pop();
+
+        if (!(val2.equals(val1))) {
+
+            stack.push("equal");
+        } else {
+
+            stack.push("unequal");
+        }
+    }
+
+    void lessThan() {
+
+        int val2 = Integer.parseInt(stack.pop());
+        int val1 = Integer.parseInt(stack.pop());
+
+        if (val2 < val1) {
+
+            stack.push("equal");
+        } else {
+
+            stack.push("unequal");
+        }
+    }
+
+    void lessThanEqual() {
+
+        int val2 = Integer.parseInt(stack.pop());
+        int val1 = Integer.parseInt(stack.pop());
+
+        if (val2 <= val1) {
+
+            stack.push("equal");
+        } else {
+
+            stack.push("unequal");
+        }
+    }
+
+    void greaterThan() {
+
+        int val2 = Integer.parseInt(stack.pop());
+        int val1 = Integer.parseInt(stack.pop());
+
+        if (val2 > val1) {
+
+            stack.push("equal");
+        } else {
+
+            stack.push("unequal");
+        }
+    }
+
+    void greaterThanEqual() {
+
+        int val2 = Integer.parseInt(stack.pop());
+        int val1 = Integer.parseInt(stack.pop());
+
+        if (val2 >= val1) {
+
+            stack.push("equal");
+        } else {
+
+            stack.push("unequal");
+        }
     }
 
 
@@ -406,7 +484,7 @@ public class Interpreter {
      * Shoots on the target square.
      */
     void shoot() {
-        //TODO make shoot target.
+        // TODO make shoot target.
         controller.G_Attack();
     }
 
@@ -461,13 +539,12 @@ public class Interpreter {
 
         int nestLevel = 0;
         String currWord;
-        while (((currWord = code.next()).compareTo(target) != 0) && nestLevel == 0) {
+        while (!((currWord = code.next()).equals(target)) && nestLevel == 0) {
 
-            if ((currWord.compareTo("if") == 0) || (currWord.compareTo("do") == 0)
-                    || (currWord.compareTo("begin") == 0)) {
+            if (currWord.equals("if") || currWord.equals("do") || currWord.equals("begin")) {
                 nestLevel++;
-            } else if ((currWord.compareTo("then") == 0) || (currWord.compareTo("loop") == 0)
-                    || (currWord.compareTo("until") == 0)) {
+            } else if (currWord.equals("then") || currWord.equals("loop")
+                    || currWord.equals("until")) {
                 nestLevel--;
             }
         } ;

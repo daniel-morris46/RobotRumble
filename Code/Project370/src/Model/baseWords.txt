@@ -6,12 +6,12 @@ rot			:	rot
 -			:	subtract
 *			:	multiply
 /mod		:	divide
-<			:	comparisonFunc
-<=			:	comparisonFunc
-=			:	comparisonFunc
-<>			:	comparisonFunc
-=>			:	comparisonFunc
->			:	comparisonFunc
+<			:	lessThan
+<=			:	lessThanEqual
+=			:	equalTo
+<>			:	notEqualTo
+=>			:	greaterThanEqual
+>			:	greaterThan
 and			:	
 or			:	
 invert		:	
