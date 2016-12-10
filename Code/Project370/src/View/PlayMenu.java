@@ -314,17 +314,17 @@ public class PlayMenu extends JFrame {
     		String[] scout = new String[numPlayers];
     		String[] sniper = new String[numPlayers];
     		String[] tank = new String[numPlayers];
-    		Boolean[] humans = new Boolean[numPlayers];
+    		Boolean[] isHuman = new Boolean[numPlayers];
     		
     		if(scoutScriptPaths != null && sniperScriptPaths != null && tankScriptPaths != null){
 	    		for(int i = 0; i < numPlayers; i++){
 	    			if(playerTypes[i].getSelectedIndex() == 0){	//AI
-	    				humans[i] = false;
+	    				isHuman[i] = false;
 	    				scout[i] = scoutScriptPaths[scoutScripts[i].getSelectedIndex()];
 	        			sniper[i] = sniperScriptPaths[sniperScripts[i].getSelectedIndex()];
 	        			tank[i] = tankScriptPaths[tankScripts[i].getSelectedIndex()];
 	    			} else {
-	    				humans[i] = true;
+	    				isHuman[i] = true;
 	    				scout[i] = "";
 	        			sniper[i] = "";
 	        			tank[i] = "";
@@ -334,6 +334,7 @@ public class PlayMenu extends JFrame {
     		
     		
     		Board newBoard = new Board(boardSize, numPlayers, parseColors());
+    		newBoard.initializeScripts(isHuman, scout, sniper, tank);
     		
     		/**
     		 * 
