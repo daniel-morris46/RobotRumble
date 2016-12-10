@@ -224,8 +224,8 @@ public class Board {
      * Searches a certain range around a given hex for robots. The targetList of the board will be set
      * to the list of robots that the search finds.
      * 
-     * @param h 				the hex that is to be searched around
-     * @param range				the range that the search should view
+     * @param h the hex that is to be searched around
+     * @param range the range that the search should view
      * 
      */
     public void search(Hex h, int range) {
@@ -314,11 +314,6 @@ public class Board {
         targetList.removeAll(targetList);
     }
     
-    
-    /**
-     * Update the hex color for fog of wars.
-     * 
-     */
     public void updateHexColours() {
         
         
@@ -357,15 +352,7 @@ public class Board {
                 
     }
     
-    
-    /**
-     * Finding out if the hex1 is out of the range of the hex2 with a given specified range
-     * 
-     * @param hex1			The hex you want to check
-     * @param hex2			The hex you want to the center
-     * @param range			How far you want to check
-     * @return				Returns true if hex1 is out of range of hex2
-     */
+    /** Returns true if hex1 is out of range of hex2 given the specified range. */
     private boolean isOutOfRange(Hex hex1, Hex hex2, int range) {
         //LinkedList<Hex> rangeList = new LinkedList<Hex>();
         
@@ -406,15 +393,7 @@ public class Board {
 //        }
     }
     
-    /**
-     * Changes the color of the hex that the robot will be moving to be green.
-     * 
-     * @param curRobot				Current robot that is playing
-     * @param x						x axis of the board
-     * @param y						y axis of the board
-     * @param board					The board
-     */
-    public void updateMovementColours(Robot curRobot, int x, int y, Board board) {
+    public void updateMovementColours(Robot curRobot, int x, int y, Board board, int cur) {
     	try {
 	    	if (board.isGameMode()) {
 		    	 if(curRobot.getAbsDirection() == 0){ 
@@ -454,11 +433,6 @@ public class Board {
     	}
     }
     
-    /**
-     * Making the colour of the hex that the play is targeting to be red, and the possible hex that can be target to be yellow.
-     * 
-     * @param board					The board
-     */
     public void updateTargetColours(Board board) {
     	updateHexColours();
     	for (int i = 0; i < targetList.size(); i++) {

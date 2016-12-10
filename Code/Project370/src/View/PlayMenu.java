@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -76,32 +77,37 @@ public class PlayMenu extends JFrame {
     	super(title);
     	
     	this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    	this.setSize(1000, 400);
-    	this.setVisible(true);
     	
-    	//Initialize the menu panel
-    	JPanel menuPanel;
-    	menuPanel = new JPanel(new FlowLayout());
-    	menuPanel.setSize(400,  600);
-    	menuPanel.setVisible(true);
-    	menuPanel.doLayout();
-    	this.add(menuPanel);
+    	//Set re-sizeable and max frame
+        this.setVisible(true);
+        this.setBounds(0, 0, 1250, 1000);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+    	
+    	//Initialize the play menu panel
+    	JPanel playPanel;
+    	playPanel = new JPanel(new FlowLayout());
+    	playPanel.setSize(400,  600);
+    	playPanel.setVisible(true);
+    	playPanel.doLayout();
+    	this.add(playPanel);
     	
     	//Initialize the begin button and add it to the menu panel
     	JButton beginButton;
     	beginButton = new JButton("Begin");
-    	beginButton.setSize(50, 50);
+    	beginButton.setSize(150, 50);
+    	beginButton.setPreferredSize(new Dimension(150, 50));
     	beginButton.setVisible(true);
     	beginButton.addActionListener(new BeginListener());
-    	menuPanel.add(beginButton);
+    	playPanel.add(beginButton);
     	
     	//Initializing back button
     	JButton backButton;
     	backButton = new JButton("Back");
-    	backButton.setSize(50,50);
+    	backButton.setSize(150, 50);
+    	backButton.setPreferredSize(new Dimension(150, 50));
     	backButton.setVisible(true);
     	backButton.addActionListener(new BackListener());
-    	menuPanel.add(backButton);
+    	playPanel.add(backButton);
     	
     	//Initialize the label for the board size
     	JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 50, 25));
@@ -127,7 +133,7 @@ public class PlayMenu extends JFrame {
     	sizeButtons.add(sizeFive);
     	sizeButtons.add(sizeSeven);
     	sizeFive.setSelected(true);
-    	menuPanel.add(buttonPanel);
+    	playPanel.add(buttonPanel);
     	
     	//Initialize the label for the player number size
     	JPanel playerNumPanel = new JPanel(new GridLayout(2, 1, 50, 25));
@@ -141,7 +147,7 @@ public class PlayMenu extends JFrame {
     	numberOfPlayers.addActionListener(new PlayerNumberListener());
     	
     	playerNumPanel.add(numberOfPlayers);
-    	menuPanel.add(playerNumPanel);
+    	playPanel.add(playerNumPanel);
     	
     	numberOfPlayers.setVisible(true);
     	
@@ -149,7 +155,7 @@ public class PlayMenu extends JFrame {
     	playerTypes = new JComboBox[6];
     	
     	JPanel playerPanel = new JPanel(new GridLayout(7,1, 50, 25));
-    	menuPanel.add(playerPanel);
+    	playPanel.add(playerPanel);
     	JLabel playerTitle = new JLabel("Player Type");
     	playerPanel.add(playerTitle);
     	
@@ -170,7 +176,7 @@ public class PlayMenu extends JFrame {
     	playerColors = new JComboBox[6];
     	
     	JPanel colorPanel = new JPanel(new GridLayout(7,1, 50, 25));
-    	menuPanel.add(colorPanel);
+    	playPanel.add(colorPanel);
     	
     	JLabel colorTitle = new JLabel("Team Color");
     	colorPanel.add(colorTitle);
@@ -205,9 +211,9 @@ public class PlayMenu extends JFrame {
 	    		tankPanel.add(tankScripts[i]);
 	    	}
 	    	
-	    	menuPanel.add(scoutPanel);
-	    	menuPanel.add(sniperPanel);
-	    	menuPanel.add(tankPanel);
+	    	playPanel.add(scoutPanel);
+	    	playPanel.add(sniperPanel);
+	    	playPanel.add(tankPanel);
     	} catch (FileNotFoundException e){
     		e.printStackTrace();
     		return;

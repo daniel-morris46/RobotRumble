@@ -1,46 +1,46 @@
-drop		:	drop
-dup			:	dup
-swap		:	swap
-rot			:	rot
-+			:	add
--			:	subtract
-*			:	multiply
-/mod		:	divide
-<			:	comparisonFunc
-<=			:	comparisonFunc
-=			:	comparisonFunc
-<>			:	comparisonFunc
-=>			:	comparisonFunc
->			:	comparisonFunc
-and			:	
-or			:	
-invert		:
-if			:	ifCond
-else		:	elseCond
-then		:	nothing
-do			:
-loop		:
-leave		:
-begin		:
-until		:
-!			:	setVariable
-?			:	getVariable
-.			:	
-random		:	
-health		:
+drop	:	
+dup		:	
+swap	:	
+rot		:	
++		:	add
+-		:	subtract
+*		:	multiply
+/mod	:	divide
+<		:	comparisonFunc
+<=		:	comparisonFunc
+=		:	comparisonFunc
+<>		:	comparisonFunc
+=>		:	comparisonFunc
+>		:	comparisonFunc
+and		:	
+or		:	
+invert	:
+if		:	ifCond
+else	:	elseCond
+then	:	nothing
+do		:
+loop	:
+leave	:
+begin	:
+until	:
+!		:	setVariable
+?		:	getVariable
+.		:	
+random	:	
+health	:
 healthLeft	:
-moves		:
+moves	:
 movesLeft	:
-attack		:
-range		:
-team		:
-type		:
-turn!		:	turn
-move!		:	move
-shoot!		:	shoot
-check!		:
-scan!		:	scan
+attack	:
+range	:
+team	:
+type	:
+turn!	:
+move!	:
+shoot!	:
+check!	:
+scan!	:
 identify!	:
-send!		:
-mesg?		:
-recv!		:
+send!	:
+mesg?	:
+recv!	:

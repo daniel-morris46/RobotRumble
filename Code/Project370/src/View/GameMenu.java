@@ -1,8 +1,19 @@
 package View;
 
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Controller.Controller;
@@ -21,45 +32,74 @@ public class GameMenu extends JFrame{
 		
 	}
 	
-	/** Constructs the game menu, the system's entry point */
+	/** Constructs the game menu, the system's entry point 
+	 * @throws IOException 
+	 * @throws FontFormatException */
     public GameMenu() {
     	
     	this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     	
-    	this.setSize(400, 400);
+    	//Import a new font to use for the text
+    	Font newFont = null;
+		try {
+			newFont = Font.createFont(Font.PLAIN, getClass().getResource("/View/resources/ARCADECLASSIC.TTF").openStream());
+		} catch (FontFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+		//Set the Graphics for the new font
+    	GraphicsEnvironment gFont = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	gFont.registerFont(newFont);
+    	
+    	newFont = newFont.deriveFont(15f);
+    	
+    	//Set re-sizeable and max frame
+        this.setVisible(true);
+        this.setBounds(0, 0, 1250, 1000);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     	
     	
     	//Initialize the menu panel
-    	JPanel menuPanel;
-    	menuPanel = new JPanel(new GridLayout(3, 1));
-    	menuPanel.setSize(400,  400);
+    	JPanel menuPanel = new JPanel();
+    	menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.PAGE_AXIS));
+    	menuPanel.setSize(400, 400);
     	menuPanel.setVisible(true);
-    	menuPanel.doLayout();
+    	menuPanel.setBackground(Color.CYAN);
     	this.add(menuPanel);
-    	
+       
     	//Initialize the play button and add it to the menu panel
     	JButton playButton;
     	playButton = new JButton("Play");
-    	playButton.setSize(50, 50);
+    	playButton.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 150));
+    	playButton.setSize(1000, 250);
+    	playButton.setPreferredSize(new Dimension(1000, 350));
     	playButton.setVisible(true);
+    	playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     	playButton.addActionListener(new PlayListener());
-    	
+   
     	menuPanel.add(playButton);
-    	
+    	menuPanel.add(Box.createVerticalGlue());
     	//Initialize the option button and add it to the menu panel
     	JButton optionButton;
     	optionButton = new JButton("Options");
-    	optionButton.setSize(50, 50);
+    	optionButton.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 150));
+    	optionButton.setSize(1000, 250);
+    	optionButton.setPreferredSize(new Dimension(1000, 350));
     	optionButton.setVisible(true);
+    	optionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     	optionButton.addActionListener(new OptionListener());
     	
     	menuPanel.add(optionButton);
-    	
+    	menuPanel.add(Box.createVerticalGlue());
     	//Initialize the exit button and add it to the menu panel
     	JButton exitButton;
     	exitButton = new JButton("Exit");
-    	exitButton.setSize(50, 50);
+    	exitButton.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 150));
+    	exitButton.setSize(1000, 250);
+    	exitButton.setPreferredSize(new Dimension(1000, 350));
     	exitButton.setVisible(true);
+    	exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     	exitButton.addActionListener(new ExitListener());
     	
     	menuPanel.add(exitButton);
@@ -99,4 +139,5 @@ public class GameMenu extends JFrame{
     		System.exit(0);
     	}
     }
+    
 }
