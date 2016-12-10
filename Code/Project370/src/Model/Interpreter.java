@@ -161,7 +161,7 @@ public class Interpreter {
 
             if (userWords.containsKey(currWord)) {
 
-                // runs function code
+                runWord(word);
                 continue;
             }
 
@@ -249,6 +249,39 @@ public class Interpreter {
         String temp2 = stack.pop();
         stack.push(Integer.toString(Integer.parseInt(temp2) % Integer.parseInt(temp1)));
         stack.push(Integer.toString(Integer.parseInt(temp2) / Integer.parseInt(temp1)));
+    }
+
+
+    // STACK FUNCTIONS
+
+    void drop() {
+
+        stack.pop();
+    }
+
+    void dup() {
+
+        String temp = stack.pop();
+        stack.push(temp);
+        stack.push(temp);
+    }
+
+    void swap() {
+
+        String temp2 = stack.pop();
+        String temp1 = stack.pop();
+        stack.push(temp2);
+        stack.push(temp1);
+    }
+    
+    void rot(){
+        
+        String temp3 = stack.pop();
+        String temp2 = stack.pop();
+        String temp1 = stack.pop();
+        stack.push(temp3);
+        stack.push(temp1);
+        stack.push(temp2);
     }
 
     // LOGIC FUNCTIONS

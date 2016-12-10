@@ -1,7 +1,7 @@
-drop		:	
-dup			:	
-swap		:	
-rot			:	
+drop		:	drop
+dup			:	dup
+swap		:	swap
+rot			:	rot
 +			:	add
 -			:	subtract
 *			:	multiply
