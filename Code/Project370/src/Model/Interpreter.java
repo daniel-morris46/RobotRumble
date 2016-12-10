@@ -166,11 +166,10 @@ public class Interpreter {
                 continue;
             }
 
-
             if (basicWords.containsKey(word)) {
                 Method method;
                 try {
-                    method = getClass().getMethod(word);
+                    method = getClass().getMethod(basicWords.get(word));
                     method.invoke(word);
                 } catch (SecurityException e) {
                     e.printStackTrace();
@@ -237,11 +236,17 @@ public class Interpreter {
 
     // STACK FUNCTIONS
 
+    /**
+     * Pops top of stack.
+     */
     void drop() {
 
         stack.pop();
     }
 
+    /**
+     * Duplicates value at top of stack.
+     */
     void dup() {
 
         String temp = stack.pop();
@@ -249,6 +254,9 @@ public class Interpreter {
         stack.push(temp);
     }
 
+    /**
+     * Swaps the top two elements on that stack.
+     */
     void swap() {
 
         String temp2 = stack.pop();
@@ -256,9 +264,13 @@ public class Interpreter {
         stack.push(temp2);
         stack.push(temp1);
     }
-    
-    void rot(){
-        
+
+    /**
+     * Rotates the top 3 elements, so that the 2nd and 3rd value sit on top of the original first
+     * value.
+     */
+    void rot() {
+
         String temp3 = stack.pop();
         String temp2 = stack.pop();
         String temp1 = stack.pop();
@@ -266,9 +278,13 @@ public class Interpreter {
         stack.push(temp1);
         stack.push(temp2);
     }
-    
+
     // LOGIC FUNCTIONS
 
+    /**
+     * 
+     * @param code
+     */
     void ifCond(ListIterator<String> code) {
 
         if (stack.pop().compareTo("equal") == 0) {
@@ -289,7 +305,6 @@ public class Interpreter {
     }
 
 
-
     void nothing() {
 
         return;
@@ -304,44 +319,133 @@ public class Interpreter {
 
     // ROBOT FUNCTIONS
 
+    /**
+     * Pushes the max health of the robot onto the stack.
+     */
     void health() {
 
         // push max health
     }
 
+    /**
+     * Pushes the value of the remaining health onto the stack.
+     */
     void healthLeft() {
 
         stack.push(Integer.toString(robot.getHealth()));
     }
 
+    /**
+     * Pushes the max moves of the robot onto the stack.
+     */
     void moves() {
 
         stack.push(Integer.toString(robot.getMovementMax()));
     }
 
+    /**
+     * Pushes the amount of moves left onto the stack.
+     */
     void movesLeft() {
 
         stack.push(Integer.toString(robot.getMovementCur()));
     }
 
+    /**
+     * Pushes the attack power of the robot onto the stack.
+     */
     void attack() {
 
         stack.push(Integer.toString(robot.getDamage()));
     }
 
+    /**
+     * Pushes the range of the robot onto the stack.
+     */
     void range() {
 
         stack.push(Integer.toString(robot.getRange()));
     }
 
+    /**
+     * Pushes the String of the team colour onto the stack.
+     */
     void team() {
 
-        // stack.push(robot.getTeam());
+        stack.push(robot.getColourString());
     }
 
+    /**
+     * Pushes the string of the type of the robot onto the stack.
+     */
     void type() {
 
-        // stack.push(robot.getType());
+        stack.push(robot.getStringType());
+    }
+
+    /**
+     * Moves the robot forward.
+     */
+    void move() {
+        controller.G_Move();
+    }
+
+    /**
+     * Turns the robot once to the right.
+     */
+    void turn() {
+        int newDirection = Integer.parseInt(stack.pop());
+
+        while (newDirection > 0) {
+            controller.G_turnRight();
+            newDirection--;
+        }
+    }
+
+    /**
+     * Shoots on the target square.
+     */
+    void shoot() {
+        //TODO make shoot target.
+        controller.G_Attack();
+    }
+
+    void scan() {
+        // TODO
+    }
+
+    void identify() {
+        // TODO
+    }
+
+
+
+    // MAILBOX FUNCTIONS
+
+    /**
+     * Sends message to other team member. Returns a boolean indicating success or failure. Failure
+     * can occur if the robot is dead (health = 0), or its mailbox is full. Because mailboxes aren't
+     * implemented for this program, the message is never sent and "false" is pushed.
+     */
+    void send() {
+
+        stack.pop();
+        stack.pop();
+        stack.push("false");
+    }
+
+    /**
+     * Checks whether robot has a waiting message. Returns true is present, false otherwise. Because
+     * mailboxes aren't implemented for this program, "false" is pushed.
+     */
+    void message() {
+
+        stack.push("false");
+    }
+
+    void receive() {
+
+
     }
 
 
@@ -389,10 +493,7 @@ public class Interpreter {
 
     // MAIN
 
-
     public static void main(String[] args) {
-        Color test = Color.red;
-        System.out.println(test.red);
 
     }
 }
