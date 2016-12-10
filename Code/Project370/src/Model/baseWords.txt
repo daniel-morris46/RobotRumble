@@ -25,22 +25,22 @@ begin		:
 until		:	
 !			:	setVariable
 ?			:	getVariable
-.			:	
-random		:	
-health		:	
-healthLeft	:	
-moves		:	
-movesLeft	:	
-attack		:	
-range		:	
-team		:	
-type		:	
+.			:	popPrint
+random		:	randomPush
+health		:	health
+healthLeft	:	healthLeft
+moves		:	moves
+movesLeft	:	movesLeft
+attack		:	attack
+range		:	range
+team		:	team
+type		:	type
 turn!		:	turn
 move!		:	move
 shoot!		:	shoot
-check!		:
+check!		:	
 scan!		:	scan
 identify!	:
-send!	:
-mesg?	:
-recv!	:
+send!		:
+mesg?		:
+recv!		:
