@@ -1,5 +1,7 @@
 package Model;
 
+import java.awt.Color;
+
 public class Robot {
     
     /** The current health of the robot.*/
@@ -135,6 +137,43 @@ public class Robot {
     
     public String getPath() {
         return filePath;
+    }
+    /** Returns a string representation of the colour of the robot. */
+    public String getColourString() {
+        Color returnColor;
+        for(int i = 0; i < Controller.Controller.getInstance().gameBoard.getTeamAmount(); i++){
+            for(int j = 0; j < 3; j++){
+                if(Controller.Controller.getInstance().gameBoard.getTeams()[i].getTeamOfRobot()[j] == this){
+                    returnColor = Controller.Controller.getInstance().gameBoard.getTeams()[i].getColour();
+                    if(returnColor == Color.red){
+                        return "RED";
+                    }else if(returnColor == Color.orange){
+                        return "ORANGE";
+                    }else if(returnColor == Color.yellow){
+                        return "YELLOW";
+                    }else if(returnColor == Color.green){
+                        return "GREEN";
+                    }else if(returnColor == Color.blue){
+                        return "BLUE";
+                    }else if(returnColor == Color.magenta){
+                        return "PURPLE";
+                    }
+                }
+            }
+        }
+        return "ERROR IN FINDING ROBOT COLOUR, ROBOT WAS NOT FOUND IN TEAM ARRAY"; 
+    }
+    
+    
+    /** Returns a string representation of the type of the robot */
+    public String getStringType(){
+        if(type == 1){  // scout = 1, sniper = 2, tank = 3
+            return "SCOUT";
+        }else if(type == 2){
+            return "SNIPER";
+        }else{
+            return "TANK";
+        }
     }
 
     public static void main(String[] args) {
