@@ -1,5 +1,6 @@
 package View;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,9 +26,13 @@ public class OptionsMenu extends JFrame{
         super("Import robots");
         setLayout(new GridLayout(2,1));
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-       
-        setSize(1400, 1000);
+    
+        //Set re-sizeable and max frame
+        this.setVisible(true);
+        this.setBounds(0, 0, 1250, 1000);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         optionsPanel = new OptionsMenuPanel();
+        optionsPanel.setBackground(Color.CYAN);
         add(optionsPanel);
         optionsPanel.setVisible(true);
         setVisible(true);

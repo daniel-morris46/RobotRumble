@@ -140,6 +140,7 @@ public class InGameMenu extends JFrame{
         
         
         gamePanel.add(buttonPanel, BorderLayout.SOUTH);
+        gamePanel.setBackground(Color.CYAN);
         
         add(standByPanel);
         add(winPanel);
