@@ -42,6 +42,5 @@ check!		:
 scan!		:	scan
 identify!	:
 send!		:	send
-check!		:	check
 mesg?		:	message
 recv!		:	receive

@@ -323,7 +323,7 @@ public class Board {
     	}
     }
 
-    LinkedList<Hex> getTargetList() {
+    private LinkedList<Hex> getTargetList() {
         return targetList;
     }
     
