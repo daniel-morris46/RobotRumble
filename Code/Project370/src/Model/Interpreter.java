@@ -42,7 +42,7 @@ public class Interpreter {
                     (new JsonParser().parse(new FileReader(robot.getPath()))).getAsJsonObject();
 
             // load basic words
-            String temp = (new JsonParser().parse(new FileReader(robot.getPath()))).getAsString();
+            String temp = (new JsonParser().parse(new FileReader("basicWords.json"))).getAsString();
             variables = new Gson().fromJson(temp,
                     new TypeToken<HashMap<String, String>>() {}.getType());
         } catch (JsonParseException e) {
