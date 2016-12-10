@@ -76,9 +76,9 @@ public class GameMenu extends JFrame{
     	//Initialize the play button and add it to the menu panel
     	JButton playButton;
     	playButton = new JButton("Play");
-    	playButton.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 150));
+    	playButton.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 80));
     	playButton.setSize(1000, 250);
-    	playButton.setPreferredSize(new Dimension(1000, 350));
+    	playButton.setPreferredSize(new Dimension(1000, 250));
     	playButton.setVisible(true);
     	playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     	playButton.addActionListener(new PlayListener());
@@ -88,9 +88,9 @@ public class GameMenu extends JFrame{
     	//Initialize the option button and add it to the menu panel
     	JButton optionButton;
     	optionButton = new JButton("Options");
-    	optionButton.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 150));
+    	optionButton.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 80));
     	optionButton.setSize(1000, 250);
-    	optionButton.setPreferredSize(new Dimension(1000, 350));
+    	optionButton.setPreferredSize(new Dimension(1000, 250));
     	optionButton.setVisible(true);
     	optionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     	optionButton.addActionListener(new OptionListener());
@@ -100,9 +100,9 @@ public class GameMenu extends JFrame{
     	//Initialize the exit button and add it to the menu panel
     	JButton exitButton;
     	exitButton = new JButton("Exit");
-    	exitButton.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 150));
+    	exitButton.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 80));
     	exitButton.setSize(1000, 250);
-    	exitButton.setPreferredSize(new Dimension(1000, 350));
+    	exitButton.setPreferredSize(new Dimension(1000, 250));
     	exitButton.setVisible(true);
     	exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     	exitButton.addActionListener(new ExitListener());
