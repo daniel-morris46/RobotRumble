@@ -71,8 +71,11 @@ public class InGameMenu extends JFrame{
 	public InGameMenu(Board b) {
         super("370 ROBOT RUMBLE");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setLayout(new CardLayout());
-        setSize(1100, 800);
+        this.setVisible(true);
+        this.setBounds(0, 0, 1250, 1000);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+       
+        
         JPanel buttonPanel = new JPanel();
         
         actionToggleButton = new JButton("*");	//Creating action toggle button and adding it to panel

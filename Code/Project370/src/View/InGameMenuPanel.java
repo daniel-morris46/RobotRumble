@@ -85,6 +85,10 @@ public class InGameMenuPanel extends JPanel {
 		robotTeams = teams;											//Set the reference to the teams
 		setLayout(new BorderLayout());								//Set the panel layout
 		
+														//Set re-sizeable and max frame
+        this.setVisible(true);
+        this.setBounds(0, 0, 1250, 1000);
+		
 		JLabel currentTeamLabel = new JLabel("INSERT TEAM NAME");	//Create the current team label 
 		add(currentTeamLabel, BorderLayout.NORTH);					//Add the current team label
 		
