@@ -1,6 +1,7 @@
 package Model;
 
 import java.awt.Color;
+import java.util.*;
 
 public class Robot {
     
@@ -36,6 +37,8 @@ public class Robot {
     
     /** The direction of the robot. */
     int absDirection;
+    
+    LinkedList<Robot> mailbox;
     
     /** File path for locally saved robot information. */
     String filePath;
@@ -101,6 +104,10 @@ public class Robot {
 
     public Hex getPosition() {
         return position;
+    }
+    
+    public void getMailBoxdata(LinkedList<Robot> mailboxdata){
+        mailbox = mailboxdata;
     }
 
     public void setPosition(Hex position) {
