@@ -85,8 +85,7 @@ public class InGameMenuPanel extends JPanel {
 		robotTeams = teams;											//Set the reference to the teams
 		setLayout(new BorderLayout());								//Set the panel layout
 		
-																	//Set re-sizeable and max frame
-		
+														//Set re-sizeable and max frame
         this.setVisible(true);
         this.setBounds(0, 0, 1250, 1000);
 		

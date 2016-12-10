@@ -72,6 +72,7 @@ public class InGameMenu extends JFrame{
         super("370 ROBOT RUMBLE");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
+        setLayout(new CardLayout());
         this.setBounds(0, 0, 1250, 1000);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
        
