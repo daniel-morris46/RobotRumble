@@ -53,7 +53,7 @@ public class InGameMenuPanel extends JPanel {
 	private Hex[][] currentHexes;
 	
 	/** @private The JPanel for displaying teams of robots */
-	private JPanel teamDisplayPanel;
+	public JPanel teamDisplayPanel;
 	
 	/** @private The JPanel for displaying teams of robots */
 	private JPanel hexDisplayPanel;

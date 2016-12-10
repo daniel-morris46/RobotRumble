@@ -239,6 +239,12 @@ public class InGameMenu extends JFrame{
                 }
             }
             
+            if(next){
+            	gamePanel.teamDisplayPanel.setVisible(true);
+            } else {
+            	gamePanel.teamDisplayPanel.setVisible(false);
+            }
+            
             if(deadCounter == Controller.getInstance().gameBoard.getTeamAmount() - 1){
                 gamePanel.setVisible(false);
                 if(aliveTeam.getColour() == Color.red){

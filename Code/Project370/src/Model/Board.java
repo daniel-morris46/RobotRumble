@@ -433,6 +433,18 @@ public class Board {
     	}
     }
     
+    public void initializeScripts(Boolean[] isHuman, String[] scoutPaths, String[] sniperPaths, String[] tankPaths){
+    	for(int i = 0; i < isHuman.length; i++){
+    		Teams[i].isHuman = isHuman[i];
+    		
+    		if(!isHuman[i]){
+    			Teams[i].getTeamOfRobot()[0].filePath = scoutPaths[i];
+    			Teams[i].getTeamOfRobot()[1].filePath = sniperPaths[i];
+    			Teams[i].getTeamOfRobot()[2].filePath = tankPaths[i];
+    		}
+    	}
+    }
+    
     public void updateTargetColours(Board board) {
     	updateHexColours();
     	for (int i = 0; i < targetList.size(); i++) {
