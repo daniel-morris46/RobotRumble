@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Random;
 import java.util.Stack;
@@ -193,6 +192,10 @@ public class Interpreter {
                         }
                 }
             }
+            if (variables.containsKey(word)) {
+
+                stack.push(word);
+            }
         }
     }
 
@@ -205,6 +208,11 @@ public class Interpreter {
      */
     void subtract() {
 
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
+
         String temp1 = stack.pop();
         String temp2 = stack.pop();
         stack.push(Integer.toString(Integer.parseInt(temp2) - Integer.parseInt(temp1)));
@@ -215,6 +223,11 @@ public class Interpreter {
      * stack.
      */
     void add() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         String temp1 = stack.pop();
         String temp2 = stack.pop();
@@ -227,6 +240,11 @@ public class Interpreter {
      */
     void multiply() {
 
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
+
         String temp1 = stack.pop();
         String temp2 = stack.pop();
         stack.push(Integer.toString(Integer.parseInt(temp1) * Integer.parseInt(temp2)));
@@ -237,6 +255,11 @@ public class Interpreter {
      * the remainder back onto the stack (in that order).
      */
     void divide() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         String temp1 = stack.pop();
         String temp2 = stack.pop();
@@ -251,6 +274,11 @@ public class Interpreter {
      */
     void drop() {
 
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
+
         stack.pop();
     }
 
@@ -258,6 +286,11 @@ public class Interpreter {
      * Duplicates value at top of stack.
      */
     void dup() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         String temp = stack.pop();
         stack.push(temp);
@@ -268,6 +301,11 @@ public class Interpreter {
      * Swaps the top two elements on that stack.
      */
     void swap() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         String temp2 = stack.pop();
         String temp1 = stack.pop();
@@ -280,6 +318,11 @@ public class Interpreter {
      * value.
      */
     void rot() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         String temp3 = stack.pop();
         String temp2 = stack.pop();
@@ -298,6 +341,11 @@ public class Interpreter {
      * @param codeIterator Iterator of current code to pass into goTo function.
      */
     void ifCond(ListIterator<String> codeIterator) {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         String val = stack.pop();
         if (val.equals("true")) {
@@ -327,6 +375,11 @@ public class Interpreter {
      */
     void equalTo() {
 
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
+
         String val2 = stack.pop();
         String val1 = stack.pop();
 
@@ -344,6 +397,11 @@ public class Interpreter {
      * onto the stack if they are, "false" otherwise.
      */
     void notEqualTo() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         String val2 = stack.pop();
         String val1 = stack.pop();
@@ -363,6 +421,11 @@ public class Interpreter {
      */
     void lessThan() {
 
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
+
         int val2 = Integer.parseInt(stack.pop());
         int val1 = Integer.parseInt(stack.pop());
 
@@ -380,6 +443,11 @@ public class Interpreter {
      * Pushes "true" onto the stack if it is, "false" otherwise.
      */
     void lessThanEqual() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         int val2 = Integer.parseInt(stack.pop());
         int val1 = Integer.parseInt(stack.pop());
@@ -399,6 +467,11 @@ public class Interpreter {
      */
     void greaterThan() {
 
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
+
         int val2 = Integer.parseInt(stack.pop());
         int val1 = Integer.parseInt(stack.pop());
 
@@ -416,6 +489,11 @@ public class Interpreter {
      * Pushes "true" onto the stack if it is, "false" otherwise.
      */
     void greaterThanEqual() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         int val2 = Integer.parseInt(stack.pop());
         int val1 = Integer.parseInt(stack.pop());
@@ -435,6 +513,11 @@ public class Interpreter {
      */
     void and() {
 
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
+
         String val2 = stack.pop();
         String val1 = stack.pop();
 
@@ -453,6 +536,11 @@ public class Interpreter {
      */
     void or() {
 
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
+
         String val2 = stack.pop();
         String val1 = stack.pop();
 
@@ -469,6 +557,11 @@ public class Interpreter {
      * Inverts the top boolean on the stack.
      */
     void invert() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         String val = stack.pop();
 
@@ -566,6 +659,11 @@ public class Interpreter {
      * Turns the robot once to the right.
      */
     void turn() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
         int newDirection = Integer.parseInt(stack.pop());
 
         while (newDirection > 0) {
@@ -578,6 +676,11 @@ public class Interpreter {
      * Shoots on the target square.
      */
     void shoot() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         int direction = Integer.parseInt(stack.pop());
         int range = Integer.parseInt(stack.pop());
@@ -593,15 +696,30 @@ public class Interpreter {
      */
     void scan() {
 
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
+
         stack.push(Integer.toString(controller.gameBoard.getTargetList().size() - 1));
     }
 
     void identify() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
         // TODO
 
     }
 
     void check() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         int direction = Integer.parseInt(stack.pop());
         Hex targetHex =
@@ -631,6 +749,11 @@ public class Interpreter {
      * implemented for this program, the message is never sent and "false" is pushed.
      */
     void send() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
 
         stack.pop();
         stack.pop();
@@ -703,7 +826,53 @@ public class Interpreter {
      */
     void popPrint() {
 
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
+
         System.out.println(stack.pop());
+    }
+
+    /**
+     * Gets the value of the variable on top of stack, and pushes to the stack.
+     */
+    void getVariable() {
+
+        if (stack.isEmpty()) {
+
+            throw new IllegalStateException("Stack is Empty!");
+        }
+        
+        String name = stack.pop();
+        
+        if (!(variables.containsKey(name))){
+            
+            throw new IllegalStateException("Variable not defined!");
+        }
+
+        stack.push(variables.get(name));
+    }
+
+    /**
+     * Sets value on top of stack to the variable defined below it.
+     */
+    void setVariable() {
+
+        if(stack.isEmpty()){
+            
+            throw new IllegalStateException("Stack is Empty!");
+        }
+        
+        String value = stack.pop();
+        String name = stack.pop();
+        
+        if (!(variables.containsKey(name))){
+            
+            throw new IllegalStateException("Variable not defined!");
+        }
+        
+        variables.put(name, value);
     }
 
     /**
