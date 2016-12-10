@@ -12,9 +12,9 @@ rot			:	rot
 <>			:	notEqualTo
 =>			:	greaterThanEqual
 >			:	greaterThan
-and			:	
-or			:	
-invert		:	
+and			:	and
+or			:	or
+invert		:	invert
 if			:	ifCond
 else		:	elseCond
 then		:	nothing

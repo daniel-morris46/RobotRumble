@@ -286,10 +286,10 @@ public class Interpreter {
      */
     void ifCond(ListIterator<String> code) {
 
-        if (stack.pop().equals("equal")) {
+        if (stack.pop().equals("true")) {
 
             return;
-        } else if (stack.pop().equals("unequal")) {
+        } else if (stack.pop().equals("false")) {
 
             goTo(code, "else");
         } else {
@@ -297,19 +297,20 @@ public class Interpreter {
         }
     }
 
+    /**
+     * Only called to skip else code.
+     * 
+     * @param codeIterator iterator of current code to pass into goTo function.
+     */
+    void elseCond(ListIterator<String> codeIterator) {
 
-    void elseCond(ListIterator<String> code) {
-
-        goTo(code, "then");
+        goTo(codeIterator, "then");
     }
 
-
-    void nothing() {
-
-        return;
-    }
-
-
+    /**
+     * Checks to see if the top two values on the stack are equal to each other. Pushes "true" onto
+     * the stack if they are, "false" otherwise.
+     */
     void equalTo() {
 
         String val2 = stack.pop();
@@ -317,13 +318,17 @@ public class Interpreter {
 
         if (val2.equals(val1)) {
 
-            stack.push("equal");
+            stack.push("true");
         } else {
 
-            stack.push("unequal");
+            stack.push("false");
         }
     }
 
+    /**
+     * Checks to see if the top two values on the stack are not equal to each other. Pushes "true"
+     * onto the stack if they are, "false" otherwise.
+     */
     void notEqualTo() {
 
         String val2 = stack.pop();
@@ -331,13 +336,17 @@ public class Interpreter {
 
         if (!(val2.equals(val1))) {
 
-            stack.push("equal");
+            stack.push("true");
         } else {
 
-            stack.push("unequal");
+            stack.push("false");
         }
     }
 
+    /**
+     * Checks if the first int on stack is less than the second int on the stack. Pushes "true" onto
+     * the stack if it is, "false" otherwise.
+     */
     void lessThan() {
 
         int val2 = Integer.parseInt(stack.pop());
@@ -345,13 +354,17 @@ public class Interpreter {
 
         if (val2 < val1) {
 
-            stack.push("equal");
+            stack.push("true");
         } else {
 
-            stack.push("unequal");
+            stack.push("false");
         }
     }
 
+    /**
+     * Checks if the first int on stack is less than, or equal to, the second int on the stack.
+     * Pushes "true" onto the stack if it is, "false" otherwise.
+     */
     void lessThanEqual() {
 
         int val2 = Integer.parseInt(stack.pop());
@@ -359,13 +372,17 @@ public class Interpreter {
 
         if (val2 <= val1) {
 
-            stack.push("equal");
+            stack.push("true");
         } else {
 
-            stack.push("unequal");
+            stack.push("false");
         }
     }
 
+    /**
+     * Checks if the first int on stack is greater than the second int on the stack. Pushes "true"
+     * onto the stack if it is, "false" otherwise.
+     */
     void greaterThan() {
 
         int val2 = Integer.parseInt(stack.pop());
@@ -373,13 +390,17 @@ public class Interpreter {
 
         if (val2 > val1) {
 
-            stack.push("equal");
+            stack.push("true");
         } else {
 
-            stack.push("unequal");
+            stack.push("false");
         }
     }
 
+    /**
+     * Checks if the first int on stack is greater than, or equal to, the second int on the stack.
+     * Pushes "true" onto the stack if it is, "false" otherwise.
+     */
     void greaterThanEqual() {
 
         int val2 = Integer.parseInt(stack.pop());
@@ -387,10 +408,65 @@ public class Interpreter {
 
         if (val2 >= val1) {
 
-            stack.push("equal");
+            stack.push("true");
         } else {
 
-            stack.push("unequal");
+            stack.push("false");
+        }
+    }
+
+    /**
+     * Pushes false to the stack if either the top two values of the stack are false, else pushes
+     * true.
+     */
+    void and() {
+
+        String val2 = stack.pop();
+        String val1 = stack.pop();
+
+        if (val2.equals("false") || val1.equals("false")) {
+
+            stack.push("false");
+        } else {
+
+            stack.push("true");
+        }
+    }
+
+    /**
+     * Pushes true to the stack if either the top two values of the stack are true, else pushes
+     * false.
+     */
+    void or() {
+
+        String val2 = stack.pop();
+        String val1 = stack.pop();
+
+        if (val2.equals("true") || val1.equals("true")) {
+
+            stack.push("true");
+        } else {
+
+            stack.push("false");
+        }
+    }
+
+    /**
+     * Inverts the top boolean on the stack.
+     */
+    void invert() {
+
+        String val = stack.pop();
+
+        if (val.equals("true")) {
+
+            stack.push("false");
+        } else if (val.equals("false")) {
+
+            stack.push("true");
+        } else {
+
+            // error invalid value TODO
         }
     }
 
@@ -566,6 +642,17 @@ public class Interpreter {
         int i = (new Random()).nextInt(Integer.parseInt(stack.pop()));
         stack.push(Integer.toString(i));
     }
+
+    /**
+     * Function does nothing, simply a placeholder. An example of when this would be called is if
+     * the word "Then" is reached, because it only signifies the end of an if statement, and does
+     * nothing.
+     */
+    void nothing() {
+
+        return;
+    }
+
 
 
     // MAIN
