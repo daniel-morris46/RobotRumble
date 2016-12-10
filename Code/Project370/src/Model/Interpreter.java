@@ -10,6 +10,7 @@ import java.util.Stack;
 import java.lang.reflect.*;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 import Controller.Controller;
 
@@ -33,17 +34,17 @@ public class Interpreter {
         this.stack = new Stack<String>();
         basicWords = new HashMap<String, String>();
         userWords = new HashMap<String, String>();
-        variables = new HashMap<String, String>();
         controller = Controller.getInstance();
 
-
-        // load basic words
-
-
-        // load words from code
         try {
+            // load words from code
             parsedJson =
                     (new JsonParser().parse(new FileReader(robot.getPath()))).getAsJsonObject();
+
+            // load basic words
+            String temp = (new JsonParser().parse(new FileReader(robot.getPath()))).getAsString();
+            variables = new Gson().fromJson(temp,
+                    new TypeToken<HashMap<String, String>>() {}.getType());
         } catch (JsonParseException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -573,7 +574,7 @@ public class Interpreter {
             stack.push("true");
         } else {
 
-            // error invalid value TODO
+            throw new IllegalStateException("Value is invalid!");
         }
     }
 
@@ -843,11 +844,11 @@ public class Interpreter {
 
             throw new IllegalStateException("Stack is Empty!");
         }
-        
+
         String name = stack.pop();
-        
-        if (!(variables.containsKey(name))){
-            
+
+        if (!(variables.containsKey(name))) {
+
             throw new IllegalStateException("Variable not defined!");
         }
 
@@ -859,19 +860,19 @@ public class Interpreter {
      */
     void setVariable() {
 
-        if(stack.isEmpty()){
-            
+        if (stack.isEmpty()) {
+
             throw new IllegalStateException("Stack is Empty!");
         }
-        
+
         String value = stack.pop();
         String name = stack.pop();
-        
-        if (!(variables.containsKey(name))){
-            
+
+        if (!(variables.containsKey(name))) {
+
             throw new IllegalStateException("Variable not defined!");
         }
-        
+
         variables.put(name, value);
     }
 
