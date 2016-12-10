@@ -200,6 +200,7 @@ public class Controller {
         int curX = curRobot.getPosition().getPositionX();
         int curY = curRobot.getPosition().getPositionY();
         
+        gameBoard.setPlayamunt(gameBoard.getPlayamunt() + 1);
     	G_MoveMode();
         gameBoard.updateHexColours();
         gameBoard.clearTargetlist();
@@ -392,6 +393,7 @@ public class Controller {
             gameBoard.firstRobot();
             gameBoard.updateTargetColours(gameBoard);
             inGameMenu.gamePanel.reDraw(gameBoard);
+            gameBoard.addToMailbox(gameBoard.Teams[curRobot.getTeam()]); 
             
             if (!curRobot.isAlive()) {
             	gameBoard.clearTargetlist();
