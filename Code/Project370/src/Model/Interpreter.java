@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Random;
 import java.util.Stack;
@@ -143,7 +144,7 @@ public class Interpreter {
     /**
      * Runs the word passed in. I
      * 
-     * @param word
+     * @param word Word to be run.
      */
     public void runWord(String word) {
 
@@ -166,20 +167,30 @@ public class Interpreter {
             }
 
             if (basicWords.containsKey(word)) {
-                Method method;
-                try {
-                    method = getClass().getMethod(basicWords.get(word));
-                    method.invoke(word);
-                } catch (SecurityException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
+
+                switch (word) {
+                    case "if":
+                        ifCond(wordsQ);
+                        break;
+                    case "else":
+                        elseCond(wordsQ);
+                        break;
+                    default:
+                        Method method;
+                        try {
+                            method = getClass().getMethod(basicWords.get(word));
+                            method.invoke(word);
+                        } catch (SecurityException e) {
+                            e.printStackTrace();
+                        } catch (NoSuchMethodException e) {
+                            e.printStackTrace();
+                        } catch (IllegalArgumentException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
                 }
             }
         }
@@ -471,6 +482,10 @@ public class Interpreter {
     }
 
 
+    // LOOP FUNCTIONS
+
+
+
     // ROBOT FUNCTIONS
 
     /**
@@ -478,7 +493,7 @@ public class Interpreter {
      */
     void health() {
 
-        // push max health
+        stack.push(Integer.toString(robot.getType()));
     }
 
     /**
@@ -564,12 +579,23 @@ public class Interpreter {
         controller.G_Attack();
     }
 
+    /**
+     * Pushes number of other robots seen to the stack.
+     */
     void scan() {
         // TODO
+        stack.push(Integer.toString(controller.gameBoard.getTargetList().size() - 1));
+
     }
 
     void identify() {
         // TODO
+
+    }
+
+    void check() {
+
+        // controller.gameBoard.getHex(x, y)
     }
 
 
@@ -606,22 +632,43 @@ public class Interpreter {
     // UTILITY FUNCTIONS
 
     /**
-     * Goes to target from current position
+     * Goes forward to target from current position
      * 
      * @param list ListIterator to seek through.
      * @param target Target String.
      */
-    void goTo(ListIterator<String> code, String target) {
+    void goTo(ListIterator<String> codeIterator, String target) {
 
         int nestLevel = 0;
         String currWord;
-        while (!((currWord = code.next()).equals(target)) && nestLevel == 0) {
+        while (codeIterator.hasNext() && !((currWord = codeIterator.next()).equals(target)) && nestLevel == 0) {
 
             if (currWord.equals("if") || currWord.equals("do") || currWord.equals("begin")) {
                 nestLevel++;
             } else if (currWord.equals("then") || currWord.equals("loop")
                     || currWord.equals("until")) {
                 nestLevel--;
+            }
+        } ;
+    }
+    
+    /**
+     * Goes backward to target from current position
+     * 
+     * @param list ListIterator to seek through.
+     * @param target Target String.
+     */
+    void goBackTo(ListIterator<String> codeIterator, String target) {
+
+        int nestLevel = 0;
+        String currWord;
+        while (codeIterator.hasPrevious() && !((currWord = codeIterator.previous()).equals(target)) && nestLevel == 0) {
+
+            if (currWord.equals("if") || currWord.equals("do") || currWord.equals("begin")) {
+                nestLevel--;
+            } else if (currWord.equals("then") || currWord.equals("loop")
+                    || currWord.equals("until")) {
+                nestLevel++;
             }
         } ;
     }
