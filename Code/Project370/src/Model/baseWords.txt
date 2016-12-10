@@ -38,7 +38,7 @@ type		:	type
 turn!		:	turn
 move!		:	move
 shoot!		:	shoot
-check!		:	
+check!		:	check
 scan!		:	scan
 identify!	:
 send!		:	send
