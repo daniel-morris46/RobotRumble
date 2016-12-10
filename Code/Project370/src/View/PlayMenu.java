@@ -21,6 +21,13 @@ import com.google.gson.JsonParser;
 import Controller.Controller;
 import Model.Board;
 
+/**
+ * 
+ * Pair Programming Done by Brandon and Kevin
+ * 
+ */
+
+
 public class PlayMenu extends JFrame {
 	
 	/** The size of the board (default is 5) */
@@ -88,6 +95,7 @@ public class PlayMenu extends JFrame {
     	playPanel = new JPanel(new FlowLayout());
     	playPanel.setSize(400,  600);
     	playPanel.setVisible(true);
+    	playPanel.setBackground(Color.CYAN);
     	playPanel.doLayout();
     	this.add(playPanel);
     	
