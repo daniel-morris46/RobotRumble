@@ -1,8 +1,14 @@
 package View;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -83,6 +90,24 @@ public class PlayMenu extends JFrame {
 	public PlayMenu(String title) {
     	super(title);
     	
+    	GridBagConstraints c = new GridBagConstraints();
+    	
+    	
+    	//Import a new font to use for the text
+    	Font newFont = null;
+		try {
+			newFont = Font.createFont(Font.PLAIN, getClass().getResource("/View/resources/ARCADECLASSIC.TTF").openStream());
+		} catch (FontFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+		//Set the Graphics for the new font
+    	GraphicsEnvironment gFont = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    	gFont.registerFont(newFont);
+    	
+    	newFont = newFont.deriveFont(15f);
+    	
     	this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     	
     	//Set re-sizeable and max frame
@@ -92,7 +117,7 @@ public class PlayMenu extends JFrame {
     	
     	//Initialize the play menu panel
     	JPanel playPanel;
-    	playPanel = new JPanel(new FlowLayout());
+    	playPanel = new JPanel(new GridBagLayout());
     	playPanel.setSize(400,  600);
     	playPanel.setVisible(true);
     	playPanel.setBackground(Color.CYAN);
@@ -102,7 +127,8 @@ public class PlayMenu extends JFrame {
     	//Initialize the begin button and add it to the menu panel
     	JButton beginButton;
     	beginButton = new JButton("Begin");
-    	beginButton.setSize(150, 50);
+    	beginButton.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));
+    	beginButton.setSize(100, 250);
     	beginButton.setPreferredSize(new Dimension(150, 50));
     	beginButton.setVisible(true);
     	beginButton.addActionListener(new BeginListener());
@@ -111,7 +137,8 @@ public class PlayMenu extends JFrame {
     	//Initializing back button
     	JButton backButton;
     	backButton = new JButton("Back");
-    	backButton.setSize(150, 50);
+    	backButton.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));
+    	backButton.setSize(100, 250);
     	backButton.setPreferredSize(new Dimension(150, 50));
     	backButton.setVisible(true);
     	backButton.addActionListener(new BackListener());
@@ -120,20 +147,28 @@ public class PlayMenu extends JFrame {
     	//Initialize the label for the board size
     	JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 50, 25));
     	JLabel boardSizeTitle = new JLabel("Board Size");
+    	boardSizeTitle.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));
+    	buttonPanel.setBackground(Color.CYAN);
     	buttonPanel.add(boardSizeTitle);
   
     	//Initialize the five player board size
     	JRadioButton sizeFive = new JRadioButton("5");
-    	sizeFive.setSize(50, 50);
+    	sizeFive.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));
+    	sizeFive.setSize(100, 250);
+    	sizeFive.setPreferredSize(new Dimension(150, 50));
     	sizeFive.setVisible(true);
     	sizeFive.addActionListener(new SizeFiveListener());
+    	sizeFive.setBackground(Color.CYAN);
     	buttonPanel.add(sizeFive);
     	
     	//Initialize the seven player board size
     	JRadioButton sizeSeven = new JRadioButton("7");
-    	sizeSeven.setSize(50, 50);
+    	sizeSeven.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));
+    	sizeSeven.setSize(100, 250);
+    	sizeSeven.setPreferredSize(new Dimension(150, 50));
     	sizeSeven.setVisible(true);
     	sizeSeven.addActionListener(new SizeSevenListener());
+    	sizeSeven.setBackground(Color.CYAN);
     	buttonPanel.add(sizeSeven);
     	
     	//Create a button group and add the five and seven player buttons
@@ -146,31 +181,44 @@ public class PlayMenu extends JFrame {
     	//Initialize the label for the player number size
     	JPanel playerNumPanel = new JPanel(new GridLayout(2, 1, 50, 25));
     	JLabel playerNumTitle = new JLabel("Number of Players");
+    	playerNumTitle.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));
+    	playerNumPanel.setBackground(Color.CYAN);
     	playerNumPanel.add(playerNumTitle);
+    	
     	
     	
     	String[] numPossiblePlayers = {"2", "3"};
     	numberOfPlayers = new JComboBox(numPossiblePlayers);
+    	numberOfPlayers.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));
     	numberOfPlayers.setSize(100,100);
     	numberOfPlayers.addActionListener(new PlayerNumberListener());
     	
     	playerNumPanel.add(numberOfPlayers);
     	playPanel.add(playerNumPanel);
     	
+    	
     	numberOfPlayers.setVisible(true);
     	
     	String[] playerTypeOptions = {"Computer", "Human"};
     	playerTypes = new JComboBox[6];
     	
+    	
+    	
     	JPanel playerPanel = new JPanel(new GridLayout(7,1, 50, 25));
     	playPanel.add(playerPanel);
-    	JLabel playerTitle = new JLabel("Player Type");
+    	JLabel playerTitle = new JLabel("Player Type    ");
     	playerPanel.add(playerTitle);
+    	playerPanel.setBackground(Color.CYAN);
+    	playerTitle.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));
+    	
+    	
     	
     	for (int i = 0; i < 6; i++){
     		playerTypes[i] = new JComboBox(playerTypeOptions);
     		playerTypes[i].addActionListener(new PlayerTypeListener());
     		playerTypes[i].setSize(100, 100);
+    		playerTypes[i].setFont(new Font("ARCADECLASSIC", Font.PLAIN, 25));
+    		
 
     		playerPanel.add(playerTypes[i]);
     		if(i < numPlayers){
@@ -185,12 +233,17 @@ public class PlayMenu extends JFrame {
     	
     	JPanel colorPanel = new JPanel(new GridLayout(7,1, 50, 25));
     	playPanel.add(colorPanel);
+    	colorPanel.setBackground(Color.CYAN);
+    	colorPanel.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));
     	
-    	JLabel colorTitle = new JLabel("Team Color");
+    	JLabel colorTitle = new JLabel("Team Color     ");
     	colorPanel.add(colorTitle);
+    	colorTitle.setBackground(Color.CYAN);
+    	colorTitle.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));
     	
     	for (int i = 0; i < 6; i++){
     		playerColors[i] = new JComboBox(playerColorOptions);
+    		playerColors[i].setFont(new Font("ARCADECLASSIC", Font.PLAIN, 25));
     		
     		playerColors[i].setSize(100, 100);
     		colorPanel.add(playerColors[i]);
@@ -208,20 +261,40 @@ public class PlayMenu extends JFrame {
 	    	JPanel scoutPanel = new JPanel(new GridLayout(7,1, 50, 25));
 	    	JPanel sniperPanel = new JPanel(new GridLayout(7,1, 50, 25));
 	    	JPanel tankPanel = new JPanel(new GridLayout(7,1, 50, 25));
+	    	scoutPanel.setBackground(Color.CYAN);
+	    	sniperPanel.setBackground(Color.CYAN);
+	    	tankPanel.setBackground(Color.CYAN);
 	    	
-	    	scoutPanel.add(new JLabel("Scout"));
-	    	sniperPanel.add(new JLabel("Sniper"));
-	    	tankPanel.add(new JLabel("Tank"));
+	    	JLabel scoutTitle = new JLabel("Scout");
+	    	scoutPanel.add(scoutTitle);
+	    	scoutTitle.setBackground(Color.CYAN);
+	    	scoutTitle.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));
+	    	
+	    	JLabel sniperTitle = new JLabel("Sniper");
+	    	sniperPanel.add(sniperTitle);
+	    	sniperTitle.setBackground(Color.CYAN);
+	    	sniperTitle.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));
+	    	
+	    	JLabel tankTitle = new JLabel("Tank");
+	    	tankPanel.add(tankTitle);
+	    	tankTitle.setBackground(Color.CYAN);
+	    	tankTitle.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 40));   	
+	    
 	    	
 	    	for (int i = 0; i < 6; i++){
 	    		scoutPanel.add(scoutScripts[i]);
 	    		sniperPanel.add(sniperScripts[i]);
 	    		tankPanel.add(tankScripts[i]);
+	    		
 	    	}
 	    	
 	    	playPanel.add(scoutPanel);
 	    	playPanel.add(sniperPanel);
 	    	playPanel.add(tankPanel);
+	    	
+	    	scoutPanel.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 30));
+	    	sniperPanel.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 30));
+	    	tankPanel.setFont(new Font("ARCADECLASSIC", Font.PLAIN, 30));
     	} catch (FileNotFoundException e){
     		e.printStackTrace();
     		return;
@@ -511,6 +584,10 @@ public class PlayMenu extends JFrame {
 			scoutScripts[i] = new JComboBox<String>(scoutNames);
 			sniperScripts[i] = new JComboBox<String>(sniperNames);
 			tankScripts[i] = new JComboBox<String>(tankNames);
+			
+			scoutScripts[i].setFont(new Font("ARCADECLASSIC", Font.PLAIN, 25));
+			sniperScripts[i].setFont(new Font("ARCADECLASSIC", Font.PLAIN, 25));
+			tankScripts[i].setFont(new Font("ARCADECLASSIC", Font.PLAIN, 25));
 
 			if( i < numPlayers){
 				scoutScripts[i].setVisible(true);
