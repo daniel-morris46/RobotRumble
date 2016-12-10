@@ -32,6 +32,9 @@ public class Board {
     /**The index of the current target in the target list.*/
     int currentTarget;
     
+    /**Amount of plays have happend.*/
+    int playAmount;
+    
     /**The list of possible targets for the current robot.*/
     LinkedList<Hex> targetList;
     
@@ -185,6 +188,14 @@ public class Board {
     public int getSize() {
         return size;
     }
+    
+    public int getPlayamunt() {
+        return playAmount;
+    }
+    
+    public void setPlayamunt(int p) {
+        playAmount = p;
+    }
 
     public Spectator getSpect() {
         return spect;
@@ -252,6 +263,16 @@ public class Board {
 
             }
         }        
+    }
+    
+    public void addToMailbox(RobotTeam rt) {
+    	for (int i = 0; i < targetList.size(); i++) {
+    		if (targetList.get(i).getOcc().size() != 0) {
+    			for (int j = 0; j < targetList.get(i).getOcc().size(); j++) {
+    				rt.addMailbox(targetList.get(i).getOcc().get(j), playAmount, teamAmount);
+    			}
+    		}
+    	}
     }
     
     public Hex getCurrentHex() {
