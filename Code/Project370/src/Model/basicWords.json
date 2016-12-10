@@ -1,4 +1,4 @@
-drop		:	drop
+{drop		:	drop
 dup			:	dup
 swap		:	swap
 rot			:	rot
@@ -18,11 +18,11 @@ invert		:	invert
 if			:	ifCond
 else		:	elseCond
 then		:	nothing
-do			:	
-loop		:	
-leave		:	
-begin		:	
-until		:	
+do			:	nothing
+loop		:	nothing
+leave		:	nothing
+begin		:	nothing
+until		:	nothing
 !			:	setVariable
 ?			:	getVariable
 .			:	popPrint
@@ -43,4 +43,4 @@ scan!		:	scan
 identify!	:	
 send!		:	send
 mesg?		:	message
-recv!		:	receive
+recv!		:	receive}
