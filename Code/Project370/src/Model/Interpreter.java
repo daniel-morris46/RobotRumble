@@ -272,8 +272,8 @@ public class Interpreter {
     	// if true, pushes "equal" to stack, else pushes "unequal"
     }
 
-    // ROBOT FUNCTIONS
     
+    // ROBOT FUNCTIONS
     
     void health(){
         
@@ -302,7 +302,17 @@ public class Interpreter {
     
     void range (){
         
+        stack.push(Integer.toString(robot.getRange()));
+    }
+    
+    void team (){
         
+        //stack.push(robot.getTeam());
+    }
+    
+    void type(){
+        
+        //stack.push(robot.getType());
     }
     
 
@@ -339,12 +349,11 @@ public class Interpreter {
     /**
      * Generates random number from 0 to i, where i is a popped int from stack.
      */
-    void random(){
+    void randomPush(){
     	
     	int i = (new Random()).nextInt(Integer.parseInt(stack.pop()));
     	stack.push(Integer.toString(i));
     }
-    
     
 
     //MAIN
