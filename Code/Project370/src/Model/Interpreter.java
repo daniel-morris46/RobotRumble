@@ -315,6 +315,38 @@ public class Interpreter {
     }
 
     // ROBOT FUNCTIONS
+    
+    
+    void health(){
+        
+        //push max health
+    }
+    
+    void healthLeft(){
+        
+        stack.push(Integer.toString(robot.getHealth()));        
+    }
+    
+    void moves(){
+        
+        stack.push(Integer.toString(robot.getMovementMax()));  
+    }
+    
+    void movesLeft(){
+        
+        stack.push(Integer.toString(robot.getMovementCur()));        
+    }
+    
+    void attack(){
+        
+        stack.push(Integer.toString(robot.getDamage()));
+    }
+    
+    void range (){
+        
+        
+    }
+    
 
     // UTILITY FUNCTIONS
     /**

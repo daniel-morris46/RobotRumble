@@ -14,27 +14,27 @@ rot			:	rot
 >			:	comparisonFunc
 and			:	
 or			:	
-invert		:
+invert		:	
 if			:	ifCond
 else		:	elseCond
 then		:	nothing
-do			:
-loop		:
-leave		:
-begin		:
-until		:
+do			:	
+loop		:	
+leave		:	
+begin		:	
+until		:	
 !			:	setVariable
 ?			:	getVariable
 .			:	
 random		:	
-health		:
-healthLeft	:
-moves		:
-movesLeft	:
-attack		:
-range		:
-team		:
-type		:
+health		:	
+healthLeft	:	
+moves		:	
+movesLeft	:	
+attack		:	
+range		:	
+team		:	
+type		:	
 turn!		:	turn
 move!		:	move
 shoot!		:	shoot
