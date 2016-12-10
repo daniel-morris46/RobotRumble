@@ -40,7 +40,7 @@ move!		:	move
 shoot!		:	shoot
 check!		:	check
 scan!		:	scan
-identify!	:
+identify!	:	
 send!		:	send
 mesg?		:	message
 recv!		:	receive

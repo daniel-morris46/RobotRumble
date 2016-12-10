@@ -292,26 +292,29 @@ public class Interpreter {
     // LOGIC FUNCTIONS
 
     /**
+     * Checks to see if top value is "true" or "false". If true, runs next code. If false, skips to
+     * else statement.
      * 
-     * @param code
+     * @param codeIterator Iterator of current code to pass into goTo function.
      */
-    void ifCond(ListIterator<String> code) {
+    void ifCond(ListIterator<String> codeIterator) {
 
-        if (stack.pop().equals("true")) {
+        String val = stack.pop();
+        if (val.equals("true")) {
 
             return;
-        } else if (stack.pop().equals("false")) {
+        } else if (val.equals("false")) {
 
-            goTo(code, "else");
+            goTo(codeIterator, "else");
         } else {
             // Invalid value
         }
     }
 
     /**
-     * Only called to skip else code.
+     * Only called to skip else code after running "true" statement code in an if.
      * 
-     * @param codeIterator iterator of current code to pass into goTo function.
+     * @param codeIterator Iterator of current code to pass into goTo function.
      */
     void elseCond(ListIterator<String> codeIterator) {
 
@@ -575,7 +578,13 @@ public class Interpreter {
      * Shoots on the target square.
      */
     void shoot() {
-        // TODO make shoot target.
+
+        int direction = Integer.parseInt(stack.pop());
+        int range = Integer.parseInt(stack.pop());
+        Hex targetHex = controller.gameBoard.getHexWithDistanceAndRange(robot.getPosition(), range,
+                direction);
+
+        controller.gameBoard.currentHex = targetHex;
         controller.G_Attack();
     }
 
@@ -583,9 +592,8 @@ public class Interpreter {
      * Pushes number of other robots seen to the stack.
      */
     void scan() {
-        // TODO
-        stack.push(Integer.toString(controller.gameBoard.getTargetList().size() - 1));
 
+        stack.push(Integer.toString(controller.gameBoard.getTargetList().size() - 1));
     }
 
     void identify() {
@@ -595,7 +603,22 @@ public class Interpreter {
 
     void check() {
 
-        // controller.gameBoard.getHex(x, y)
+        int direction = Integer.parseInt(stack.pop());
+        Hex targetHex =
+                controller.gameBoard.getHexWithDistanceAndRange(robot.getPosition(), 1, direction);
+        if (targetHex == null) {
+
+            stack.push("OUT OF BOUNDS");
+        } else {
+
+            if (targetHex.getOcc().isEmpty()) {
+
+                stack.push("EMPTY");
+            } else {
+
+                stack.push("OCCUPIED");
+            }
+        }
     }
 
 
@@ -634,14 +657,15 @@ public class Interpreter {
     /**
      * Goes forward to target from current position
      * 
-     * @param list ListIterator to seek through.
+     * @param codeIterator ListIterator to seek through.
      * @param target Target String.
      */
     void goTo(ListIterator<String> codeIterator, String target) {
 
         int nestLevel = 0;
         String currWord;
-        while (codeIterator.hasNext() && !((currWord = codeIterator.next()).equals(target)) && nestLevel == 0) {
+        while (codeIterator.hasNext() && !((currWord = codeIterator.next()).equals(target))
+                && nestLevel == 0) {
 
             if (currWord.equals("if") || currWord.equals("do") || currWord.equals("begin")) {
                 nestLevel++;
@@ -651,18 +675,19 @@ public class Interpreter {
             }
         } ;
     }
-    
+
     /**
      * Goes backward to target from current position
      * 
-     * @param list ListIterator to seek through.
+     * @param codeIterator ListIterator to seek through.
      * @param target Target String.
      */
     void goBackTo(ListIterator<String> codeIterator, String target) {
 
         int nestLevel = 0;
         String currWord;
-        while (codeIterator.hasPrevious() && !((currWord = codeIterator.previous()).equals(target)) && nestLevel == 0) {
+        while (codeIterator.hasPrevious() && !((currWord = codeIterator.previous()).equals(target))
+                && nestLevel == 0) {
 
             if (currWord.equals("if") || currWord.equals("do") || currWord.equals("begin")) {
                 nestLevel--;
