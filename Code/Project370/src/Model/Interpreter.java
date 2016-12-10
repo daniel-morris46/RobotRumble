@@ -32,7 +32,7 @@ public class Interpreter {
     public Interpreter(Robot robot) {
         this.robot = robot;
         this.stack = new Stack<String>();
-        basicWords = new HashMap<String, String>();
+        variables = new HashMap<String, String>();
         userWords = new HashMap<String, String>();
         controller = Controller.getInstance();
 
@@ -43,7 +43,7 @@ public class Interpreter {
 
             // load basic words
             String temp = (new JsonParser().parse(new FileReader("basicWords.json"))).getAsString();
-            variables = new Gson().fromJson(temp,
+            basicWords = new Gson().fromJson(temp,
                     new TypeToken<HashMap<String, String>>() {}.getType());
         } catch (JsonParseException e) {
             e.printStackTrace();
