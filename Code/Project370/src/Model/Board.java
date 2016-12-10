@@ -507,84 +507,85 @@ public class Board {
                 this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[this.getCurrentRobot()];
         Hex returnHex = start;
 
-        if (range == 1) {
-            if ((cRobot.getAbsDirection() + direction) % 6 == 0) {
-                return this.getHex(startX + 1, startY);
-            } else if ((cRobot.getAbsDirection() + direction) % 6 == 1) {
-                return this.getHex(startX + 1, startY - 1);
-            } else if ((cRobot.getAbsDirection() + direction) % 6 == 2) {
-                return this.getHex(startX, startY - 1);
-            } else if ((cRobot.getAbsDirection() + direction) % 6 == 3) {
-                return this.getHex(startX - 1, startY);
-            } else if ((cRobot.getAbsDirection() + direction) % 6 == 4) {
-                return this.getHex(startX - 1, startY + 1);
-            } else if ((cRobot.getAbsDirection() + direction) % 6 == 5) {
-                return this.getHex(startX, startY + 1);
-            }
-        } else if (range == 2) {
-            if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 0) {
-                return this.getHex(startX + 2, startY);
-            } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 1) {
-                return this.getHex(startX + 2, startY - 1);
-            } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 2) {
-                return this.getHex(startX + 2, startY - 2);
-            } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 3) {
-                return this.getHex(startX + 1, startY - 2);
-            } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 4) {
-                return this.getHex(startX, startY - 2);
-            } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 5) {
-                return this.getHex(startX - 1, startY - 1);
-            } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 6) {
-                return this.getHex(startX - 2, startY);
-            } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 7) {
-                return this.getHex(startX - 2, startY + 1);
-            } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 8) {
-                return this.getHex(startX - 2, startY + 2);
-            } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 9) {
-                return this.getHex(startX - 1, startY + 2);
-            } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 10) {
-                return this.getHex(startX, startY + 2);
-            } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 11) {
-                return this.getHex(startX + 1, startY + 1);
-            }
-        } else if (range == 3) {
-            if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 0) {
-                return this.getHex(startX + 3, startY);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 1) {
-                return this.getHex(startX + 3, startY - 1);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 2) {
-                return this.getHex(startX + 3, startY - 2);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 3) {
-                return this.getHex(startX + 3, startY - 3);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 4) {
-                return this.getHex(startX + 2, startY - 3);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 5) {
-                return this.getHex(startX + 1, startY - 3);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 6) {
-                return this.getHex(startX, startY - 3);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 7) {
-                return this.getHex(startX - 1, startY - 2);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 8) {
-                return this.getHex(startX - 2, startY - 1);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 9) {
-                return this.getHex(startX - 3, startY);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 10) {
-                return this.getHex(startX - 3, startY + 1);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 11) {
-                return this.getHex(startX - 3, startY + 2);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 12) {
-                return this.getHex(startX - 3, startY + 3);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 13) {
-                return this.getHex(startX - 2, startY + 3);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 14) {
-                return this.getHex(startX - 1, startY + 3);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 15) {
-                return this.getHex(startX, startY + 3);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 16) {
-                return this.getHex(startX + 1, startY + 2);
-            } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 17) {
-                return this.getHex(startX + 2, startY + 1);
-            }
+        switch (range) {
+            case 1:
+                if ((cRobot.getAbsDirection() + direction) % 6 == 0) {
+                    return this.getHex(startX + 1, startY);
+                } else if ((cRobot.getAbsDirection() + direction) % 6 == 1) {
+                    return this.getHex(startX + 1, startY - 1);
+                } else if ((cRobot.getAbsDirection() + direction) % 6 == 2) {
+                    return this.getHex(startX, startY - 1);
+                } else if ((cRobot.getAbsDirection() + direction) % 6 == 3) {
+                    return this.getHex(startX - 1, startY);
+                } else if ((cRobot.getAbsDirection() + direction) % 6 == 4) {
+                    return this.getHex(startX - 1, startY + 1);
+                } else if ((cRobot.getAbsDirection() + direction) % 6 == 5) {
+                    return this.getHex(startX, startY + 1);
+                }
+            case 2:
+                if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 0) {
+                    return this.getHex(startX + 2, startY);
+                } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 1) {
+                    return this.getHex(startX + 2, startY - 1);
+                } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 2) {
+                    return this.getHex(startX + 2, startY - 2);
+                } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 3) {
+                    return this.getHex(startX + 1, startY - 2);
+                } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 4) {
+                    return this.getHex(startX, startY - 2);
+                } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 5) {
+                    return this.getHex(startX - 1, startY - 1);
+                } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 6) {
+                    return this.getHex(startX - 2, startY);
+                } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 7) {
+                    return this.getHex(startX - 2, startY + 1);
+                } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 8) {
+                    return this.getHex(startX - 2, startY + 2);
+                } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 9) {
+                    return this.getHex(startX - 1, startY + 2);
+                } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 10) {
+                    return this.getHex(startX, startY + 2);
+                } else if ((cRobot.getAbsDirection() * 2 + direction) % 12 == 11) {
+                    return this.getHex(startX + 1, startY + 1);
+                }
+            case 3:
+                if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 0) {
+                    return this.getHex(startX + 3, startY);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 1) {
+                    return this.getHex(startX + 3, startY - 1);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 2) {
+                    return this.getHex(startX + 3, startY - 2);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 3) {
+                    return this.getHex(startX + 3, startY - 3);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 4) {
+                    return this.getHex(startX + 2, startY - 3);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 5) {
+                    return this.getHex(startX + 1, startY - 3);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 6) {
+                    return this.getHex(startX, startY - 3);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 7) {
+                    return this.getHex(startX - 1, startY - 2);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 8) {
+                    return this.getHex(startX - 2, startY - 1);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 9) {
+                    return this.getHex(startX - 3, startY);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 10) {
+                    return this.getHex(startX - 3, startY + 1);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 11) {
+                    return this.getHex(startX - 3, startY + 2);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 12) {
+                    return this.getHex(startX - 3, startY + 3);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 13) {
+                    return this.getHex(startX - 2, startY + 3);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 14) {
+                    return this.getHex(startX - 1, startY + 3);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 15) {
+                    return this.getHex(startX, startY + 3);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 16) {
+                    return this.getHex(startX + 1, startY + 2);
+                } else if ((cRobot.getAbsDirection() * 3 + direction) % 18 == 17) {
+                    return this.getHex(startX + 2, startY + 1);
+                }
         }
 
         return null;
