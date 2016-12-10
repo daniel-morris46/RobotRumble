@@ -41,6 +41,6 @@ shoot!		:	shoot
 check!		:	
 scan!		:	scan
 identify!	:
-send!		:
+send!		:	
 mesg?		:
 recv!		:
