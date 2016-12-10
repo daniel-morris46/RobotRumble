@@ -1,7 +1,5 @@
 package Controller;
 
-import java.awt.Color;
-
 import Model.*;
 import View.*;
 

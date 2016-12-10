@@ -122,7 +122,6 @@ public class RobotTeam {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        // TODO Auto-generated method stub
         RobotTeam rt1 = new RobotTeam(true, Color.red, 1);
         RobotTeam rt2 = new RobotTeam(true, Color.red, 1);
         RobotTeam rt3 = new RobotTeam(true, Color.red, 1);

@@ -50,6 +50,7 @@ public class Interpreter {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        parseCode();
     }
 
     /**
@@ -112,7 +113,7 @@ public class Interpreter {
                 }
                 continue;
             }
-            if (inDefinition) {// if flagged as currently in forth comment
+            if (inDefinition) {// if flagged as currently in definition
                 if (curWord.equals(";")) {// checks to see if at end of definition
                     inDefinition = false;
                     userWords.put(functionName, functionBody);
