@@ -4,84 +4,84 @@ import java.awt.Color;
 import java.util.*;
 
 public class Robot {
-    
-    /** The current health of the robot.*/
+
+    /** The current health of the robot. */
     int health;
-    
-    /** The maximum movement distance of the robot.*/
+
+    /** The maximum movement distance of the robot. */
     int movementMax;
-    
-    /** The current distance the robot has moved.*/
+
+    /** The current distance the robot has moved. */
     int movementCur;
-    
-    /** The range of the robot.*/
+
+    /** The range of the robot. */
     int range;
-    
-    /** The boolean determining if the robot has shot yet in the current play.*/
+
+    /** The boolean determining if the robot has shot yet in the current play. */
     boolean hasShot;
-    
-    /** The hex that the robot is currently on.*/
+
+    /** The hex that the robot is currently on. */
     Hex position;
-    
+
     /** The type of the robot. scout = 1, sniper = 2, tank = 3 */
     int type; // scout = 1, sniper = 2, tank = 3
-    
-    /** The damage that this robot can deal with one shot.*/
+
+    /** The damage that this robot can deal with one shot. */
     int damage;
-    
+
     /** The index of the current team that the robot is on. */
     int team;
-    
+
     /** The interpreter of the current robot. */
     Interpreter robotInterpreter;
-    
+
     /** The direction of the robot. */
     int absDirection;
-    
+
     LinkedList<Robot> mailbox;
-    
+
     /** File path for locally saved robot information. */
     String filePath;
-    
+
     /** Constructs a robot given a robot type and a team index. */
     public Robot(int robotType, int robotTeam) {
         health = robotType;
         movementMax = 4 - robotType;
         movementCur = 0;
         hasShot = false;
-        if(robotType == 1){
+        if (robotType == 1) {
             range = 2;
-        }else if(robotType == 2){
+        } else if (robotType == 2) {
             range = 3;
-        }else{
+        } else {
             range = 1;
         }
         position = new Hex(0, 0);
         type = robotType;
         damage = robotType;
         team = robotTeam;
-       	//robotInterpreter = new Interpreter(this);
+        // robotInterpreter = new Interpreter(this);
         absDirection = 0;
     }
-    
-    /** Returns the answer to the question: "Is the robot still alive?"*/
-    public boolean isAlive(){
-        if(health > 0){
+
+    /** Returns the answer to the question: "Is the robot still alive?" */
+    public boolean isAlive() {
+        if (health > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    public boolean getHasShot(){
+    public boolean getHasShot() {
         return hasShot;
     }
-    
-    public void setHasShot(boolean b){
+
+    public void setHasShot(boolean b) {
         hasShot = b;
     }
-    
-    
+
+
     public int getHealth() {
         return health;
     }
@@ -105,8 +105,8 @@ public class Robot {
     public Hex getPosition() {
         return position;
     }
-    
-    public void getMailBoxdata(LinkedList<Robot> mailboxdata){
+
+    public void getMailBoxdata(LinkedList<Robot> mailboxdata) {
         mailbox = mailboxdata;
     }
 
@@ -141,44 +141,47 @@ public class Robot {
     public void setAbsDirection(int absDirection) {
         this.absDirection = absDirection;
     }
-    
+
     public String getPath() {
         return filePath;
     }
+
     /** Returns a string representation of the colour of the robot. */
     public String getColourString() {
         Color returnColor;
-        for(int i = 0; i < Controller.Controller.getInstance().gameBoard.getTeamAmount(); i++){
-            for(int j = 0; j < 3; j++){
-                if(Controller.Controller.getInstance().gameBoard.getTeams()[i].getTeamOfRobot()[j] == this){
-                    returnColor = Controller.Controller.getInstance().gameBoard.getTeams()[i].getColour();
-                    if(returnColor == Color.red){
+        for (int i = 0; i < Controller.Controller.getInstance().gameBoard.getTeamAmount(); i++) {
+            for (int j = 0; j < 3; j++) {
+                if (Controller.Controller.getInstance().gameBoard.getTeams()[i]
+                        .getTeamOfRobot()[j] == this) {
+                    returnColor =
+                            Controller.Controller.getInstance().gameBoard.getTeams()[i].getColour();
+                    if (returnColor == Color.red) {
                         return "RED";
-                    }else if(returnColor == Color.orange){
+                    } else if (returnColor == Color.orange) {
                         return "ORANGE";
-                    }else if(returnColor == Color.yellow){
+                    } else if (returnColor == Color.yellow) {
                         return "YELLOW";
-                    }else if(returnColor == Color.green){
+                    } else if (returnColor == Color.green) {
                         return "GREEN";
-                    }else if(returnColor == Color.blue){
+                    } else if (returnColor == Color.blue) {
                         return "BLUE";
-                    }else if(returnColor == Color.magenta){
+                    } else if (returnColor == Color.magenta) {
                         return "PURPLE";
                     }
                 }
             }
         }
-        return "ERROR IN FINDING ROBOT COLOUR, ROBOT WAS NOT FOUND IN TEAM ARRAY"; 
+        return "ERROR IN FINDING ROBOT COLOUR, ROBOT WAS NOT FOUND IN TEAM ARRAY";
     }
-    
-    
+
+
     /** Returns a string representation of the type of the robot */
-    public String getStringType(){
-        if(type == 1){  // scout = 1, sniper = 2, tank = 3
+    public String getStringType() {
+        if (type == 1) { // scout = 1, sniper = 2, tank = 3
             return "SCOUT";
-        }else if(type == 2){
+        } else if (type == 2) {
             return "SNIPER";
-        }else{
+        } else {
             return "TANK";
         }
     }
