@@ -19,7 +19,6 @@ import Controller.Controller;
  * This class handles all user interaction during actual game play. It displays visuals
  * using an InGameMenuPanel and has buttons for various robot actions, such as
  * moving or shooting hexes.
- *
  */
 public class InGameMenu extends JFrame {
 

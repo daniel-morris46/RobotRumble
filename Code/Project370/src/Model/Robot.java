@@ -3,6 +3,13 @@ package Model;
 import java.awt.Color;
 import java.util.*;
 
+/**
+ * @category Model
+ * 
+ * This class represents a robot in our system, containing health, range,
+ * movement points, robot type, damage, and the robot's team. It also contains a 
+ * reference to the robot's interpreter, as well as a filepath for the robot's script.
+ */
 public class Robot {
 
     /** The current health of the robot. */
@@ -24,7 +31,7 @@ public class Robot {
     Hex position;
 
     /** The type of the robot. scout = 1, sniper = 2, tank = 3 */
-    int type; // scout = 1, sniper = 2, tank = 3
+    int type;
 
     /** The damage that this robot can deal with one shot. */
     int damage;

@@ -1,10 +1,8 @@
 package Controller;
 
 /**
+ * @category Controller
  * This class serves as the entry point to the system instantiating a controller and creating a game
- * 
- * @author Brandon
- *
  */
 public class EntryPoint {
 

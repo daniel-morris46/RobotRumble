@@ -15,17 +15,20 @@ import javax.swing.JFrame;
 
 import Controller.Controller;
 
+/**
+ * @category View
+ *
+ * This class serves as the frame for the OptionsMenuPanel. It also contains a
+ * button for moving back to the main menu once done importing.
+ */
 public class OptionsMenu extends JFrame {
 
-    /** @public The panel where all images will be drawn */
+    /** The panel where all images will be drawn */
     public OptionsMenuPanel optionsPanel;
 
     private static final long serialVersionUID = 1L;
 
-
-    /**
-     * Public constructor. Constructs the frame for the options menu.
-     */
+    /** Public constructor. Constructs the frame for the options menu. */
     public OptionsMenu() {
         super("Import robots");
         // Import a new font to use for the text
@@ -70,16 +73,15 @@ public class OptionsMenu extends JFrame {
         revalidate();
     }
 
-    /**
-     * The action listener for the back button.
-     */
+    /** The action listener for the back button. */
     private class BackListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             Controller.getInstance().gameMenu.setVisible(true);
             Controller.getInstance().optionsMenu.setVisible(false);
         }
     }
-
+    
+    /** Gets the instance of the controller, starting the system */
     public static void main(String args[]) {
         new OptionsMenu();
     }

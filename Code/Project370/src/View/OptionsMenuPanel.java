@@ -15,7 +15,13 @@ import javax.swing.JPanel;
 import java.io.*;
 import java.net.*;
 
-
+/**
+ * @category View
+ * 
+ * This panel imports robots from the designated server and displays them for
+ * the user one at a time. Each robot panel displayed contains an import button
+ * for importing the script to the local directory.
+ */
 public class OptionsMenuPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;

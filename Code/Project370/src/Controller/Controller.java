@@ -6,8 +6,8 @@ import View.*;
 /**
  * @category Controller
  * 
- * 			Handles all game logistics and operations for manipulating the game. This contains all
- * 			methods for telling robots what to do, as well as spectator functions
+ * Handles all game logistics and operations for manipulating the game. This contains all
+ * methods for telling robots what to do, as well as spectator functions
  */
 public class Controller {
 
@@ -417,6 +417,7 @@ public class Controller {
         System.out.println(" tried to move off of the board.");
     }
 
+    /** Gets the list of available targets relative to the current robot for shooting */
     public void G_ShootMode() {
         Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard
                 .getCurrentRobot()];
@@ -428,7 +429,8 @@ public class Controller {
         gameBoard.updateTargetColours(gameBoard);
         inGameMenu.gamePanel.reDraw(gameBoard);
     }
-
+    
+    /** Changes the game to movement mode and updates the board */
     public void G_MoveMode() {
         Robot curRobot = gameBoard.Teams[gameBoard.getCurrentTeam()].getTeamOfRobot()[gameBoard
                 .getCurrentRobot()];
