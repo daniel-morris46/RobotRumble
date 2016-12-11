@@ -6,8 +6,8 @@ import View.*;
 /**
  * @category Controller
  * 
- *           Handles all game logistics and operations for manipulating the game. This contains all
- *           methods for telling robots what to do, as well as spectator functions
+ * 			Handles all game logistics and operations for manipulating the game. This contains all
+ * 			methods for telling robots what to do, as well as spectator functions
  */
 public class Controller {
 

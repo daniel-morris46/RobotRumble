@@ -3,6 +3,13 @@ package Model;
 import java.awt.Color;
 import java.util.LinkedList;
 
+/**
+ * @category Model
+ * 
+ * This class represents a hexagon in the game, and contains
+ * the x and y position of the hex, as well as its color and
+ * its occupants.
+ */
 public class Hex {
 
     /** The x coordinate of the hex. */

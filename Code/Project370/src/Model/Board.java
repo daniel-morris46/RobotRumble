@@ -3,6 +3,14 @@ package Model;
 import java.awt.Color;
 import java.util.*;
 
+/**
+ * @category Model
+ * 
+ * This class contains all information relevant to the board itself. It contains
+ * functionality for moving robots around, assigning teams, and other actions.
+ * This is a major component in the system, and is referenced numerous times
+ * through the controller.
+ */
 public class Board {
 
     /** The 2D array of hex objects representing the board. */
@@ -26,13 +34,10 @@ public class Board {
     /** The spectator of the game. */
     Spectator spect;
 
-    /** The array of colours assigned to each robot team. */
-    // Color[] colourList;
-
     /** The index of the current target in the target list. */
     int currentTarget;
 
-    /** Amount of plays have happend. */
+    /** Amount of plays have happened. */
     int playAmount;
 
     /** The list of possible targets for the current robot. */
@@ -43,7 +48,12 @@ public class Board {
 
     boolean gameMode = true;
 
-    /** @public Constructs a game board of a given size and number of players. */
+    /**
+     * Constructs the board with the given size and number of teams
+     * 
+     * @param boardSize The board size to construct with
+     * @param numberOfTeams The number of teams to initialize
+     */
     public Board(int boardSize, int numberOfTeams) {
         this(boardSize, numberOfTeams, new Color[] {Color.red, Color.orange, Color.yellow,
                 Color.green, Color.blue, Color.magenta});
@@ -51,7 +61,6 @@ public class Board {
 
     /** @public Constructs a game board given a size and number of players. */
     public Board(int boardSize, int numberOfTeams, Color inputColourList[]) {
-        // colourList = new String[] {"Red", "Orange", "Yellow", "Green", "Blue", "Purple"};
         currentTeam = 0;
         currentRobot = new int[numberOfTeams];
         for (int i = 0; i < numberOfTeams; i++) {
@@ -105,17 +114,7 @@ public class Board {
                 Teams[3].teamOfRobot[i].setPosition(this.getHex(boardSize - 1, 0));
                 Teams[4].teamOfRobot[i].setPosition(this.getHex(boardSize - 1, -(boardSize - 1)));
                 Teams[5].teamOfRobot[i].setPosition(this.getHex(0, -(boardSize - 1)));
-
-                // this.getHex(-(boardSize - 1), 0).setColour(Teams[0].getColour());
-                // this.getHex(-(boardSize - 1), boardSize -1).setColour(Teams[1].getColour());
-                // this.getHex(0, boardSize - 1).setColour(Teams[2].getColour());
-                // this.getHex(boardSize - 1, 0).setColour(Teams[3].getColour());
-                // this.getHex(-boardSize - 1, -(boardSize -1)).setColour(Teams[4].getColour());
-                // this.getHex(0, -(boardSize - 1)).setColour(Teams[5].getColour());
-
-
             }
-
 
             // setting the fog of war
             this.updateHexColours();
@@ -294,6 +293,12 @@ public class Board {
         h.removeOcc(r);
     }
 
+    /**
+     * Damages all robots in a given hex
+     * 
+     * @param h The hex to deal damage to 
+     * @param damage The amount of damage to deal
+     */
     public void damageHex(Hex h, int damage) {
         for (int i = 0; i < h.listOfOccupants.size(); i++) {
             h.listOfOccupants.get(i).setHealth(h.listOfOccupants.get(i).getHealth() - damage);
@@ -304,6 +309,7 @@ public class Board {
         }
     }
 
+    /** Gets the first robot in a target list */
     public void firstRobot() {
         if (!targetList.isEmpty()) {
             currentHex = targetList.getFirst();
@@ -334,9 +340,7 @@ public class Board {
         return targetList;
     }
 
-    private void addTotargetList(Hex h) {
-        targetList.addLast(h);
-    }
+
 
     public void clearTargetlist() {
         targetList.removeAll(targetList);
@@ -475,6 +479,15 @@ public class Board {
         }
     }
 
+    /**
+     * Initializes the teams with the given specifics, setting each team's
+     * player type, and their respective AI scripts.
+     * 
+     * @param isHuman The array of booleans indicating whether a team is human or AI
+     * @param scoutPaths The array containing scout script paths for each team
+     * @param sniperPaths The array containing sniper script paths for each team
+     * @param tankPaths The array containing tank script paths for each team
+     */
     public void initializeScripts(Boolean[] isHuman, String[] scoutPaths, String[] sniperPaths,
             String[] tankPaths) {
         for (int i = 0; i < isHuman.length; i++) {
@@ -488,6 +501,11 @@ public class Board {
         }
     }
 
+    /**
+     * Updates the color of the target hex when in shooting mode.
+     * 
+     * @param board The board to update the colors of
+     */
     public void updateTargetColours(Board board) {
         updateHexColours();
         for (int i = 0; i < targetList.size(); i++) {
@@ -499,13 +517,21 @@ public class Board {
     }
 
 
-
+    /**
+     * Gets the hex specified by the given range and direction, based on
+     * the current robot playing.
+     * 
+     * @param start The hex to begin at
+     * @param range The range of the target
+     * @param direction The direction of the target
+     * 
+     * @return The hex at the given distance and range
+     */
     public Hex getHexWithDistanceAndRange(Hex start, int range, int direction) {
         int startX = start.getPositionX();
         int startY = start.getPositionY();
         Robot cRobot =
                 this.getTeams()[this.getCurrentTeam()].getTeamOfRobot()[this.getCurrentRobot()];
-        Hex returnHex = start;
 
         switch (range) {
             case 1:

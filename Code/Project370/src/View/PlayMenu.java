@@ -1,22 +1,21 @@
 package View;
 
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,12 +28,13 @@ import Controller.Controller;
 import Model.Board;
 
 /**
+ * @category View
  * 
- * Pair Programming Done by Brandon and Kevin
- * 
+ * This class serves as the preface to the actual game itself. 
+ * It contains functionality for choosing board size, configuring teams,
+ * and assigning colors and robot scripts. It then uses this information
+ * to create a board to play on.
  */
-
-
 public class PlayMenu extends JFrame {
 
     /** The size of the board (default is 5) */
@@ -90,16 +90,12 @@ public class PlayMenu extends JFrame {
     public PlayMenu(String title) {
         super(title);
 
-        GridBagConstraints c = new GridBagConstraints();
-
-
         // Import a new font to use for the text
         Font newFont = null;
         try {
             newFont = Font.createFont(Font.PLAIN,
                     getClass().getResource("/View/resources/ARCADECLASSIC.TTF").openStream());
         } catch (FontFormatException | IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -395,6 +391,7 @@ public class PlayMenu extends JFrame {
             boardSize = 5;
 
             String[] numPossiblePlayers = {"2", "3"};
+            @SuppressWarnings({ "unchecked", "rawtypes" })
             DefaultComboBoxModel<Integer> model = new DefaultComboBoxModel(numPossiblePlayers);
             numberOfPlayers.setModel(model);
 
@@ -412,7 +409,8 @@ public class PlayMenu extends JFrame {
             boardSize = 7;
 
             String[] numPossiblePlayers = {"3", "6"};
-            DefaultComboBoxModel<Integer> model = new DefaultComboBoxModel(numPossiblePlayers);
+            @SuppressWarnings({ "unchecked", "rawtypes" })
+			DefaultComboBoxModel<Integer> model = new DefaultComboBoxModel(numPossiblePlayers);
             numberOfPlayers.setModel(model);
 
             updateComboBoxes();

@@ -15,7 +15,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
 
 import Controller.Controller;
 import Model.Board;
@@ -26,9 +25,9 @@ import Model.RobotTeam;
 /**
  * @category View
  * 
- *           InGameMenuPanel is a specialized JPanel for displaying the game's state by drawing the
- *           board and it's robots, as well as displaying information for hexes and providing fog of
- *           war. This updates as the game is played.
+ * InGameMenuPanel is a specialized JPanel for displaying the game's state by drawing the
+ * board and it's robots, as well as displaying information for hexes and providing fog of
+ * war. This updates as the game is played.
  */
 public class InGameMenuPanel extends JPanel {
 
@@ -58,9 +57,6 @@ public class InGameMenuPanel extends JPanel {
     /** @private The JPanel for displaying teams of robots */
     private JPanel hexDisplayPanel;
 
-    /** @private The JLabel for displaying the current team's name */
-    private JLabel currentTeamLabel;
-
     /** @private the side length of each hexagon in pixels */
     private int s = 0;
 
@@ -88,15 +84,6 @@ public class InGameMenuPanel extends JPanel {
         // Set re-sizeable and max frame
         this.setVisible(true);
         this.setBounds(0, 0, 1250, 1000);
-
-        JLabel currentTeamLabel = new JLabel("INSERT TEAM NAME"); // Create the current team label
-        add(currentTeamLabel, BorderLayout.NORTH); // Add the current team label
-
-        JTextPane actionLog = new JTextPane(); // Add the debug log text pane
-        actionLog.setText("The game/debug log can go here :)"); // Set the text
-        actionLog.setSize(11, 1); // Set the actionLog size
-        add(actionLog, BorderLayout.EAST); // Add the actionLog to the panel
-        actionLog.setEditable(false); // Set the text as uneditable
 
         hexDisplayPanel = new JPanel(); // Create the hex display panel
         hexDisplayPanel.setLayout(new GridLayout(10, 2)); // Set the layout for the panel
@@ -329,22 +316,13 @@ public class InGameMenuPanel extends JPanel {
     private Polygon createHex(int xPos, int yPos) {
 
         int[] cx, cy; // Arrays for x and y point coordinates
-
-        cx = new int[] {xPos, xPos, xPos + r, xPos + r + r, xPos + r + r, xPos + r};// Begins with
-                                                                                    // the bottom
-                                                                                    // left point
-                                                                                    // and generates
-                                                                                    // clockwise
-        cy = new int[] {yPos + t, yPos + s + t, yPos + s + t + t, yPos + s + t, yPos + t, yPos}; // Begins
-                                                                                                 // with
-                                                                                                 // the
-                                                                                                 // bottom
-                                                                                                 // left
-                                                                                                 // point
-                                                                                                 // and
-                                                                                                 // generates
-                                                                                                 // clockwise
-
+        
+        // Begins with the bottom left point and generates x-points clockwise
+        cx = new int[] {xPos, xPos, xPos + r, xPos + r + r, xPos + r + r, xPos + r};    
+        
+        // Begins with the bottom left point and generates y-points clockwise
+        cy = new int[] {yPos + t, yPos + s + t, yPos + s + t + t, yPos + s + t, yPos + t, yPos}; 
+        
         return new Polygon(cx, cy, 6); // Returns the created hexagon
     }
 

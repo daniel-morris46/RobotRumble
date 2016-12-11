@@ -18,13 +18,13 @@ import javax.swing.*;
 import Controller.Controller;
 
 /**
- * 
  * Pair Programming Done by Brandon and Kevin
- * 
  */
 
 /**
- * This GameMenu class contains the GUI for the main entry point of the program. This menu moves the
+ * @category View
+ * 
+ * This class contains the GUI for the main entry point of the program. This menu moves the
  * player between the options, the game, and exiting the application.
  */
 public class GameMenu extends JFrame {
@@ -52,7 +52,6 @@ public class GameMenu extends JFrame {
             newFont = Font.createFont(Font.PLAIN,
                     getClass().getResource("/View/resources/ARCADECLASSIC.TTF").openStream());
         } catch (FontFormatException | IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

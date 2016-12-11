@@ -3,6 +3,13 @@ package Model;
 import java.awt.Color;
 import java.util.*;
 
+/**
+ * @category Model
+ * 
+ * This class represents a team of three robots, composed of 
+ * a scout, sniper, and tank. Teams may be human or AI, as well
+ * as having a designated color.
+ */
 public class RobotTeam {
 
     /** Boolean value for if the robot team is human. Human => true. AI => false. */
@@ -121,10 +128,7 @@ public class RobotTeam {
     }
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
         RobotTeam rt1 = new RobotTeam(true, Color.red, 1);
-        RobotTeam rt2 = new RobotTeam(true, Color.red, 1);
-        RobotTeam rt3 = new RobotTeam(true, Color.red, 1);
 
         Robot r = new Robot(2, 0);
         Robot r1 = new Robot(1, 0);
@@ -134,9 +138,9 @@ public class RobotTeam {
         rt1.addMailbox(r1, 1, 1);
         rt1.addMailbox(r2, 1, 1);
 
-        System.out.println(rt1.mailBoxdata.size() + "size");
+        System.out.println(rt1.mailBoxdata.size() + " size");
         for (int i = 0; i < rt1.mailBoxdata.size(); i++) {
-            System.out.println(rt1.mailBoxdata.get(i).health + "health");
+            System.out.println(rt1.mailBoxdata.get(i).health + " health");
         }
     }
 
