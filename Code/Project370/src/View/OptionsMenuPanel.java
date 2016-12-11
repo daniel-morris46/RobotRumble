@@ -35,7 +35,7 @@ public class OptionsMenuPanel extends JPanel {
     /** The request to send to the server to get robots */
     private final String request = "{ \"list-request\" : { \"data\" : \"brief\" }}";
 
-    /** @public Initializes Options menu. */
+    /** Initializes Options menu. */
     public OptionsMenuPanel() {
 
         // Calls the super constructor

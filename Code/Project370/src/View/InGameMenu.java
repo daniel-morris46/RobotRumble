@@ -22,40 +22,40 @@ import Controller.Controller;
  */
 public class InGameMenu extends JFrame {
 
-    /** @public The panel where all images will be drawn */
+    /** The panel where all images will be drawn */
     public InGameMenuPanel gamePanel;
 
-    /** @public The panel for hiding the game while switching players */
+    /** The panel for hiding the game while switching players */
     public JPanel standByPanel;
 
-    /** @public The panel for the player wins screen */
+    /** The panel for the player wins screen */
     public JPanel winPanel;
 
-    /** @public The label for the player wins screen */
+    /** The label for the player wins screen */
     public JLabel winnerMessage;
 
-    /** @private JButton for rotating/cycling left */
+    /** JButton for rotating/cycling left */
     private JButton leftButton;
 
-    /** @private JButton for rotating/cycling right */
+    /** JButton for rotating/cycling right */
     private JButton rightButton;
 
-    /** @private JButton for forfeiting the game */
+    /** JButton for forfeiting the game */
     private JButton forfeitButton;
 
-    /** @private JButton for exiting the game */
+    /** JButton for exiting the game */
     private JButton exitButton;
 
-    /** @private JButton for toggling between moving and shooting */
+    /** JButton for toggling between moving and shooting */
     private JButton actionToggleButton;
 
-    /** @private JButton for moving or shooting */
+    /** JButton for moving or shooting */
     private JButton actionButton;
 
-    /** @private JButton for ending the current play */
+    /** JButton for ending the current play */
     private JButton endPlayButton;
 
-    /** @public True = moving, false = shooting */
+    /** True = moving, false = shooting */
     public boolean actionToggle = true;
 
     private static final long serialVersionUID = 1L;
@@ -293,10 +293,8 @@ public class InGameMenu extends JFrame {
         }
     }
 
-
+    /** Gets an instance of the controller, starting the system */
     public static void main(String[] args) {
         Controller.getInstance();
     }
-
-
 }

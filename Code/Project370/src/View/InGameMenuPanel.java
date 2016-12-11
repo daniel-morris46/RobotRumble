@@ -12,7 +12,6 @@ import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -33,44 +32,44 @@ public class InGameMenuPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
-    /** @private The side length of each hex in pixels */
+    /** The side length of each hex in pixels */
     private static final int SIDELENGTHFIVE = 38;
 
-    /** @private The side length of each hex in pixels */
+    /** The side length of each hex in pixels */
     private static final int SIDELENGTHSEVEN = 29;
 
-    /** @private Size of the board to draw */
+    /** Size of the board to draw */
     private int boardSize;
 
-    /** @private Reference to list of all robot teams */
+    /** Reference to list of all robot teams */
     private RobotTeam[] robotTeams;
 
-    /** @private Reference to list of all robots */
+    /** Reference to list of all robots */
     private Robot[] robots;
 
-    /** @private reference to the current hex list for painting the component */
+    /** Reference to the current hex list for painting the component */
     private Hex[][] currentHexes;
 
-    /** @private The JPanel for displaying teams of robots */
+    /** The JPanel for displaying teams of robots */
     public JPanel teamDisplayPanel;
 
-    /** @private The JPanel for displaying teams of robots */
+    /** The JPanel for displaying teams of robots */
     private JPanel hexDisplayPanel;
 
-    /** @private the side length of each hexagon in pixels */
+    /** The side length of each hexagon in pixels */
     private int s = 0;
 
-    /** @private t = The vertical gap between corner points */
+    /** The vertical gap between corner points */
     private int t = 0;
 
-    /** @private r = The horizontal gap between corner points */
+    /** The horizontal gap between corner points */
     private int r = 0;
 
-    /** @private h = Two times the vertical gap */
+    /** Two times the vertical gap */
     private int h = 0;
 
     /**
-     * @public Constructs a game board with the given size
+     * Constructs a game board with the given size
      * 
      * @param size The size of the board
      * @param teams The list of robot teams
@@ -377,19 +376,8 @@ public class InGameMenuPanel extends JPanel {
     }
 
 
-
+    /** Gets the instance of the controller, starting the system */
     public static void main(String args[]) {
-        JFrame testFrame = new JFrame("IN-GAME-MENU-PANEL-TEST");
-        testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        testFrame.setSize(1000, 1000);
-
-        Board testBoard = new Board(5, 1);
-        InGameMenuPanel testPanel = new InGameMenuPanel(testBoard.getSize(), testBoard.Teams);
-        testPanel.setSize(1000, 1000);
-        testFrame.add(testPanel);
-        testPanel.setVisible(true);
-        testPanel.reDraw(testBoard);
-
-        testFrame.setVisible(true);
+        Controller.getInstance();
     }
 }

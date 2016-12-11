@@ -71,14 +71,7 @@ public class PlayMenu extends JFrame {
     private String[] tankScriptPaths;
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * Gets an instance of the controller, starting the system
-     */
-    public static void main(String[] args) {
-        Controller.getInstance();
-    }
-
+    
     /**
      * Creates the play menu, providing the user with game configuration options such as board size,
      * number of players, colors, and player types. As well, the user will be able to choose robot
@@ -604,4 +597,8 @@ public class PlayMenu extends JFrame {
         }
     }
 
+    /** Gets an instance of the controller, starting the system */
+    public static void main(String[] args) {
+        Controller.getInstance();
+    }
 }

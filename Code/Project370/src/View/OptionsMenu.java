@@ -82,7 +82,7 @@ public class OptionsMenu extends JFrame {
     }
     
     /** Gets the instance of the controller, starting the system */
-    public static void main(String args[]) {
-        new OptionsMenu();
+    public static void main(String[] args) {
+        Controller.getInstance();
     }
 }

@@ -31,11 +31,6 @@ public class GameMenu extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    public static void main(String[] args) {
-        Controller.getInstance();
-
-    }
-
     /**
      * Constructs the game menu, the system's entry point
      * 
@@ -150,4 +145,8 @@ public class GameMenu extends JFrame {
         }
     }
 
+    /** Gets an instance of the controller, starting the system */
+    public static void main(String[] args) {
+        Controller.getInstance();
+    }
 }
