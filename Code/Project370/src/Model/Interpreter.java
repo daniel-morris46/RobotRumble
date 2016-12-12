@@ -91,10 +91,12 @@ public class Interpreter {
         variables.clear();
         stack.clear();
         
-        System.out.println(parsedJson.toString());
+        
         JsonObject script = parsedJson.getAsJsonObject("script");
         codeArr = script.get("code").getAsJsonArray();
-
+        System.out.println(codeArr.toString());
+        System.out.println(codeArr.get(2).toString());
+        
         int inComment = 0;
         boolean inDefinition = false;
         String functionBody = "";
@@ -106,10 +108,18 @@ public class Interpreter {
             String[] lineWords = curLine.split("\\s+");
             stack.addAll(Arrays.asList(lineWords));
         }
+        Stack<String> reverseStack = new Stack<String>();
+        
+        while (!(stack.isEmpty())) {
+        	reverseStack.push(stack.pop());
+        }
+        
+        stack = reverseStack;
 
         while (!(stack.isEmpty())) {
 
             String curWord = stack.pop();
+            System.out.println(curWord);
 
             if (inComment > 0) {// if flagged as currently in forth comment
                 if (curWord.equals(")")) {// checks to see if at end of comment
@@ -120,13 +130,15 @@ public class Interpreter {
                 }
                 continue;
             }
+            
             if (inDefinition) {// if flagged as currently in definition
                 if (curWord.equals(";")) {// checks to see if at end of definition
                     inDefinition = false;
                     userWords.put(functionName, functionBody);
+                    System.out.println("ADDED: " + functionName);
                 } else {
                     functionBody.concat(" ");
-                    functionBody.concat("curWord");
+                    functionBody.concat(curWord);
                 }
                 continue;
             }
@@ -142,7 +154,7 @@ public class Interpreter {
                     break;
                 case ":":
                     inDefinition = true;
-                    functionName = curWord;
+                    functionName = stack.pop();
                     functionBody = "";
                     break;
             }
@@ -934,7 +946,8 @@ public class Interpreter {
     public static void main(String[] args) {
     	Controller.getInstance().gameMenu.setVisible(false);
     	Robot testRobot = new Robot(3,3);
-    	testRobot.filePath = "src/Model/scripts/SittingDuck.json";
+    	testRobot.filePath = "src/Model/scripts/Centralizer.json";
     	Interpreter interpret = new Interpreter(testRobot);
+    	System.out.println("WORLD LIST \n" + interpret.userWords.toString());
     }
 }
