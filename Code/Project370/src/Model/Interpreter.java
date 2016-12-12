@@ -30,9 +30,6 @@ public class Interpreter {
      */
     public Interpreter(Robot robot) {
     	
-    	
-    	System.out.println(robot.filePath);
-    	
         this.robot = robot;
         stack = new Stack<String>();
         variables = new HashMap<String, String>();
@@ -94,8 +91,6 @@ public class Interpreter {
         
         JsonObject script = parsedJson.getAsJsonObject("script");
         codeArr = script.get("code").getAsJsonArray();
-        System.out.println(codeArr.toString());
-        System.out.println(codeArr.get(2).toString());
         
         int inComment = 0;
         boolean inDefinition = false;
@@ -119,7 +114,6 @@ public class Interpreter {
         while (!(stack.isEmpty())) {
 
             String curWord = stack.pop();
-            System.out.println(curWord);
 
             if (inComment > 0) {// if flagged as currently in forth comment
                 if (curWord.equals(")")) {// checks to see if at end of comment
@@ -166,8 +160,7 @@ public class Interpreter {
      */
     public void runWord(String word) {
     	
-    	System.out.println(robot.filePath);
-    	
+    	//If the script was not initially parsed
     	if(basicWords == null){
     		try {
                 // load words from code
@@ -186,29 +179,30 @@ public class Interpreter {
             parseCode();
     	}
     	
-    	System.out.println(userWords.toString());
-    	
         if (!(userWords.containsKey(word))) {
 
             throw new IllegalArgumentException("runWord: Argument is not a defined word!");
         }
+        System.out.println(variables.toString());
 
         String body = userWords.get(word);
         ListIterator<String> wordsQ = Arrays.asList(body.split("\\s+")).listIterator();
 
+        System.out.println(body);
+        
         while (wordsQ.hasNext()) {
-
+        	
             String currWord = wordsQ.next();
-
+            
             if (userWords.containsKey(currWord)) {
-
-                runWord(word);
+            	System.out.println("User word - " + currWord);
+                runWord(currWord);
                 continue;
             }
 
-            if (basicWords.containsKey(word)) {
-
-                switch (word) {
+            if (basicWords.containsKey(currWord)) {
+            	System.out.println("Basic word - " + currWord);
+                switch (currWord) {
                     case "if":
                         ifCond(wordsQ);
                         break;
@@ -218,8 +212,8 @@ public class Interpreter {
                     default:
                         Method method;
                         try {
-                            method = getClass().getMethod(basicWords.get(word));
-                            method.invoke(word);
+                            method = this.getClass().getMethod(basicWords.get(currWord));
+                            method.invoke(currWord);
                         } catch (SecurityException e) {
                             e.printStackTrace();
                         } catch (NoSuchMethodException e) {
@@ -233,9 +227,10 @@ public class Interpreter {
                         }
                 }
             }
-            if (variables.containsKey(word)) {
-
-                stack.push(word);
+            
+            if (variables.containsKey(currWord)) {
+            	System.out.println("Pushed to stack - " + currWord);
+                stack.push(variables.get(currWord));
             }
         }
     }
@@ -826,7 +821,7 @@ public class Interpreter {
      * @param codeIterator ListIterator to seek through.
      * @param target Target String.
      */
-    void goTo(ListIterator<String> codeIterator, String target) {
+    private void goTo(ListIterator<String> codeIterator, String target) {
 
         int nestLevel = 0;
         String currWord;
@@ -880,7 +875,7 @@ public class Interpreter {
     /**
      * Gets the value of the variable on top of stack, and pushes to the stack.
      */
-    void getVariable() {
+    public void getVariable() {
 
         if (stack.isEmpty()) {
 
@@ -942,10 +937,8 @@ public class Interpreter {
     // MAIN
 
     public static void main(String[] args) {
-    	Controller.getInstance().gameMenu.setVisible(false);
     	Robot testRobot = new Robot(3,3);
     	testRobot.filePath = "src/Model/scripts/SittingDuck.json";
     	Interpreter interpret = new Interpreter(testRobot);
-    	System.out.println("WORLD LIST \n" + interpret.userWords.toString());
     }
 }
