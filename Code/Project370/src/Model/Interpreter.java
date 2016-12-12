@@ -29,11 +29,18 @@ public class Interpreter {
      * @param robot The robot the interpreter is tied to.
      */
     public Interpreter(Robot robot) {
+    	
+    	
+    	System.out.println(robot.filePath);
+    	
         this.robot = robot;
         stack = new Stack<String>();
         variables = new HashMap<String, String>();
         userWords = new HashMap<String, String>();
 
+        if(robot.filePath == "" || robot.filePath == null)
+    		return;
+        
         try {
             // load words from code
             parsedJson =
@@ -148,7 +155,29 @@ public class Interpreter {
      * @param word Word to be run.
      */
     public void runWord(String word) {
+    	
+    	System.out.println(robot.filePath);
+    	
+    	if(basicWords == null){
+    		try {
+                // load words from code
+                parsedJson =
+                        (new JsonParser().parse(new FileReader(robot.getPath() ) ) ).getAsJsonObject();
 
+                // load basic words
+                String temp = (new JsonParser().parse(new FileReader("src/Model/basicWords.json"))).toString();
+                basicWords = new Gson().fromJson(temp,
+                        new TypeToken<HashMap<String, String>>() {}.getType());
+            } catch (JsonParseException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            parseCode();
+    	}
+    	
+    	System.out.println(userWords.toString());
+    	
         if (!(userWords.containsKey(word))) {
 
             throw new IllegalArgumentException("runWord: Argument is not a defined word!");
