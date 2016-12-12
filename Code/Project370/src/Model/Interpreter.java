@@ -42,7 +42,7 @@ public class Interpreter {
                     (new JsonParser().parse(new FileReader(robot.getPath()))).getAsJsonObject();
 
             // load basic words
-            String temp = (new JsonParser().parse(new FileReader("basicWords.json"))).getAsString();
+            String temp = (new JsonParser().parse(new FileReader("src/Model/basicWords.json"))).getAsString();
             basicWords = new Gson().fromJson(temp,
                     new TypeToken<HashMap<String, String>>() {}.getType());
         } catch (JsonParseException e) {
@@ -903,6 +903,8 @@ public class Interpreter {
     // MAIN
 
     public static void main(String[] args) {
-
+    	Robot testRobot = new Robot(3,3);
+    	testRobot.filePath = "src/Model/scripts/SittingDuck.json";
+    	Interpreter interpret = new Interpreter(testRobot);
     }
 }
