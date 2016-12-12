@@ -22,7 +22,6 @@ public class Interpreter {
     private HashMap<String, String> basicWords;
     private HashMap<String, String> userWords;
     private HashMap<String, String> variables;
-    private Controller controller;
 
     /**
      * Constructor for interpreter.
@@ -31,18 +30,17 @@ public class Interpreter {
      */
     public Interpreter(Robot robot) {
         this.robot = robot;
-        this.stack = new Stack<String>();
+        stack = new Stack<String>();
         variables = new HashMap<String, String>();
         userWords = new HashMap<String, String>();
-        controller = Controller.getInstance();
 
         try {
             // load words from code
             parsedJson =
-                    (new JsonParser().parse(new FileReader(robot.getPath()))).getAsJsonObject();
+                    (new JsonParser().parse(new FileReader(robot.getPath() ) ) ).getAsJsonObject();
 
             // load basic words
-            String temp = (new JsonParser().parse(new FileReader("src/Model/basicWords.json"))).getAsString();
+            String temp = (new JsonParser().parse(new FileReader("src/Model/basicWords.json"))).toString();
             basicWords = new Gson().fromJson(temp,
                     new TypeToken<HashMap<String, String>>() {}.getType());
         } catch (JsonParseException e) {
@@ -85,8 +83,10 @@ public class Interpreter {
         userWords.clear();
         variables.clear();
         stack.clear();
-
-        codeArr = parsedJson.getAsJsonObject("code").getAsJsonArray();
+        
+        System.out.println(parsedJson.toString());
+        JsonObject script = parsedJson.getAsJsonObject("script");
+        codeArr = script.get("code").getAsJsonArray();
 
         int inComment = 0;
         boolean inDefinition = false;
@@ -656,7 +656,7 @@ public class Interpreter {
      * Moves the robot forward.
      */
     void move() {
-        controller.G_Move();
+        Controller.getInstance().G_Move();
     }
 
     /**
@@ -671,7 +671,7 @@ public class Interpreter {
         int newDirection = Integer.parseInt(stack.pop());
 
         while (newDirection > 0) {
-            controller.G_turnRight();
+        	Controller.getInstance().G_turnRight();
             newDirection--;
         }
     }
@@ -688,11 +688,11 @@ public class Interpreter {
 
         int direction = Integer.parseInt(stack.pop());
         int range = Integer.parseInt(stack.pop());
-        Hex targetHex = controller.gameBoard.getHexWithDistanceAndRange(robot.getPosition(), range,
+        Hex targetHex = Controller.getInstance().gameBoard.getHexWithDistanceAndRange(robot.getPosition(), range,
                 direction);
 
-        controller.gameBoard.currentHex = targetHex;
-        controller.G_Attack();
+        Controller.getInstance().gameBoard.currentHex = targetHex;
+        Controller.getInstance().G_Attack();
     }
 
     /**
@@ -705,7 +705,7 @@ public class Interpreter {
             throw new IllegalStateException("Stack is Empty!");
         }
 
-        stack.push(Integer.toString(controller.gameBoard.getTargetList().size() - 1));
+        stack.push(Integer.toString(Controller.getInstance().gameBoard.getTargetList().size() - 1));
     }
 
     void identify() {
@@ -727,7 +727,7 @@ public class Interpreter {
 
         int direction = Integer.parseInt(stack.pop());
         Hex targetHex =
-                controller.gameBoard.getHexWithDistanceAndRange(robot.getPosition(), 1, direction);
+        		Controller.getInstance().gameBoard.getHexWithDistanceAndRange(robot.getPosition(), 1, direction);
         if (targetHex == null) {
 
             stack.push("OUT OF BOUNDS");
@@ -903,6 +903,7 @@ public class Interpreter {
     // MAIN
 
     public static void main(String[] args) {
+    	Controller.getInstance().gameMenu.setVisible(false);
     	Robot testRobot = new Robot(3,3);
     	testRobot.filePath = "src/Model/scripts/SittingDuck.json";
     	Interpreter interpret = new Interpreter(testRobot);

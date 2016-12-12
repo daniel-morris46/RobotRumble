@@ -67,7 +67,7 @@ public class Robot {
         type = robotType;
         damage = robotType;
         team = robotTeam;
-        // robotInterpreter = new Interpreter(this);
+        robotInterpreter = new Interpreter(this);
         absDirection = 0;
     }
 
