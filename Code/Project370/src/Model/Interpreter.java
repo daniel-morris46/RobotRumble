@@ -114,7 +114,12 @@ public class Interpreter {
         while (!(stack.isEmpty())) {
 
             String curWord = stack.pop();
-
+            
+            if (curWord.equals("(")) {// checks to see if at end of comment
+                inComment++;
+                continue;
+            }
+            
             if (inComment > 0) {// if flagged as currently in forth comment
                 if (curWord.equals(")")) {// checks to see if at end of comment
                     inComment--;
@@ -122,34 +127,31 @@ public class Interpreter {
                 if (curWord.equals("(")) {// checks to see start of nested comment
                     inComment++;
                 }
-                continue;
+            } else {
+            	if (inDefinition) {// if flagged as currently in definition
+                    if (curWord.equals(";")) {// checks to see if at end of definition
+                        inDefinition = false;
+                        userWords.put(functionName, functionBody);
+                    } else {
+                        functionBody = functionBody + " " + curWord;
+                    }
+                }
             }
             
-            if (inDefinition) {// if flagged as currently in definition
-                if (curWord.equals(";")) {// checks to see if at end of definition
-                    inDefinition = false;
-                    userWords.put(functionName, functionBody);
-                } else {
-                    functionBody = functionBody + " " + curWord;
-                }
-                continue;
-            }
-
-
-            switch (curWord) {
-                case "(": // if start of forth comment is detected
-                    inComment++;
-                    break;
-                case "variable":
-                    variables.put(stack.pop(), "0");
-                    stack.pop();
-                    break;
-                case ":":
-                    inDefinition = true;
-                    functionName = stack.pop();
-                    functionBody = "";
-                    break;
-            }
+        	switch (curWord) {
+            case "(": // if start of forth comment is detected
+                inComment++;
+                break;
+            case "variable":
+                variables.put(stack.pop(), "0");
+                stack.pop();
+                break;
+            case ":":
+                inDefinition = true;
+                functionName = stack.pop();
+                functionBody = "";
+                break;
+        	}
         }
     }
 
@@ -194,6 +196,7 @@ public class Interpreter {
         	
             String currWord = wordsQ.next();
             
+            System.out.println(currWord);
             if (userWords.containsKey(currWord)) {
             	System.out.println("User word - " + currWord);
                 runWord(currWord);
@@ -403,8 +406,8 @@ public class Interpreter {
      * @param codeIterator Iterator of current code to pass into goTo function.
      */
     public void elseCond(ListIterator<String> codeIterator) {
-
-        goTo(codeIterator, "then");
+    	return;
+        //goTo(codeIterator, "then");
     }
 
     /**
