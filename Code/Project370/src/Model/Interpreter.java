@@ -212,8 +212,10 @@ public class Interpreter {
                     default:
                         Method method;
                         try {
-                            method = this.getClass().getMethod(basicWords.get(currWord));
-                            method.invoke(currWord);
+                        	System.out.println(basicWords.get(currWord));
+                        	
+                            method = this.getClass().getMethod(basicWords.get(currWord).toString());
+                            method.invoke(this);
                         } catch (SecurityException e) {
                             e.printStackTrace();
                         } catch (NoSuchMethodException e) {
@@ -223,14 +225,14 @@ public class Interpreter {
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         } catch (InvocationTargetException e) {
-                            e.printStackTrace();
+                            System.out.println(e.getCause());
                         }
                 }
             }
             
             if (variables.containsKey(currWord)) {
             	System.out.println("Pushed to stack - " + currWord);
-                stack.push(variables.get(currWord));
+                stack.push(currWord);
             }
         }
     }
@@ -242,7 +244,7 @@ public class Interpreter {
      * Subtracts the first int on stack from the second int on the stack, and pushes result back
      * onto the stack.
      */
-    void subtract() {
+    public void subtract() {
 
         if (stack.isEmpty()) {
 
@@ -258,7 +260,7 @@ public class Interpreter {
      * Adds the first int on stack to the second int on the stack, and pushes result back onto the
      * stack.
      */
-    void add() {
+    public void add() {
 
         if (stack.isEmpty()) {
 
@@ -274,7 +276,7 @@ public class Interpreter {
      * Multiplies the first int on stack to the second int on the stack, and pushes result back onto
      * the stack.
      */
-    void multiply() {
+    public void multiply() {
 
         if (stack.isEmpty()) {
 
@@ -290,7 +292,7 @@ public class Interpreter {
      * Divides the first int on stack to the second int on the stack, and pushes the quotient and
      * the remainder back onto the stack (in that order).
      */
-    void divide() {
+    public void divide() {
 
         if (stack.isEmpty()) {
 
@@ -308,7 +310,7 @@ public class Interpreter {
     /**
      * Pops top of stack.
      */
-    void drop() {
+    public void drop() {
 
         if (stack.isEmpty()) {
 
@@ -321,7 +323,7 @@ public class Interpreter {
     /**
      * Duplicates value at top of stack.
      */
-    void dup() {
+    public void dup() {
 
         if (stack.isEmpty()) {
 
@@ -336,7 +338,7 @@ public class Interpreter {
     /**
      * Swaps the top two elements on that stack.
      */
-    void swap() {
+    public void swap() {
 
         if (stack.isEmpty()) {
 
@@ -353,7 +355,7 @@ public class Interpreter {
      * Rotates the top 3 elements, so that the 2nd and 3rd value sit on top of the original first
      * value.
      */
-    void rot() {
+    public void rot() {
 
         if (stack.isEmpty()) {
 
@@ -376,7 +378,7 @@ public class Interpreter {
      * 
      * @param codeIterator Iterator of current code to pass into goTo function.
      */
-    void ifCond(ListIterator<String> codeIterator) {
+    public void ifCond(ListIterator<String> codeIterator) {
 
         if (stack.isEmpty()) {
 
@@ -400,7 +402,7 @@ public class Interpreter {
      * 
      * @param codeIterator Iterator of current code to pass into goTo function.
      */
-    void elseCond(ListIterator<String> codeIterator) {
+    public void elseCond(ListIterator<String> codeIterator) {
 
         goTo(codeIterator, "then");
     }
@@ -409,7 +411,7 @@ public class Interpreter {
      * Checks to see if the top two values on the stack are equal to each other. Pushes "true" onto
      * the stack if they are, "false" otherwise.
      */
-    void equalTo() {
+    public void equalTo() {
 
         if (stack.isEmpty()) {
 
@@ -432,7 +434,7 @@ public class Interpreter {
      * Checks to see if the top two values on the stack are not equal to each other. Pushes "true"
      * onto the stack if they are, "false" otherwise.
      */
-    void notEqualTo() {
+    public void notEqualTo() {
 
         if (stack.isEmpty()) {
 
@@ -455,7 +457,7 @@ public class Interpreter {
      * Checks if the first int on stack is less than the second int on the stack. Pushes "true" onto
      * the stack if it is, "false" otherwise.
      */
-    void lessThan() {
+    public void lessThan() {
 
         if (stack.isEmpty()) {
 
@@ -478,7 +480,7 @@ public class Interpreter {
      * Checks if the first int on stack is less than, or equal to, the second int on the stack.
      * Pushes "true" onto the stack if it is, "false" otherwise.
      */
-    void lessThanEqual() {
+    public void lessThanEqual() {
 
         if (stack.isEmpty()) {
 
@@ -501,7 +503,7 @@ public class Interpreter {
      * Checks if the first int on stack is greater than the second int on the stack. Pushes "true"
      * onto the stack if it is, "false" otherwise.
      */
-    void greaterThan() {
+    public void greaterThan() {
 
         if (stack.isEmpty()) {
 
@@ -524,7 +526,7 @@ public class Interpreter {
      * Checks if the first int on stack is greater than, or equal to, the second int on the stack.
      * Pushes "true" onto the stack if it is, "false" otherwise.
      */
-    void greaterThanEqual() {
+    public void greaterThanEqual() {
 
         if (stack.isEmpty()) {
 
@@ -547,7 +549,7 @@ public class Interpreter {
      * Pushes false to the stack if either the top two values of the stack are false, else pushes
      * true.
      */
-    void and() {
+    public void and() {
 
         if (stack.isEmpty()) {
 
@@ -570,7 +572,7 @@ public class Interpreter {
      * Pushes true to the stack if either the top two values of the stack are true, else pushes
      * false.
      */
-    void or() {
+    public void or() {
 
         if (stack.isEmpty()) {
 
@@ -592,7 +594,7 @@ public class Interpreter {
     /**
      * Inverts the top boolean on the stack.
      */
-    void invert() {
+    public void invert() {
 
         if (stack.isEmpty()) {
 
@@ -625,7 +627,7 @@ public class Interpreter {
     /**
      * Pushes the max health of the robot onto the stack.
      */
-    void health() {
+    public void health() {
 
         stack.push(Integer.toString(robot.getType()));
     }
@@ -633,7 +635,7 @@ public class Interpreter {
     /**
      * Pushes the value of the remaining health onto the stack.
      */
-    void healthLeft() {
+    public void healthLeft() {
 
         stack.push(Integer.toString(robot.getHealth()));
     }
@@ -641,7 +643,7 @@ public class Interpreter {
     /**
      * Pushes the max moves of the robot onto the stack.
      */
-    void moves() {
+    public void moves() {
 
         stack.push(Integer.toString(robot.getMovementMax()));
     }
@@ -649,7 +651,7 @@ public class Interpreter {
     /**
      * Pushes the amount of moves left onto the stack.
      */
-    void movesLeft() {
+    public void movesLeft() {
 
         stack.push(Integer.toString(robot.getMovementCur()));
     }
@@ -657,7 +659,7 @@ public class Interpreter {
     /**
      * Pushes the attack power of the robot onto the stack.
      */
-    void attack() {
+    public void attack() {
 
         stack.push(Integer.toString(robot.getDamage()));
     }
@@ -665,7 +667,7 @@ public class Interpreter {
     /**
      * Pushes the range of the robot onto the stack.
      */
-    void range() {
+    public void range() {
 
         stack.push(Integer.toString(robot.getRange()));
     }
@@ -673,7 +675,7 @@ public class Interpreter {
     /**
      * Pushes the String of the team colour onto the stack.
      */
-    void team() {
+    public void team() {
 
         stack.push(robot.getColourString());
     }
@@ -681,7 +683,7 @@ public class Interpreter {
     /**
      * Pushes the string of the type of the robot onto the stack.
      */
-    void type() {
+    public void type() {
 
         stack.push(robot.getStringType());
     }
@@ -689,14 +691,14 @@ public class Interpreter {
     /**
      * Moves the robot forward.
      */
-    void move() {
+    public void move() {
         Controller.getInstance().G_Move();
     }
 
     /**
      * Turns the robot once to the right.
      */
-    void turn() {
+    public void turn() {
 
         if (stack.isEmpty()) {
 
@@ -713,7 +715,7 @@ public class Interpreter {
     /**
      * Shoots on the target square.
      */
-    void shoot() {
+    public void shoot() {
 
         if (stack.isEmpty()) {
 
@@ -732,7 +734,7 @@ public class Interpreter {
     /**
      * Pushes number of other robots seen to the stack.
      */
-    void scan() {
+    public void scan() {
 
         if (stack.isEmpty()) {
 
@@ -742,7 +744,7 @@ public class Interpreter {
         stack.push(Integer.toString(Controller.getInstance().gameBoard.getTargetList().size() - 1));
     }
 
-    void identify() {
+    public void identify() {
 
         if (stack.isEmpty()) {
 
@@ -752,7 +754,7 @@ public class Interpreter {
 
     }
 
-    void check() {
+    public void check() {
 
         if (stack.isEmpty()) {
 
@@ -786,7 +788,7 @@ public class Interpreter {
      * can occur if the robot is dead (health = 0), or its mailbox is full. Because mailboxes aren't
      * implemented for this program, the message is never sent and "false" is pushed.
      */
-    void send() {
+    public void send() {
 
         if (stack.isEmpty()) {
 
@@ -802,12 +804,12 @@ public class Interpreter {
      * Checks whether robot has a waiting message. Returns true is present, false otherwise. Because
      * mailboxes aren't implemented for this program, "false" is pushed.
      */
-    void message() {
+    public void message() {
 
         stack.push("false");
     }
 
-    void receive() {
+    public void receive() {
 
 
     }
@@ -843,7 +845,7 @@ public class Interpreter {
      * @param codeIterator ListIterator to seek through.
      * @param target Target String.
      */
-    void goBackTo(ListIterator<String> codeIterator, String target) {
+    public void goBackTo(ListIterator<String> codeIterator, String target) {
 
         int nestLevel = 0;
         String currWord;
@@ -862,7 +864,7 @@ public class Interpreter {
     /**
      * Pops, and prints string at top of stack.
      */
-    void popPrint() {
+    public void popPrint() {
 
         if (stack.isEmpty()) {
 
@@ -885,7 +887,6 @@ public class Interpreter {
         String name = stack.pop();
 
         if (!(variables.containsKey(name))) {
-
             throw new IllegalStateException("Variable not defined!");
         }
 
@@ -895,7 +896,7 @@ public class Interpreter {
     /**
      * Sets value on top of stack to the variable defined below it.
      */
-    void setVariable() {
+    public void setVariable() {
 
         if (stack.isEmpty()) {
 
@@ -916,7 +917,7 @@ public class Interpreter {
     /**
      * Generates random number from 0 to i, where i is a popped int from stack.
      */
-    void randomPush() {
+    public void randomPush() {
 
         int i = (new Random()).nextInt(Integer.parseInt(stack.pop()));
         stack.push(Integer.toString(i));
@@ -927,7 +928,7 @@ public class Interpreter {
      * the word "Then" is reached, because it only signifies the end of an if statement, and does
      * nothing.
      */
-    void nothing() {
+    public void nothing() {
 
         return;
     }
