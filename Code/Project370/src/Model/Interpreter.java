@@ -135,10 +135,8 @@ public class Interpreter {
                 if (curWord.equals(";")) {// checks to see if at end of definition
                     inDefinition = false;
                     userWords.put(functionName, functionBody);
-                    System.out.println("ADDED: " + functionName);
                 } else {
-                    functionBody.concat(" ");
-                    functionBody.concat(curWord);
+                    functionBody = functionBody + " " + curWord;
                 }
                 continue;
             }
@@ -946,7 +944,7 @@ public class Interpreter {
     public static void main(String[] args) {
     	Controller.getInstance().gameMenu.setVisible(false);
     	Robot testRobot = new Robot(3,3);
-    	testRobot.filePath = "src/Model/scripts/Centralizer.json";
+    	testRobot.filePath = "src/Model/scripts/SittingDuck.json";
     	Interpreter interpret = new Interpreter(testRobot);
     	System.out.println("WORLD LIST \n" + interpret.userWords.toString());
     }
