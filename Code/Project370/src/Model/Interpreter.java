@@ -617,7 +617,14 @@ public class Interpreter {
             throw new IllegalStateException("Value is invalid!");
         }
     }
-
+    
+    public void pushTrue(){
+    	stack.push("true");
+    }
+    
+    public void pushFalse(){
+    	stack.push("false");
+    }
 
     // LOOP FUNCTIONS
 
