@@ -185,26 +185,20 @@ public class Interpreter {
 
             throw new IllegalArgumentException("runWord: Argument is not a defined word!");
         }
-        System.out.println(variables.toString());
 
         String body = userWords.get(word);
         ListIterator<String> wordsQ = Arrays.asList(body.split("\\s+")).listIterator();
-
-        System.out.println(body);
         
         while (wordsQ.hasNext()) {
         	
             String currWord = wordsQ.next();
-            
-            System.out.println(currWord);
+
             if (userWords.containsKey(currWord)) {
-            	System.out.println("User word - " + currWord);
                 runWord(currWord);
                 continue;
             }
 
             if (basicWords.containsKey(currWord)) {
-            	System.out.println("Basic word - " + currWord);
                 switch (currWord) {
                     case "if":
                         ifCond(wordsQ);
@@ -215,7 +209,6 @@ public class Interpreter {
                     default:
                         Method method;
                         try {
-                        	System.out.println(basicWords.get(currWord));
                         	
                             method = this.getClass().getMethod(basicWords.get(currWord).toString());
                             method.invoke(this);
@@ -234,7 +227,6 @@ public class Interpreter {
             }
             
             if (variables.containsKey(currWord)) {
-            	System.out.println("Pushed to stack - " + currWord);
                 stack.push(currWord);
             }
         }
@@ -945,11 +937,11 @@ public class Interpreter {
 
 
 
-    // MAIN
-
+    /** Creates an interpreter and gives it's robot a script to parse */
     public static void main(String[] args) {
     	Robot testRobot = new Robot(3,3);
     	testRobot.filePath = "src/Model/scripts/SittingDuck.json";
     	Interpreter interpret = new Interpreter(testRobot);
+    	interpret.nothing();
     }
 }
