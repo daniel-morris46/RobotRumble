@@ -29,22 +29,23 @@ public class Interpreter {
      * @param robot The robot the interpreter is tied to.
      */
     public Interpreter(Robot robot) {
-    	
+
         this.robot = robot;
         stack = new Stack<String>();
         variables = new HashMap<String, String>();
         userWords = new HashMap<String, String>();
 
-        if(robot.filePath == "" || robot.filePath == null)
-    		return;
-        
+        if (robot.filePath == "" || robot.filePath == null)
+            return;
+
         try {
             // load words from code
             parsedJson =
-                    (new JsonParser().parse(new FileReader(robot.getPath() ) ) ).getAsJsonObject();
+                    (new JsonParser().parse(new FileReader(robot.getPath()))).getAsJsonObject();
 
             // load basic words
-            String temp = (new JsonParser().parse(new FileReader("src/Model/basicWords.json"))).toString();
+            String temp = (new JsonParser().parse(new FileReader("src/Model/basicWords.json")))
+                    .toString();
             basicWords = new Gson().fromJson(temp,
                     new TypeToken<HashMap<String, String>>() {}.getType());
         } catch (JsonParseException e) {
@@ -87,11 +88,11 @@ public class Interpreter {
         userWords.clear();
         variables.clear();
         stack.clear();
-        
-        
+
+
         JsonObject script = parsedJson.getAsJsonObject("script");
         codeArr = script.get("code").getAsJsonArray();
-        
+
         int inComment = 0;
         boolean inDefinition = false;
         String functionBody = "";
@@ -104,22 +105,22 @@ public class Interpreter {
             stack.addAll(Arrays.asList(lineWords));
         }
         Stack<String> reverseStack = new Stack<String>();
-        
+
         while (!(stack.isEmpty())) {
-        	reverseStack.push(stack.pop());
+            reverseStack.push(stack.pop());
         }
-        
+
         stack = reverseStack;
 
         while (!(stack.isEmpty())) {
 
             String curWord = stack.pop();
-            
+
             if (curWord.equals("(")) {// checks to see if at end of comment
                 inComment++;
                 continue;
             }
-            
+
             if (inComment > 0) {// if flagged as currently in forth comment
                 if (curWord.equals(")")) {// checks to see if at end of comment
                     inComment--;
@@ -128,7 +129,7 @@ public class Interpreter {
                     inComment++;
                 }
             } else {
-            	if (inDefinition) {// if flagged as currently in definition
+                if (inDefinition) {// if flagged as currently in definition
                     if (curWord.equals(";")) {// checks to see if at end of definition
                         inDefinition = false;
                         userWords.put(functionName, functionBody);
@@ -137,21 +138,21 @@ public class Interpreter {
                     }
                 }
             }
-            
-        	switch (curWord) {
-            case "(": // if start of forth comment is detected
-                inComment++;
-                break;
-            case "variable":
-                variables.put(stack.pop(), "0");
-                stack.pop();
-                break;
-            case ":":
-                inDefinition = true;
-                functionName = stack.pop();
-                functionBody = "";
-                break;
-        	}
+
+            switch (curWord) {
+                case "(": // if start of forth comment is detected
+                    inComment++;
+                    break;
+                case "variable":
+                    variables.put(stack.pop(), "0");
+                    stack.pop();
+                    break;
+                case ":":
+                    inDefinition = true;
+                    functionName = stack.pop();
+                    functionBody = "";
+                    break;
+            }
         }
     }
 
@@ -161,16 +162,17 @@ public class Interpreter {
      * @param word Word to be run.
      */
     public void runWord(String word) {
-    	
-    	//If the script was not initially parsed
-    	if(basicWords == null){
-    		try {
+
+        // If the script was not initially parsed
+        if (basicWords == null) {
+            try {
                 // load words from code
                 parsedJson =
-                        (new JsonParser().parse(new FileReader(robot.getPath() ) ) ).getAsJsonObject();
+                        (new JsonParser().parse(new FileReader(robot.getPath()))).getAsJsonObject();
 
                 // load basic words
-                String temp = (new JsonParser().parse(new FileReader("src/Model/basicWords.json"))).toString();
+                String temp = (new JsonParser().parse(new FileReader("src/Model/basicWords.json")))
+                        .toString();
                 basicWords = new Gson().fromJson(temp,
                         new TypeToken<HashMap<String, String>>() {}.getType());
             } catch (JsonParseException e) {
@@ -179,8 +181,8 @@ public class Interpreter {
                 e.printStackTrace();
             }
             parseCode();
-    	}
-    	
+        }
+
         if (!(userWords.containsKey(word))) {
 
             throw new IllegalArgumentException("runWord: Argument is not a defined word!");
@@ -188,9 +190,9 @@ public class Interpreter {
 
         String body = userWords.get(word);
         ListIterator<String> wordsQ = Arrays.asList(body.split("\\s+")).listIterator();
-        
+
         while (wordsQ.hasNext()) {
-        	
+
             String currWord = wordsQ.next();
 
             if (userWords.containsKey(currWord)) {
@@ -209,7 +211,7 @@ public class Interpreter {
                     default:
                         Method method;
                         try {
-                        	
+
                             method = this.getClass().getMethod(basicWords.get(currWord).toString());
                             method.invoke(this);
                         } catch (SecurityException e) {
@@ -225,7 +227,7 @@ public class Interpreter {
                         }
                 }
             }
-            
+
             if (variables.containsKey(currWord)) {
                 stack.push(currWord);
             }
@@ -398,8 +400,8 @@ public class Interpreter {
      * @param codeIterator Iterator of current code to pass into goTo function.
      */
     public void elseCond(ListIterator<String> codeIterator) {
-    	return;
-        //goTo(codeIterator, "then");
+        //return;
+        goTo(codeIterator, "then");
     }
 
     /**
@@ -609,20 +611,20 @@ public class Interpreter {
             throw new IllegalStateException("Value is invalid!");
         }
     }
-    
-    public void pushTrue(){
-    	stack.push("true");
+
+    public void pushTrue() {
+        stack.push("true");
     }
-    
-    public void pushFalse(){
-    	stack.push("false");
+
+    public void pushFalse() {
+        stack.push("false");
     }
 
     // LOOP FUNCTIONS
 
-    //TODO
-    
-    
+    // TODO
+
+
 
     // ROBOT FUNCTIONS
 
@@ -709,7 +711,7 @@ public class Interpreter {
         int newDirection = Integer.parseInt(stack.pop());
 
         while (newDirection > 0) {
-        	Controller.getInstance().G_turnRight();
+            Controller.getInstance().G_turnRight();
             newDirection--;
         }
     }
@@ -726,8 +728,8 @@ public class Interpreter {
 
         int direction = Integer.parseInt(stack.pop());
         int range = Integer.parseInt(stack.pop());
-        Hex targetHex = Controller.getInstance().gameBoard.getHexWithDistanceAndRange(robot.getPosition(), range,
-                direction);
+        Hex targetHex = Controller.getInstance().gameBoard
+                .getHexWithDistanceAndRange(robot.getPosition(), range, direction);
 
         Controller.getInstance().gameBoard.currentHex = targetHex;
         Controller.getInstance().G_Attack();
@@ -764,8 +766,8 @@ public class Interpreter {
         }
 
         int direction = Integer.parseInt(stack.pop());
-        Hex targetHex =
-        		Controller.getInstance().gameBoard.getHexWithDistanceAndRange(robot.getPosition(), 1, direction);
+        Hex targetHex = Controller.getInstance().gameBoard
+                .getHexWithDistanceAndRange(robot.getPosition(), 1, direction);
         if (targetHex == null) {
 
             stack.push("OUT OF BOUNDS");
@@ -939,9 +941,9 @@ public class Interpreter {
 
     /** Creates an interpreter and gives it's robot a script to parse */
     public static void main(String[] args) {
-    	Robot testRobot = new Robot(3,3);
-    	testRobot.filePath = "src/Model/scripts/SittingDuck.json";
-    	Interpreter interpret = new Interpreter(testRobot);
-    	interpret.nothing();
+        Robot testRobot = new Robot(3, 3);
+        testRobot.filePath = "src/Model/scripts/SittingDuck.json";
+        Interpreter interpret = new Interpreter(testRobot);
+        interpret.nothing();
     }
 }
